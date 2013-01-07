@@ -4,7 +4,7 @@ import javax.swing.JTextField;
 
 import models.GameModel;
 import views.state.ViewState;
-import controlllers.GameController;
+import controllers.GameController;
 
 /**
  * @author Simon
@@ -23,11 +23,11 @@ public class CommandFactory {
 		CommandFactory.gm = $gm;
 	}
 
-	public static ICommand createSetStateCommand(ViewState state) {
+	public static Command createSetStateCommand(ViewState state) {
 		return new SetViewStateCommand(gc, state);
 	}
 
-	public static ICommand createSetGameTextCommand(JTextField gameTextField) {
-		return new SetGameTextCommand(gm, gameTextField);
+	public static Command createSetPlayerNameCommand(JTextField gameTextField) {
+		return new SetPlayerNameCommand(gm, gameTextField);
 	}
 }
