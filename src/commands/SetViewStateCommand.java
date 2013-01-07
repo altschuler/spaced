@@ -1,13 +1,13 @@
 package commands;
 
 import views.state.ViewState;
-import controlllers.GameController;
+import controllers.GameController;
 
 /**
  * @author Simon
  * Command to change the top-level view state
  */
-public class SetViewStateCommand implements ICommand {
+public class SetViewStateCommand extends Command {
 
 	private ViewState state;
 	private GameController ctrl;
@@ -19,7 +19,8 @@ public class SetViewStateCommand implements ICommand {
 
 	@Override
 	public void execute() {
-		this.ctrl.setGameState(this.state);
+		this.ctrl.setViewState(this.state);
+		super.execute();
 	}
 
 }
