@@ -2,10 +2,13 @@ package views.state;
 
 import javax.swing.JTextField;
 
-import utils.Utils;
+import utils.GuiUtils;
 
 import commands.CommandFactory;
 
+/**
+ * First splash view states shown when initializing the game
+ */
 @SuppressWarnings("serial")
 public class SplashViewState extends AbstractViewState {
 
@@ -16,7 +19,7 @@ public class SplashViewState extends AbstractViewState {
 		this.textf = new JTextField("Anonymous");
 		this.add(this.textf);
 		
-		this.add(Utils.createButtonWithCommand("GO", CommandFactory.createSetPlayerNameCommand(this.textf)
+		this.add(GuiUtils.createButtonWithCommand("GO", CommandFactory.createSetPlayerNameCommand(this.textf)
 													.chain(CommandFactory.createSetStateCommand(ViewState.Menu))));
 	}
 

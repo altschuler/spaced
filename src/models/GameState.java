@@ -8,7 +8,6 @@ import models.elements.Invader;
 import models.elements.Player;
 
 /**
- * @author Simon
  * Represents a game session. A GameState can be intialized in different ways
  * to create different levels. A GameState should never be instatiated directly
  * but be created through the {@link LevelFactory}.

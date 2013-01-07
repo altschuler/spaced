@@ -4,12 +4,11 @@ import java.util.Observable;
 
 import javax.swing.JLabel;
 
-import utils.Utils;
+import utils.GuiUtils;
 
 import models.GameModel;
 
 /**
- * @author Simon
  * The main game view. This is where the actual game is rendered.
  */
 @SuppressWarnings("serial")
@@ -19,7 +18,7 @@ public class GameViewState extends AbstractViewState {
 	
 	public GameViewState() {
 		super();
-		this.add(Utils.createButtonWithStateCommand("Go back", ViewState.Menu));
+		this.add(GuiUtils.createButtonWithStateCommand("Go back", ViewState.Menu));
 		
 		// player label
 		this.currentPlayerLabel = new JLabel();

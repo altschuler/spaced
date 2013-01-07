@@ -4,7 +4,6 @@ import commands.ICommand;
 
 
 /**
- * @author Simon
  * A bunker blocking shots from invaders 
  */
 public class Bunker extends KillableGameElement {

@@ -7,7 +7,6 @@ import views.state.ViewState;
 import controllers.GameController;
 
 /**
- * @author Simon
  * Factory class which creates commands. It is initialized with the 
  * main {@link GameController} and {@link GameModel} to easily create
  * command which depend on these, from classes that are decoupled from them. 

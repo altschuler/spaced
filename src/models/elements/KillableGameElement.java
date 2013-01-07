@@ -3,7 +3,6 @@ package models.elements;
 import commands.ICommand;
 
 /**
- * @author Simon
  * A game element with health, meaning it can die/break. 
  * A command can be executed upon death.
  */

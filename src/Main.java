@@ -7,7 +7,6 @@ import commands.CommandFactory;
 import controllers.GameController;
 
 /**
- * @author Simon
  * Java entry class
  */
 public class Main {

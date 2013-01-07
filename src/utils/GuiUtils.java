@@ -8,7 +8,10 @@ import commands.CommandFactory;
 import commands.CommandListener;
 import commands.ICommand;
 
-public class Utils {
+/**
+ * Utils for creating GUI elements
+ */
+public class GuiUtils {
 	
 	/**
 	 * @param label The label to be displayed on the button

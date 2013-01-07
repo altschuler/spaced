@@ -3,7 +3,6 @@ package models.elements;
 import models.elements.KillableGameElement;
 
 /**
- * @author Simon
  * Spacecraft that the actual player will control. 
  * Has one life, but there are more of them.
  */

@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import javax.swing.JFrame;
 
 /**
- * @author Simon
  * The main window inside which states are rendered
  */
 

@@ -3,7 +3,6 @@ package models.elements;
 import java.awt.Point;
 
 /**
- * @author Simon
  * The base of all interactive game elements. The common feats 
  * area a visual appearance and a position
  */

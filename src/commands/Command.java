@@ -1,5 +1,8 @@
 package commands;
 
+/**
+ * Base class for all chainable commands.
+ */
 public class Command implements ICommand {
 	protected Command chained;
 

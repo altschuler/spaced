@@ -4,7 +4,6 @@ import views.state.ViewState;
 import controllers.GameController;
 
 /**
- * @author Simon
  * Command to change the top-level view state
  */
 public class SetViewStateCommand extends Command {

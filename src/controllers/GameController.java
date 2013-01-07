@@ -9,7 +9,6 @@ import views.state.SplashViewState;
 import views.state.ViewState;
 
 /**
- * @author Simon
  * Controller that glues together the {@link GameModel} and {@link MainView}.
  */
 public class GameController {

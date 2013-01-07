@@ -4,8 +4,7 @@
 package models.elements;
 
 /**
- * @author Simon
- *
+ * A bullet that can be fire either by the player or an {@link Invader}
  */
 public class Bullet extends AbstractGameElement {
 	private BulletDirection direction;

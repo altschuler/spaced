@@ -6,8 +6,13 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import views.MainView;
+
 import controllers.GameController;
 
+/**
+ * Base class of states that can be rendered in the {@link MainView}
+ */
 @SuppressWarnings("serial")
 abstract public class AbstractViewState extends JPanel implements Observer {
 	

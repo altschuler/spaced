@@ -5,10 +5,9 @@ import java.util.Observable;
 import javax.swing.JLabel;
 
 import models.GameModel;
-import utils.Utils;
+import utils.GuiUtils;
 
 /**
- * @author Simon
  * The main menu view state
  */
 @SuppressWarnings("serial")
@@ -20,7 +19,7 @@ public class MenuViewState extends AbstractViewState {
 		this.label = new JLabel();
 		this.add(this.label);
 		
-		this.add(Utils.createButtonWithStateCommand("Go to board", ViewState.Game));
+		this.add(GuiUtils.createButtonWithStateCommand("Go to board", ViewState.Game));
 	}
 
 	@Override
