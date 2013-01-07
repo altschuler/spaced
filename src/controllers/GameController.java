@@ -1,10 +1,11 @@
-package controlllers;
+package controllers;
 
 import models.GameModel;
 import views.MainView;
 import views.state.AbstractViewState;
 import views.state.GameViewState;
 import views.state.MenuViewState;
+import views.state.SplashViewState;
 import views.state.ViewState;
 
 /**
@@ -27,7 +28,7 @@ public class GameController {
 	 * @param state The new state to change to
 	 * Changes the active game state 
 	 */
-	public void setGameState(ViewState state) {
+	public void setViewState(ViewState state) {
 		AbstractViewState newState;
 		AbstractViewState oldState = null;
 		
@@ -44,6 +45,10 @@ public class GameController {
 				
 			case Game:
 				newState = new GameViewState();
+				break;
+				
+			case Splash:
+				newState = new SplashViewState();
 				break;
 	
 			default:

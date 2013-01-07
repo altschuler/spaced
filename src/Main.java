@@ -4,8 +4,12 @@ import views.state.ViewState;
 
 import commands.CommandFactory;
 
-import controlllers.GameController;
+import controllers.GameController;
 
+/**
+ * @author Simon
+ * Java entry class
+ */
 public class Main {
 	public static void main(String[] args) {
 		GameModel gm = new GameModel();
@@ -14,7 +18,7 @@ public class Main {
 		
 		CommandFactory.init(gc, gm);
 		
-		// Set initial state to menu
-		CommandFactory.createSetStateCommand(ViewState.Menu).execute();
+		// bootstrap the application by showing the menu view state
+		CommandFactory.createSetStateCommand(ViewState.Splash).execute();
 	}
 }

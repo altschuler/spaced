@@ -8,20 +8,33 @@ import java.util.Observable;
  */
 public class GameModel extends Observable {
 
-	private String gameText;
+	private String playerName;
+	private int highScore;
 
 	public GameModel() {
-		this.setGameText("I am default");
+		//TODO defaults should be placed in configuration files
+		this.setPlayerName("Anonymous");
+		this.setHighScore(0);
 	}
 
-	public String getGameText() {
-		return gameText;
+	public String getPlayerName() {
+		return playerName;
 	}
 
-	public void setGameText(String gameText) {
-		this.gameText = gameText;
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
 		
-		this.notifyAll();
+		this.notifyObservers();
+	}
+
+	public int getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(int highScore) {
+		this.highScore = highScore;
+		
+		this.notifyObservers();
 	}
 
 }

@@ -18,6 +18,7 @@ public class GameViewState extends AbstractViewState {
 	private JLabel currentPlayerLabel;
 	
 	public GameViewState() {
+		super();
 		this.add(Utils.createButtonWithStateCommand("Go back", ViewState.Menu));
 		
 		// player label
@@ -28,6 +29,6 @@ public class GameViewState extends AbstractViewState {
 	@Override
 	public void update(Observable o, Object arg) {
 		GameModel gm = (GameModel) o;
-		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getGameText()));
+		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getPlayerName()));
 	}
 }

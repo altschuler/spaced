@@ -1,0 +1,60 @@
+package models;
+
+import java.util.ArrayList;
+
+import models.elements.Bullet;
+import models.elements.Bunker;
+import models.elements.Invader;
+import models.elements.Player;
+
+/**
+ * @author Simon
+ * Represents a game session. A GameState can be intialized in different ways
+ * to create different levels. A GameState should never be instatiated directly
+ * but be created through the {@link LevelFactory}.
+ */
+public class GameState {
+	// Elements
+	private Player player;
+	private ArrayList<Bunker> bunkers;
+	private ArrayList<Invader> invaders;
+	private ArrayList<Bullet> shots;
+	
+	private int points;
+	
+	public GameState() {
+		this.points = 0;
+		this.bunkers = new ArrayList<Bunker>();
+		this.invaders = new ArrayList<Invader>();
+		this.shots = new ArrayList<Bullet>();
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public ArrayList<Bunker> getBunkers() {
+		return bunkers;
+	}
+
+	public ArrayList<Invader> getInvaders() {
+		return invaders;
+	}
+
+	public ArrayList<Bullet> getShots() {
+		return shots;
+	}
+
+}

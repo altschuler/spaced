@@ -2,12 +2,10 @@ package views.state;
 
 import java.util.Observable;
 
-import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 import models.GameModel;
 import utils.Utils;
-
-import commands.CommandFactory;
 
 /**
  * @author Simon
@@ -15,19 +13,19 @@ import commands.CommandFactory;
  */
 @SuppressWarnings("serial")
 public class MenuViewState extends AbstractViewState {
-	private JTextField textf;
+
+	private JLabel label;
 
 	public MenuViewState() {
-		this.textf = new JTextField();
-		this.add(this.textf);
+		this.label = new JLabel();
+		this.add(this.label);
 		
 		this.add(Utils.createButtonWithStateCommand("Go to board", ViewState.Game));
-		this.add(Utils.createButtonWithCommand("Update Text", CommandFactory.createSetGameTextCommand(this.textf)));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		GameModel gm = (GameModel) o;
-		this.textf.setText(gm.getGameText());
+		this.label.setText(String.format("Hi %s!", gm.getPlayerName()));
 	}
 }

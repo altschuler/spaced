@@ -1,16 +1,21 @@
 package views.state;
 
+import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import controlllers.GameController;
+import controllers.GameController;
 
 @SuppressWarnings("serial")
 abstract public class AbstractViewState extends JPanel implements Observer {
 	
 	protected GameController gc;
+	
+	public AbstractViewState() {
+	    this.setPreferredSize(new Dimension(300, 300));
+	}
 
 	/* 
 	 * Called when the model has been updated, as this is a method provided 
