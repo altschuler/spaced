@@ -1,5 +1,5 @@
-package Model;
+package models;
 
 public class TheModels {
-
+	//nada
 }
