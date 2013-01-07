@@ -4,17 +4,20 @@ import java.util.Observable;
 
 import javax.swing.JTextField;
 
-import commands.CommandFactory;
-import commands.CommandListener;
-
 import models.GameModel;
 import utils.Utils;
 
+import commands.CommandFactory;
+
+/**
+ * @author Simon
+ * The main menu view state
+ */
 @SuppressWarnings("serial")
-public class MenuState extends AbstractViewState {
+public class MenuViewState extends AbstractViewState {
 	private JTextField textf;
 
-	public MenuState() {
+	public MenuViewState() {
 		this.textf = new JTextField();
 		this.add(this.textf);
 		

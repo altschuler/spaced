@@ -4,6 +4,10 @@ import javax.swing.JTextField;
 
 import models.GameModel;
 
+/**
+ * @author Simon
+ * This is a dummy test class and has no real use, but sets a property on the model.
+ */
 public class SetGameTextCommand implements ICommand {
 	
 	private JTextField gameTextField;

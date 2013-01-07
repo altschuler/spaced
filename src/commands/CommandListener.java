@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 
 import commands.ICommand;
 
+/**
+ * @author Simon
+ * Simple ActionListener that executes an {@link ICommand} upon activation
+ */
 public class CommandListener implements ActionListener {
 	
 	private ICommand cmd;

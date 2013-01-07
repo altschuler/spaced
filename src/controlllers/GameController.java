@@ -1,24 +1,32 @@
 package controlllers;
 
 import models.GameModel;
-import views.GameView;
+import views.MainView;
 import views.state.AbstractViewState;
-import views.state.GameState;
-import views.state.MenuState;
+import views.state.GameViewState;
+import views.state.MenuViewState;
 import views.state.ViewState;
 
+/**
+ * @author Simon
+ * Controller that glues together the {@link GameModel} and {@link MainView}.
+ */
 public class GameController {
 
-	private GameView gw;
+	private MainView gw;
 	private GameModel gm;
 
-	public GameController(GameView gw, GameModel gm) {
+	public GameController(MainView gw, GameModel gm) {
 		this.gw = gw;
 		this.gm = gm;
 		
 		gw.setVisible(true);
 	}
 
+	/**
+	 * @param state The new state to change to
+	 * Changes the active game state 
+	 */
 	public void setGameState(ViewState state) {
 		AbstractViewState newState;
 		AbstractViewState oldState = null;
@@ -31,11 +39,11 @@ public class GameController {
 		
 		switch (state) {
 			case Menu:
-				newState = new MenuState();
+				newState = new MenuViewState();
 				break;
 				
 			case Game:
-				newState = new GameState();
+				newState = new GameViewState();
 				break;
 	
 			default:

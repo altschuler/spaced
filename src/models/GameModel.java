@@ -2,6 +2,10 @@ package models;
 
 import java.util.Observable;
 
+/**
+ * @author Simon
+ * The top-level game model which holds overall game state
+ */
 public class GameModel extends Observable {
 
 	private String gameText;
@@ -16,6 +20,8 @@ public class GameModel extends Observable {
 
 	public void setGameText(String gameText) {
 		this.gameText = gameText;
+		
+		this.notifyAll();
 	}
 
 }

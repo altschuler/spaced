@@ -8,12 +8,16 @@ import utils.Utils;
 
 import models.GameModel;
 
+/**
+ * @author Simon
+ * The main game view. This is where the actual game is rendered.
+ */
 @SuppressWarnings("serial")
-public class GameState extends AbstractViewState {
+public class GameViewState extends AbstractViewState {
 	
 	private JLabel currentPlayerLabel;
 	
-	public GameState() {
+	public GameViewState() {
 		this.add(Utils.createButtonWithStateCommand("Go back", ViewState.Menu));
 		
 		// player label
@@ -24,7 +28,6 @@ public class GameState extends AbstractViewState {
 	@Override
 	public void update(Observable o, Object arg) {
 		GameModel gm = (GameModel) o;
-			
 		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getGameText()));
 	}
 }
