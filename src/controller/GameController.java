@@ -23,7 +23,6 @@ public class GameController extends AbstractController {
 	private Timer timer;
 	private GameStateRenderer renderer;
 	private long timeOfLastShot = 0; //skal puttes ind under "bullet"
-	private int playerShotFrequency = 750;
 	
 
 	public GameController(MainView gw, GameModel gm) {
@@ -70,15 +69,15 @@ public class GameController extends AbstractController {
 		// Update Player
 		Player player = gameState.getPlayer();
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
-			player.getPosition().x -= this.distance(timeDelta, 10);
+			player.getPosition().x -= this.distance(timeDelta, player.getPlayerMovementSpeed());
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
-			player.getPosition().x += this.distance(timeDelta, 10);
+			player.getPosition().x += this.distance(timeDelta, player.getPlayerMovementSpeed());
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
-			if(timeOfLastShot - System.currentTimeMillis() < -playerShotFrequency){	//the player can only shoot once per playerShotFrequency
-				timeOfLastShot = System.currentTimeMillis();
-				SoundController.playSound(new File("leftright.wav"),1,350);
+			if(player.getTimeOfLastShot() - (int) System.currentTimeMillis() < - player.getPlayerShotFrequency()){	//the player can only shoot once per playerShotFrequency
+				player.setTimeOfLastShot((int) System.currentTimeMillis());
+				SoundController.playSound(new File("leftright.wav"),1,75);
 			}
 		}
 
