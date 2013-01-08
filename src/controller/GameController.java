@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.Timer;
 
@@ -21,6 +22,9 @@ public class GameController extends AbstractController {
 
 	private Timer timer;
 	private GameStateRenderer renderer;
+	private long timeOfLastShot = 0; //skal puttes ind under "bullet"
+	private int playerShotFrequency = 750;
+	
 
 	public GameController(MainView gw, GameModel gm) {
 		super(gw, gm);
@@ -71,7 +75,12 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
 			player.getPosition().x += this.distance(timeDelta, 10);
 		}
-		
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
+			if(timeOfLastShot - System.currentTimeMillis() < -playerShotFrequency){	//the player can only shoot once per playerShotFrequency
+				timeOfLastShot = System.currentTimeMillis();
+				SoundController.playSound(new File("leftright.wav"),1,350);
+			}
+		}
 
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - 48, player.getPosition().x);
