@@ -18,7 +18,6 @@ public class SaxHandler extends DefaultHandler {
     public void startElement(String uri, String localName,
             String qName, Attributes attributes)
     throws SAXException {
-
     }
 
     @Override
@@ -32,7 +31,8 @@ public class SaxHandler extends DefaultHandler {
     }
 
     @Override
-    public void ignorableWhitespace(char ch[], int start, int length) throws SAXException {
+    public void ignorableWhitespace(char ch[], int start, int length)
+    throws SAXException {
     }
     
 }

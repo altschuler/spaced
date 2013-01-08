@@ -22,7 +22,7 @@ import utils.SaxHandler;
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "GameStateLevels.xml";
+    private static final String XML_FILE = "model/GameStateLevels.xml";
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
