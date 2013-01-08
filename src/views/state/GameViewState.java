@@ -4,6 +4,8 @@ import java.util.Observable;
 
 import javax.swing.JLabel;
 
+import commands.CommandFactory;
+
 import utils.GuiUtils;
 
 import models.GameModel;
@@ -27,6 +29,7 @@ public class GameViewState extends AbstractViewState {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		CommandFactory.createGameLoopEnabledCommand(true).execute();
 		GameModel gm = (GameModel) o;
 		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getPlayerName()));
 	}

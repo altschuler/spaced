@@ -4,20 +4,21 @@ import views.state.ViewState;
 
 import commands.CommandFactory;
 
-import controllers.GameController;
+import controllers.MainController;
 
 /**
  * Java entry class
  */
 public class Main {
 	public static void main(String[] args) {
-		GameModel gm = new GameModel();
-		MainView gw = new MainView();
-		GameController gc = new GameController(gw, gm);
+		GameModel gameModel = new GameModel();
+		MainView mainView = new MainView();
+		mainView.setVisible(true);
+		MainController mainController = new MainController(mainView, gameModel);
 		
-		CommandFactory.init(gc, gm);
-		
-		// bootstrap the application by showing the menu view state
+		CommandFactory.init(mainController, gameModel);
+
+		// bootstrap the application
 		CommandFactory.createSetStateCommand(ViewState.Splash).execute();
 	}
 }

@@ -16,11 +16,12 @@ public class SplashViewState extends AbstractViewState {
 	
 	public SplashViewState() {
 		super();
+		
 		this.textf = new JTextField("Anonymous");
 		this.add(this.textf);
 		
 		this.add(GuiUtils.createButtonWithCommand("GO", CommandFactory.createSetPlayerNameCommand(this.textf)
-													.chain(CommandFactory.createSetStateCommand(ViewState.Menu))));
+														.chain(CommandFactory.createSetStateCommand(ViewState.Menu))));
 	}
 
 }
