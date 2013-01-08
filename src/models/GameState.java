@@ -10,7 +10,7 @@ import models.elements.Player;
 /**
  * Represents a game session. A GameState can be intialized in different ways
  * to create different levels. A GameState should never be instatiated directly
- * but be created through the {@link LevelFactory}.
+ * but be created through the {@link GameStateFactory}.
  */
 public class GameState {
 	// Elements
@@ -20,6 +20,7 @@ public class GameState {
 	private ArrayList<Bullet> shots;
 	
 	private int points;
+	private long lastUpdateTime;
 	
 	public GameState() {
 		this.points = 0;
@@ -54,6 +55,14 @@ public class GameState {
 
 	public ArrayList<Bullet> getShots() {
 		return shots;
+	}
+
+	public long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 }

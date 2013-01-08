@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import views.MainView;
 
-import controllers.GameController;
+import controllers.MainController;
 
 /**
  * Base class of states that can be rendered in the {@link MainView}
@@ -16,7 +16,7 @@ import controllers.GameController;
 @SuppressWarnings("serial")
 abstract public class AbstractViewState extends JPanel implements Observer {
 	
-	protected GameController gc;
+	protected MainController mainController;
 	
 	public AbstractViewState() {
 	    this.setPreferredSize(new Dimension(300, 300));

@@ -1,65 +1,57 @@
 package controllers;
 
+import java.sql.Date;
+
+import javax.swing.Timer;
+
 import models.GameModel;
+import models.GameState;
+import models.GameStateFactory;
 import views.MainView;
-import views.state.AbstractViewState;
-import views.state.GameViewState;
-import views.state.MenuViewState;
-import views.state.SplashViewState;
-import views.state.ViewState;
 
-/**
- * Controller that glues together the {@link GameModel} and {@link MainView}.
- */
-public class GameController {
+import commands.CommandFactory;
+import commands.CommandListener;
 
-	private MainView gw;
-	private GameModel gm;
+public class GameController extends AbstractController {
+
+	private Timer timer;
 
 	public GameController(MainView gw, GameModel gm) {
-		this.gw = gw;
-		this.gm = gm;
+		super(gw, gm);
+
+		gm.setActiveGameState(GameStateFactory.createLevelOne()); // TODO this is BAD
+
+	}
+	
+	private Timer getTimer() {
+		if (this.timer == null) {
+			this.timer = new Timer(500, new CommandListener(CommandFactory.createUpdateGameStateCommand(gm.getActiveGameState())));
+		}
 		
-		gw.setVisible(true);
+		return timer;
+	}
+
+	public void setGameLoopEnabled(boolean enabled) {
+		if (enabled) {
+			this.getTimer().start();
+		} else {
+			this.getTimer().stop();
+		}
 	}
 
 	/**
-	 * @param state The new state to change to
-	 * Changes the active game state 
+	 * @param gameState
+	 *            The {@link GameState} whose values are to be stepped forward
+	 *            in time.
 	 */
-	public void setViewState(ViewState state) {
-		AbstractViewState newState;
-		AbstractViewState oldState = null;
+	public void updateGameState(GameState gameState) {
+		// TODO implement
+		long currentTime = System.currentTimeMillis();
+		long timeDelta = currentTime - gameState.getLastUpdateTime();
 		
-		try {
-			oldState = (AbstractViewState) this.gw.getContentPane();
-		} catch (Exception e) {
-			// no previous state, dont throw an exception as this is valid
-		}
+		System.out.println(timeDelta);
 		
-		switch (state) {
-			case Menu:
-				newState = new MenuViewState();
-				break;
-				
-			case Game:
-				newState = new GameViewState();
-				break;
-				
-			case Splash:
-				newState = new SplashViewState();
-				break;
-	
-			default:
-				throw new IllegalArgumentException(String.format("No such game state: %d", state));
-		}
-		
-		if (oldState != null)
-			this.gm.deleteObserver(oldState);
-		
-		this.gm.addObserver(newState);
-		newState.update(this.gm, null); // TODO W T F
-		this.gw.setContentPane(newState);
-		this.gw.pack();
+		gameState.setLastUpdateTime(currentTime);
 	}
+
 }

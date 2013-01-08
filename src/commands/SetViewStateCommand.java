@@ -1,7 +1,7 @@
 package commands;
 
 import views.state.ViewState;
-import controllers.GameController;
+import controllers.MainController;
 
 /**
  * Command to change the top-level view state
@@ -9,16 +9,17 @@ import controllers.GameController;
 public class SetViewStateCommand extends Command {
 
 	private ViewState state;
-	private GameController ctrl;
+	private MainController mainController;
 
-	public SetViewStateCommand(GameController ctrl, ViewState state) {
-		this.ctrl = ctrl;
+	public SetViewStateCommand(MainController ctrl, ViewState state) {
+		this.mainController = ctrl;
 		this.state = state;
 	}
 
 	@Override
 	public void execute() {
-		this.ctrl.setViewState(this.state);
+		this.mainController.getStateController().setViewState(this.state);
+		
 		super.execute();
 	}
 
