@@ -8,6 +8,7 @@ import javax.swing.Timer;
 import model.GameModel;
 import model.GameState;
 import model.GameStateFactory;
+import model.elements.Bullet;
 import model.elements.BulletDirection;
 import model.elements.Player;
 import utils.Input;
@@ -80,11 +81,21 @@ public class GameController extends AbstractController {
 			if(player.getTimeOfLastShot() - (int) System.currentTimeMillis() < - player.getPlayerShotFrequency()){	//the player can only shoot once per playerShotFrequency
 				player.setTimeOfLastShot((int) System.currentTimeMillis());
 				SoundController.playSound(new File("leftright.wav"),1,75);
+				
+				// TODO : Create the shot
+				Bullet currentShot = new Bullet(BulletDirection.Up);
+				currentShot.getPosition().x = player.getPosition().x + 24;
+				currentShot.getPosition().y = player.getPosition().y;
+				gameState.getShots().add(currentShot);
+				System.out.println("Shots currently in the air:"+gameState.getShots().size());
 			}
 		}
 
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - 48, player.getPosition().x);
+		
+		// Move shots upwards
+		moveShots(gameState);
 		
 		// Render the game state
 		GameViewState gameView = (GameViewState) mainView.getContentPane();
@@ -101,5 +112,22 @@ public class GameController extends AbstractController {
 	 */
 	private long distance(long timeDelta, int speed) {
 		return timeDelta/50 * speed;
+	}
+	
+	/**
+	 * @param gameState
+	 * Moves the bullets upwards
+	 */
+	private void moveShots(GameState gameState){
+		// TODO : should check for collisions
+		for (int i = 0; i < gameState.getShots().size(); i++) {
+			
+			if(gameState.getShots().get(i).getPosition().y <= 0){ //removes if moves outsite JFrame
+				gameState.getShots().remove(i);
+			}else{
+				gameState.getShots().get(i).getPosition().y -= gameState.getShots().get(i).getBulletSpeed();
+			}
+			
+		}
 	}
 }
