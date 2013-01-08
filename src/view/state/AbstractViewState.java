@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import model.GameModel;
 import view.MainView;
 import controller.MainController;
 
@@ -18,7 +19,7 @@ abstract public class AbstractViewState extends JPanel implements Observer {
 	protected MainController mainController;
 	
 	public AbstractViewState() {
-	    this.setPreferredSize(new Dimension(300, 300));
+	    this.setPreferredSize(new Dimension(GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT));
 	}
 
 	/* 
@@ -27,9 +28,14 @@ abstract public class AbstractViewState extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {}
-	
+
 	/**
 	 * Lets a view state dispose its resources before being removed
 	 */
 	public void dispose() {}
+
+	/**
+	 * Lets a view state initialize itself after it has been added to a frame
+	 */
+	public void initialize() {}
 }

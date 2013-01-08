@@ -7,8 +7,8 @@ import java.util.Observable;
  */
 public class GameModel extends Observable {
 
-	public static final int SCREEN_WIDTH = 300;
-	public static final int SCREEN_HEIGHT = 600;
+	public static final int SCREEN_WIDTH = 500;
+	public static final int SCREEN_HEIGHT = 700;
 	
 	private String playerName;
 	private int highScore;

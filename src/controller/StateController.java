@@ -56,6 +56,9 @@ public class StateController extends AbstractController {
 		this.gameModel.addObserver(newState);
 		newState.update(this.gameModel, null); // TODO W T F
 		this.mainView.setContentPane(newState);
+		
+		newState.initialize();
+		
 		this.mainView.pack();
 		
 		Input.getInstance().update();
