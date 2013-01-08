@@ -1,10 +1,10 @@
-import models.GameModel;
-import views.MainView;
-import views.state.ViewState;
+import model.GameModel;
+import view.MainView;
+import view.state.ViewState;
 
-import commands.CommandFactory;
+import command.CommandFactory;
 
-import controllers.MainController;
+import controller.MainController;
 
 /**
  * Java entry class
