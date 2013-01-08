@@ -3,27 +3,50 @@ package model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
-import utils.XMLParser;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+import utils.SaxHandler;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "GameStateLevels.xml";
+    private static final String XML_FILE = "model/GameStateLevels.xml";
     
     public GameStateFactory() {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        
         try {
-            InputStream xmlInput = new FileInputStream(XML_FILE);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
+            FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
+            SAXParser saxParser = factory.newSAXParser();
+    
+            DefaultHandler handler   = new SaxHandler();
+            saxParser.parse(xmlInput, handler);
+    
+        } catch (FileNotFoundException e) {
             System.out.println("ERROR: Cannot find file: "+XML_FILE);
+            System.exit(1);
+        } catch (ParserConfigurationException e) {
+            System.out.println("ERROR: ParserConfigurationException thrown");
+            System.exit(1);
+        } catch (SAXException e) {
+            System.out.println("ERROR: SAXException thrown");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("ERROR: IOException thrown");
             System.exit(1);
         }
     }
@@ -42,6 +65,10 @@ public class GameStateFactory {
             gs.getPlayer().getPosition().y = 600;
 
             // Invaders
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
             gs.getInvaders().add(new Invader(1));
 
             return gs;
