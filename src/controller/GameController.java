@@ -24,7 +24,6 @@ public class GameController extends AbstractController {
 	private Timer timer;
 	private GameStateRenderer renderer;
 	private GameStateFactory factory;
-	private long timeOfLastShot = 0; //skal puttes ind under "bullet"
 	
 
 	public GameController(MainView gw, GameModel gm) {
