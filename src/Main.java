@@ -16,7 +16,7 @@ import controller.SoundController;
  */
 public class Main {
 	public static void main(String[] args) {
-		SoundController.playSound(new File("hallelujah.wav"),1,0);	//Plays the hallelujah-thing 2000 times
+//		SoundController.playSound(new File("hallelujah.wav"),1000,0);	//Plays the hallelujah-thing 2000 times
 		GameModel gameModel = new GameModel();
 		MainView mainView = new MainView();
 		mainView.setVisible(true);

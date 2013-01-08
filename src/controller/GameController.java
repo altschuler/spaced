@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.Timer;
 
@@ -22,6 +23,8 @@ public class GameController extends AbstractController {
 	private Timer timer;
 	private GameStateRenderer renderer;
 	private GameStateFactory factory;
+	private long timeOfLastShot = 0; //skal puttes ind under "bullet"
+	
 
 	public GameController(MainView gw, GameModel gm) {
 		super(gw, gm);
@@ -68,12 +71,17 @@ public class GameController extends AbstractController {
 		// Update Player
 		Player player = gameState.getPlayer();
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
-			player.getPosition().x -= this.distance(timeDelta, 10);
+			player.getPosition().x -= this.distance(timeDelta, player.getPlayerMovementSpeed());
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
-			player.getPosition().x += this.distance(timeDelta, 10);
+			player.getPosition().x += this.distance(timeDelta, player.getPlayerMovementSpeed());
 		}
-		
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
+			if(player.getTimeOfLastShot() - (int) System.currentTimeMillis() < - player.getPlayerShotFrequency()){	//the player can only shoot once per playerShotFrequency
+				player.setTimeOfLastShot((int) System.currentTimeMillis());
+				SoundController.playSound(new File("leftright.wav"),1,75);
+			}
+		}
 
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - 48, player.getPosition().x);

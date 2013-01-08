@@ -15,12 +15,15 @@ public class SoundController {
 	 * 
 	 * Plays the .wav file in a new thread (so it is not affected by the rest of the game)
 	 */
-	public static synchronized void playSound(final File f, int repeats, int stopTime) {
+	public static synchronized void playSound(final File f, final int repeats, final int stopTime) {
+
+	    new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+	      public void run() {
         try {
           Clip clip = AudioSystem.getClip();
           AudioInputStream inputStream = AudioSystem.getAudioInputStream(f);
           clip.open(inputStream);
-          System.out.println("Length of the soundclip: "+(double) clip.getMicrosecondLength()/1000000+"s");
+//        System.out.println("Length of the soundclip: "+(double) clip.getMicrosecondLength()/1000000+"s");
           clip.loop(repeats);
           clip.start(); 
           if(stopTime > 0){
@@ -32,5 +35,8 @@ public class SoundController {
         } catch (Exception e) {
           System.err.println(e.getMessage());
         }
+
+	      }
+	    }).start();
   }
 }
