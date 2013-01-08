@@ -23,6 +23,7 @@ public class GameController extends AbstractController {
 
 	private Timer timer;
 	private GameStateRenderer renderer;
+	private GameStateFactory factory;
 	private long timeOfLastShot = 0; //skal puttes ind under "bullet"
 	
 
@@ -30,9 +31,10 @@ public class GameController extends AbstractController {
 		super(gw, gm);
 		
 		this.renderer = new GameStateRenderer();
+		this.factory = new GameStateFactory();
 		
 		// TODO dont init this here!
-		GameState gameState = GameStateFactory.createLevelOne();
+		GameState gameState = factory.createLevelOne();
 		gameState.setLastUpdateTime(System.currentTimeMillis());
 		gm.setActiveGameState(gameState);
 	}
