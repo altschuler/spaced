@@ -71,6 +71,7 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
 			player.getPosition().x += this.distance(timeDelta, 10);
 		}
+		
 
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - 48, player.getPosition().x);
