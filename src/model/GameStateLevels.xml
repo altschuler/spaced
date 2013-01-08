@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<levels>
+    <level id="1">
+        <player x="" y="" health="" />
+        <bunkers>
+            <bunker x="100" y="450" health="10" />
+            <bunker x="300" y="450" health="10" />
+            <bunker x="500" y="450" health="10" />
+        </bunkers>
+        <invaders>
+            <invader type="A" x="10" y="10" health="1" />
+            <invader type="A" x="20" y="10" health="1" />
+            <invader type="A" x="30" y="10" health="1" />
+            <invader type="A" x="40" y="10" health="1" />
+            <invader type="A" x="50" y="10" health="1" />
+            <invader type="B" x="10" y="20" health="1" />
+            <invader type="B" x="20" y="20" health="1" />
+            <invader type="B" x="30" y="20" health="1" />
+            <invader type="B" x="40" y="20" health="1" />
+            <invader type="B" x="50" y="20" health="1" />
+            <invader type="C" x="10" y="30" health="1" />
+            <invader type="C" x="20" y="30" health="1" />
+            <invader type="C" x="30" y="30" health="1" />
+            <invader type="C" x="40" y="30" health="1" />
+            <invader type="C" x="50" y="30" health="1" />
+        </invaders>
+        <bonuss>
+            <bonus points="200" direction="right" health="1" />
+        </bonuss>
+    </level>
+</levels>
