@@ -1,12 +1,11 @@
 package controller;
 
-import java.sql.Date;
-
 import javax.swing.Timer;
 
 import model.GameModel;
 import model.GameState;
 import model.GameStateFactory;
+import model.elements.Invader;
 import view.MainView;
 
 import command.CommandFactory;
@@ -48,6 +47,10 @@ public class GameController extends AbstractController {
 		// TODO implement
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
+		
+		for (Invader inv : gameState.getInvaders()) {
+			//inv.getPosition().x
+		}
 		
 		System.out.println(timeDelta);
 		
