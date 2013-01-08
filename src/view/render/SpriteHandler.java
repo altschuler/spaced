@@ -34,7 +34,7 @@ public class SpriteHandler {
         
         try {
             URL url = this.getClass().getClassLoader().getResource(ref);
-            
+            System.out.println();
             if (url == null){ fail("ERROR: Can't find ref: "+ref); }
             
             sourceImage = ImageIO.read(url);
