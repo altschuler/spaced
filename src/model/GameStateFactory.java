@@ -43,6 +43,10 @@ public class GameStateFactory {
 
             // Invaders
             gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
+            gs.getInvaders().add(new Invader(1));
 
             return gs;
     }
