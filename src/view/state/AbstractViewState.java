@@ -7,7 +7,6 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import view.MainView;
-
 import controller.MainController;
 
 /**
@@ -28,4 +27,9 @@ abstract public class AbstractViewState extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {}
+	
+	/**
+	 * Lets a view state dispose its resources before being removed
+	 */
+	public void dispose() {}
 }

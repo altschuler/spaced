@@ -5,11 +5,11 @@ import view.MainView;
 
 public class AbstractController {
 
-	protected MainView gw;
-	protected GameModel gm;
+	protected MainView mainView;
+	protected GameModel gameModel;
 	
 	public AbstractController(MainView gw, GameModel gm) {
-		this.gw = gw;
-		this.gm = gm;
+		this.mainView = gw;
+		this.gameModel = gm;
 	}
 }

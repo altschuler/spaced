@@ -1,6 +1,7 @@
 package controller;
 
 import model.GameModel;
+import utils.Input;
 import view.MainView;
 import view.state.AbstractViewState;
 import view.state.GameViewState;
@@ -15,7 +16,7 @@ public class StateController extends AbstractController {
 	}
 
 	/**
-	 * Changes the active game state 
+	 * Changes the active view state 
 	 * 
 	 * @param state The new state to change to
 	 */
@@ -24,7 +25,7 @@ public class StateController extends AbstractController {
 		AbstractViewState oldState = null;
 		
 		try {
-			oldState = (AbstractViewState) this.gw.getContentPane();
+			oldState = (AbstractViewState) this.mainView.getContentPane();
 		} catch (Exception e) {
 			// no previous state, dont throw an exception 
 			// as this is valid on first view
@@ -47,12 +48,16 @@ public class StateController extends AbstractController {
 				throw new IllegalArgumentException(String.format("No such game state: %d", state));
 		}
 		
-		if (oldState != null)
-			this.gm.deleteObserver(oldState);
+		if (oldState != null) {
+			this.gameModel.deleteObserver(oldState);
+			oldState.dispose();
+		}
 		
-		this.gm.addObserver(newState);
-		newState.update(this.gm, null); // TODO W T F
-		this.gw.setContentPane(newState);
-		this.gw.pack();
+		this.gameModel.addObserver(newState);
+		newState.update(this.gameModel, null); // TODO W T F
+		this.mainView.setContentPane(newState);
+		this.mainView.pack();
+		
+		Input.getInstance().update();
 	}
 }
