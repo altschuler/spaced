@@ -1,4 +1,4 @@
-package view;
+package view.render;
 
 import java.awt.Graphics;
 import java.awt.Image;
