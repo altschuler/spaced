@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.logging.Level;
@@ -24,15 +26,18 @@ import utils.SaxHandler;
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "model/GameStateLevels.xml";
+    private static final String XML_FILE = "./GameStateLevels.xml";
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         
         try {
-            FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
+            //System.out.println(this.getClass().getResource(XML_FILE).toString());
+            //FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
+            InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
+            
             SAXParser saxParser = factory.newSAXParser();
-    
+            
             DefaultHandler handler   = new SaxHandler();
             saxParser.parse(xmlInput, handler);
     
