@@ -1,12 +1,14 @@
 package controller;
 
-import java.sql.Date;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
 
 import model.GameModel;
 import model.GameState;
 import model.GameStateFactory;
+import model.elements.Invader;
+import utils.Input;
 import view.MainView;
 
 import command.CommandFactory;
@@ -25,7 +27,7 @@ public class GameController extends AbstractController {
 	
 	private Timer getTimer() {
 		if (this.timer == null) {
-			this.timer = new Timer(500, new CommandListener(CommandFactory.createUpdateGameStateCommand(gm.getActiveGameState())));
+			this.timer = new Timer(200, new CommandListener(CommandFactory.createUpdateGameStateCommand(gameModel.getActiveGameState())));
 		}
 		
 		return timer;
@@ -49,8 +51,16 @@ public class GameController extends AbstractController {
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
 		
-		System.out.println(timeDelta);
+		for (Invader inv : gameState.getInvaders()) {
+			//inv.getPosition().x
+		}
 		
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
+			System.out.println(String.format("Go left %d time", timeDelta));
+			
+		}
+		
+		System.out.println(timeDelta);
 		gameState.setLastUpdateTime(currentTime);
 	}
 

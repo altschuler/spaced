@@ -16,6 +16,7 @@ public class MenuViewState extends AbstractViewState {
 	private JLabel label;
 
 	public MenuViewState() {
+		super();
 		this.label = new JLabel();
 		this.add(this.label);
 		
