@@ -6,6 +6,7 @@ import view.MainView;
 import view.state.AbstractViewState;
 import view.state.GameViewState;
 import view.state.MenuViewState;
+import view.state.PauseMenuViewState;
 import view.state.SplashViewState;
 import view.state.ViewState;
 
@@ -42,6 +43,10 @@ public class StateController extends AbstractController {
 				
 			case Splash:
 				newState = new SplashViewState();
+				break;
+				
+			case PauseMenu:
+				newState = new PauseMenuViewState();
 				break;
 	
 			default:

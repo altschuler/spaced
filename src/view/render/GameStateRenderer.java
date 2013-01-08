@@ -4,8 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
+import model.Coordinate;
 import model.GameModel;
 import model.GameState;
 
@@ -34,8 +34,8 @@ public class GameStateRenderer {
     	canvas.getBufferStrategy().show();
     }
         
-    public void draw(Graphics g, String ref, Point pos) {
-        g.drawImage(spriteHandler.get(ref).getImage(), pos.x, pos.y,null);
+    public void draw(Graphics g, String ref, Coordinate pos) {
+        g.drawImage(spriteHandler.get(ref).getImage(), (int) pos.x, (int) pos.y, null);
     }
     
     private void initSprites() {
