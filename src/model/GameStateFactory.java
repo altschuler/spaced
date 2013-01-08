@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,7 +30,7 @@ public class GameStateFactory {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         
         try {
-            InputStream xmlInput = new FileInputStream(XML_FILE);
+            FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
             SAXParser saxParser = factory.newSAXParser();
     
             DefaultHandler handler   = new SaxHandler();
