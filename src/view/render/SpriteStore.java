@@ -1,4 +1,4 @@
-package view;
+package view.render;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;

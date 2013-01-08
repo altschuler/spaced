@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import view.Sprite;
+import view.render.Sprite;
 
 public class Game extends Canvas {
 
