@@ -1,7 +1,7 @@
-package commands;
+package command;
 
-import views.state.ViewState;
-import controllers.MainController;
+import view.state.ViewState;
+import controller.MainController;
 
 /**
  * Command to change the top-level view state

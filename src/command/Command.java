@@ -1,4 +1,4 @@
-package commands;
+package command;
 
 /**
  * Base class for all chainable commands.

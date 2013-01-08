@@ -1,12 +1,12 @@
-package controllers;
+package controller;
 
-import models.GameModel;
-import views.MainView;
-import views.state.AbstractViewState;
-import views.state.GameViewState;
-import views.state.MenuViewState;
-import views.state.SplashViewState;
-import views.state.ViewState;
+import model.GameModel;
+import view.MainView;
+import view.state.AbstractViewState;
+import view.state.GameViewState;
+import view.state.MenuViewState;
+import view.state.SplashViewState;
+import view.state.ViewState;
 
 public class StateController extends AbstractController {
 

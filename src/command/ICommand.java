@@ -1,4 +1,4 @@
-package commands;
+package command;
 
 /**
  * The command interface that commands must implement. 

@@ -1,7 +1,7 @@
-package controllers;
+package controller;
 
-import models.GameModel;
-import views.MainView;
+import model.GameModel;
+import view.MainView;
 
 public class AbstractController {
 

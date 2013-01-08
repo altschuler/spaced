@@ -2,11 +2,11 @@ package utils;
 
 import javax.swing.JButton;
 
-import views.state.ViewState;
+import view.state.ViewState;
 
-import commands.CommandFactory;
-import commands.CommandListener;
-import commands.ICommand;
+import command.CommandFactory;
+import command.CommandListener;
+import command.ICommand;
 
 /**
  * Utils for creating GUI elements

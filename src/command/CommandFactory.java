@@ -1,11 +1,11 @@
-package commands;
+package command;
 
 import javax.swing.JTextField;
 
-import models.GameModel;
-import models.GameState;
-import views.state.ViewState;
-import controllers.MainController;
+import model.GameModel;
+import model.GameState;
+import view.state.ViewState;
+import controller.MainController;
 
 /**
  * Factory class which creates commands. It is initialized with the 

@@ -1,16 +1,16 @@
-package controllers;
+package controller;
 
 import java.sql.Date;
 
 import javax.swing.Timer;
 
-import models.GameModel;
-import models.GameState;
-import models.GameStateFactory;
-import views.MainView;
+import model.GameModel;
+import model.GameState;
+import model.GameStateFactory;
+import view.MainView;
 
-import commands.CommandFactory;
-import commands.CommandListener;
+import command.CommandFactory;
+import command.CommandListener;
 
 public class GameController extends AbstractController {
 

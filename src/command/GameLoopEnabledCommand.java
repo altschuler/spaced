@@ -1,6 +1,6 @@
-package commands;
+package command;
 
-import controllers.GameController;
+import controller.GameController;
 
 public class GameLoopEnabledCommand extends Command {
 

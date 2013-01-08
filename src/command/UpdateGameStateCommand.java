@@ -1,7 +1,7 @@
-package commands;
+package command;
 
-import models.GameState;
-import controllers.GameController;
+import model.GameState;
+import controller.GameController;
 
 
 public class UpdateGameStateCommand extends Command {

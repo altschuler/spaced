@@ -1,9 +1,9 @@
-package commands;
+package command;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import commands.ICommand;
+import command.ICommand;
 
 /**
  * Simple ActionListener that executes an {@link ICommand} upon activation

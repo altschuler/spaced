@@ -1,8 +1,8 @@
-package commands;
+package command;
 
 import javax.swing.JTextField;
 
-import models.GameModel;
+import model.GameModel;
 
 /**
  * This is a dummy test class and has no real use, but sets a property on the model.
