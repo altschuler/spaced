@@ -11,10 +11,10 @@ import utils.Input;
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
 	public MainView() {
-		super("Space Invaders");
-		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+            super("Space Invaders");
+            this.setResizable(false);
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	    this.setFocusable(true);
 	    this.requestFocusInWindow();
 	    this.addKeyListener(Input.getInstance());
