@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.logging.Level;
@@ -24,15 +26,18 @@ import utils.SaxHandler;
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "model/GameStateLevels.xml";
+    private static final String XML_FILE = "./GameStateLevels.xml";
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         
         try {
-            FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
+            //System.out.println(this.getClass().getResource(XML_FILE).toString());
+            //FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
+            InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
+            
             SAXParser saxParser = factory.newSAXParser();
-    
+            
             DefaultHandler handler   = new SaxHandler();
             saxParser.parse(xmlInput, handler);
     
@@ -65,11 +70,18 @@ public class GameStateFactory {
             gs.getPlayer().getPosition().y = 600;
 
             // Invaders
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
+            int invaderCounter = 0, columnsOfInvaders = 7, rowsOfInvaders = 3, widthBetweenInvaders = 55, heightBetweenInvaders = 50;
+            int xInvaderStart = 50, yInvaderStart = 50;
+            for (int i = 0; i < columnsOfInvaders; i++) {
+            	for (int j = 0; j < rowsOfInvaders; j++) {
+            		gs.getInvaders().add(new Invader(1));
+                	gs.getInvaders().get(invaderCounter).getPosition().x = i*widthBetweenInvaders+xInvaderStart;
+                	gs.getInvaders().get(invaderCounter).getPosition().y = j*heightBetweenInvaders+yInvaderStart;
+                	invaderCounter++;
+				}
+            	
+			}
+            
 
             return gs;
     }

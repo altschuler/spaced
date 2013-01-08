@@ -33,6 +33,12 @@ public class GameStateRenderer {
     	for (int i = 0; i < gameState.getShots().size(); i++) {
     		this.draw(gfx, "view/sprites/bullet.png", gameState.getShots().get(i).getPosition());
 		}
+    	
+    	//Draw invaders
+    	//TODO: draw invaders
+    	for (int i = 0; i < gameState.getInvaders().size(); i++) {
+    		this.draw(gfx, "view/sprites/invader2.png", gameState.getInvaders().get(i).getPosition());
+		}
         
     	// Draw it all
     	gfx.dispose();
