@@ -10,7 +10,7 @@ public class SoundTest {
 		
 		
 		playSound(new File("hallelujah.wav"));
-		
+		playSound(new File("leftright.wav"));
 		while(true){		}
 		
 		
