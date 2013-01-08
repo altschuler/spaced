@@ -27,6 +27,7 @@ public class GameState {
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
 		this.shots = new ArrayList<Bullet>();
+		this.player = new Player();
 	}
 
 	public Player getPlayer() {

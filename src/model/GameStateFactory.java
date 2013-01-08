@@ -1,6 +1,7 @@
 package model;
 
 import model.elements.Bunker;
+import model.elements.Player;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
@@ -16,6 +17,9 @@ public class GameStateFactory {
 
 		gs.getBunkers().add(b1);
 
+		gs.setPlayer(new Player());
+		gs.getPlayer().getPosition().y = 600;
+		
 		return gs;
 	}
 

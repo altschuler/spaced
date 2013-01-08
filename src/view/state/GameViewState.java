@@ -1,14 +1,12 @@
 package view.state;
 
+import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.util.Observable;
 
-import javax.swing.JLabel;
+import model.GameModel;
 
 import command.CommandFactory;
-
-import utils.GuiUtils;
-
-import model.GameModel;
 
 /**
  * The main game view. This is where the actual game is rendered.
@@ -16,26 +14,38 @@ import model.GameModel;
 @SuppressWarnings("serial")
 public class GameViewState extends AbstractViewState {
 	
-	private JLabel currentPlayerLabel;
+	private Canvas display;
 	
 	public GameViewState() {
 		super();
-		this.add(GuiUtils.createButtonWithStateCommand("Go back", ViewState.Menu));
 		
-		// player label
-		this.currentPlayerLabel = new JLabel();
-		this.add(this.currentPlayerLabel);
+		this.setLayout(null);
+		
+		this.display = new Canvas();
+		this.display.setIgnoreRepaint(true);
+		this.display.setBounds(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
+		this.display.setVisible(true);
+		
+		this.add(this.getDisplay());
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		CommandFactory.createGameLoopEnabledCommand(true).execute();
 		GameModel gm = (GameModel) o;
-		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getPlayerName()));
+	}
+	
+	@Override
+	public void initialize() {
+		this.display.createBufferStrategy(2);
 	}
 	
 	@Override
 	public void dispose() {
 		CommandFactory.createGameLoopEnabledCommand(false).execute();
+	}
+
+	public Canvas getDisplay() {
+		return display;
 	}
 }
