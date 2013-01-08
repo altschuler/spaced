@@ -1,10 +1,10 @@
-package views.state;
+package view.state;
 
 import java.util.Observable;
 
 import javax.swing.JLabel;
 
-import models.GameModel;
+import model.GameModel;
 import utils.GuiUtils;
 
 /**

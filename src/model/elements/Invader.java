@@ -1,8 +1,8 @@
-package models.elements;
+package model.elements;
 
-import commands.ICommand;
+import command.ICommand;
 
-import models.elements.KillableGameElement;
+import model.elements.KillableGameElement;
 
 /**
  * An invader. Comes in different types.

@@ -1,4 +1,4 @@
-package views;
+package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,7 +19,7 @@ public class GameViewPanel extends JPanel {
 	
 	Graphics stupidGraphics;
 	
-	//konstruktør som tager en array med info om hvor der er levende fjender
+	//konstruktï¿½r som tager en array med info om hvor der er levende fjender
 	  public GameViewPanel(int[][] enemiesArray, int horizontalPosition) {
 		  this.horizontalPosition = horizontalPosition;
 		  this.enemyRows = enemiesArray.length;

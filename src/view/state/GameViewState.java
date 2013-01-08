@@ -1,14 +1,14 @@
-package views.state;
+package view.state;
 
 import java.util.Observable;
 
 import javax.swing.JLabel;
 
-import commands.CommandFactory;
+import command.CommandFactory;
 
 import utils.GuiUtils;
 
-import models.GameModel;
+import model.GameModel;
 
 /**
  * The main game view. This is where the actual game is rendered.

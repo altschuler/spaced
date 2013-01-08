@@ -1,6 +1,7 @@
-package models.elements;
+package model.elements;
 
 import java.awt.Point;
+import view.Sprite;
 
 /**
  * The base of all interactive game elements. The common feats 
@@ -11,6 +12,7 @@ abstract public class AbstractGameElement {
 	private Point position;
 	private int width;
 	private int height;
+        private Sprite sprite;
 	//TODO some visual identify?
 	
 	public AbstractGameElement(int width, int height) {

@@ -1,6 +1,6 @@
-package models;
+package model;
 
-import models.elements.Bunker;
+import model.elements.Bunker;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels

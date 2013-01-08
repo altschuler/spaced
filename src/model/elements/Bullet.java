@@ -1,7 +1,7 @@
 /**
  * 
  */
-package models.elements;
+package model.elements;
 
 /**
  * A bullet that can be fire either by the player or an {@link Invader}

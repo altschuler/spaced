@@ -1,4 +1,4 @@
-package views.state;
+package view.state;
 
 /**
  * Represents a view state 

@@ -1,10 +1,10 @@
-package views.state;
+package view.state;
 
 import javax.swing.JTextField;
 
 import utils.GuiUtils;
 
-import commands.CommandFactory;
+import command.CommandFactory;
 
 /**
  * First splash view states shown when initializing the game

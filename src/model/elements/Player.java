@@ -1,6 +1,6 @@
-package models.elements;
+package model.elements;
 
-import models.elements.KillableGameElement;
+import model.elements.KillableGameElement;
 
 /**
  * Spacecraft that the actual player will control. 

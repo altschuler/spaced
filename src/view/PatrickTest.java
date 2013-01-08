@@ -1,4 +1,4 @@
-package views;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,7 +24,7 @@ public class PatrickTest {
 		
 		
 //populates the enemies-Array
-//[rækker][kolonner] med fjender. 1 = fjende, 0 = død
+//[rï¿½kker][kolonner] med fjender. 1 = fjende, 0 = dï¿½d
 		enemies = new int[10][20];
 		for (int i = 0; i < enemies.length; i++) {
 			for (int j = 0; j < enemies[0].length; j++) {
@@ -35,11 +35,11 @@ public class PatrickTest {
 			}
 		}
 		
-//Laver fjerne for første gang
+//Laver fjerne for fï¿½rste gang
 		theGameViewPanel = new GameViewPanel(enemies, 0);
 		
 //viser fjerne til at starte med
-//Vi kan evt. adde en "tryk på en knap for at starte", og så går spillet igang
+//Vi kan evt. adde en "tryk pï¿½ en knap for at starte", og sï¿½ gï¿½r spillet igang
 		patrick_frame01.add(theGameViewPanel);
 		patrick_frame01.setVisible(true);	
 		
@@ -55,30 +55,30 @@ public class PatrickTest {
 	 * Moves the array with aliens to the right
 	 */
 	public static void moveEnemiesRight(){
-		//fjerne kører hen over skærmen
+		//fjerne kï¿½rer hen over skï¿½rmen
 		for (int i = 0; i < 70; i++) {
 			try { Thread.currentThread().sleep(10); }
 	        catch (InterruptedException e) { System.out.println("Error sleeping"); }
-		patrick_frame01.remove(theGameViewPanel); //fatter ikke hvorfor, men remove skal komme før den bliver definieret igen.
+		patrick_frame01.remove(theGameViewPanel); //fatter ikke hvorfor, men remove skal komme fï¿½r den bliver definieret igen.
 		theGameViewPanel = new GameViewPanel(enemies, i);
 		patrick_frame01.add(theGameViewPanel);
 		
 		patrick_frame01.setVisible(true);
-		patrick_frame01.repaint(); //begge disse skal være her
+		patrick_frame01.repaint(); //begge disse skal vï¿½re her
 		}
 	}
 		
 		public static void moveEnemiesLeft(){
-			//fjerne kører hen over skærmen
+			//fjerne kï¿½rer hen over skï¿½rmen
 			for (int i = 70; i > 0; i--) {
 				try { Thread.currentThread().sleep(10); }
 		        catch (InterruptedException e) { System.out.println("Error sleeping"); }
-			patrick_frame01.remove(theGameViewPanel); //fatter ikke hvorfor, men remove skal komme før den bliver definieret igen.
+			patrick_frame01.remove(theGameViewPanel); //fatter ikke hvorfor, men remove skal komme fï¿½r den bliver definieret igen.
 			theGameViewPanel = new GameViewPanel(enemies, i);
 			patrick_frame01.add(theGameViewPanel);
 			
 			patrick_frame01.setVisible(true);
-			patrick_frame01.repaint(); //begge disse skal være her
+			patrick_frame01.repaint(); //begge disse skal vï¿½re her
 			}
 	}
 	

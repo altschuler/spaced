@@ -1,11 +1,11 @@
-package models;
+package model;
 
 import java.util.ArrayList;
 
-import models.elements.Bullet;
-import models.elements.Bunker;
-import models.elements.Invader;
-import models.elements.Player;
+import model.elements.Bullet;
+import model.elements.Bunker;
+import model.elements.Invader;
+import model.elements.Player;
 
 /**
  * Represents a game session. A GameState can be intialized in different ways

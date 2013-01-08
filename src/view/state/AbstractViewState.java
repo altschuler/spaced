@@ -1,4 +1,4 @@
-package views.state;
+package view.state;
 
 import java.awt.Dimension;
 import java.util.Observable;
@@ -6,9 +6,9 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import views.MainView;
+import view.MainView;
 
-import controllers.MainController;
+import controller.MainController;
 
 /**
  * Base class of states that can be rendered in the {@link MainView}

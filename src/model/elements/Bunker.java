@@ -1,6 +1,6 @@
-package models.elements;
+package model.elements;
 
-import commands.ICommand;
+import command.ICommand;
 
 
 /**
