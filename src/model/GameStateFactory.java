@@ -65,11 +65,18 @@ public class GameStateFactory {
             gs.getPlayer().getPosition().y = 600;
 
             // Invaders
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
-            gs.getInvaders().add(new Invader(1));
+            int invaderCounter = 0, columnsOfInvaders = 7, rowsOfInvaders = 3, widthBetweenInvaders = 55, heightBetweenInvaders = 50;
+            int xInvaderStart = 50, yInvaderStart = 50;
+            for (int i = 0; i < columnsOfInvaders; i++) {
+            	for (int j = 0; j < rowsOfInvaders; j++) {
+            		gs.getInvaders().add(new Invader(1));
+                	gs.getInvaders().get(invaderCounter).getPosition().x = i*widthBetweenInvaders+xInvaderStart;
+                	gs.getInvaders().get(invaderCounter).getPosition().y = j*heightBetweenInvaders+yInvaderStart;
+                	invaderCounter++;
+				}
+            	
+			}
+            
 
             return gs;
     }

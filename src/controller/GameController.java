@@ -25,6 +25,8 @@ public class GameController extends AbstractController {
 	private GameStateRenderer renderer;
 	private GameStateFactory factory;
 	
+	private boolean moveInvadersRight = true;
+	
 
 	public GameController(MainView gw, GameModel gm) {
 		super(gw, gm);
@@ -86,7 +88,6 @@ public class GameController extends AbstractController {
 				currentShot.getPosition().x = player.getPosition().x + 24;
 				currentShot.getPosition().y = player.getPosition().y;
 				gameState.getShots().add(currentShot);
-				System.out.println("Shots currently in the air:"+gameState.getShots().size());
 			}
 		}
 
@@ -94,8 +95,13 @@ public class GameController extends AbstractController {
 		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - 48, player.getPosition().x);
 		
 		// Move shots upwards
-		moveShots(gameState);
+		moveShots(gameState, timeDelta);
 		
+		//Checks for collisions
+		hasHitInvader(gameState);
+		
+		moveInvaders(gameState, timeDelta);
+
 		// Render the game state
 		GameViewState gameView = (GameViewState) mainView.getContentPane();
 		this.renderer.render(gameView.getDisplay(), gameState);
@@ -117,16 +123,90 @@ public class GameController extends AbstractController {
 	 * @param gameState
 	 * Moves the bullets upwards
 	 */
-	private void moveShots(GameState gameState){
-		// TODO : should check for collisions
+	private void moveShots(GameState gameState, long timeDelta){
+		// TODO : should check for collisions here instead of hasHitInvader-method!
+		int bulletSpeed = 0;
+		if(gameState.getShots().size() > 0){ //instead of 
+			bulletSpeed = gameState.getShots().get(0).getBulletSpeed();
+		}
+		
 		for (int i = 0; i < gameState.getShots().size(); i++) {
 			
-			if(gameState.getShots().get(i).getPosition().y <= 0){ //removes if moves outsite JFrame
+			if(gameState.getShots().get(i).getPosition().y <= 0){ //removes if moves outside JFrame
 				gameState.getShots().remove(i);
 			}else{
-				gameState.getShots().get(i).getPosition().y -= gameState.getShots().get(i).getBulletSpeed();
+				gameState.getShots().get(i).getPosition().y -= this.distance(timeDelta, bulletSpeed);
+				
+//				gameState.getShots().get(i).getPosition().y -= gameState.getShots().get(i).getBulletSpeed();
 			}
 			
 		}
 	}
+	
+	private void hasHitInvader(GameState gameState){
+		//TODO: er ikke 100% sikker på at den ALDRIG vil give Exception eller vil undlade at tjekke relevante skud
+		//Checks ALL shots against ALL invaders for collisions
+		int noOfInvaders = gameState.getInvaders().size(); //VERY(!!!) important these this stay. Removes risk of outOfBoundsException
+		int noOfShots = gameState.getShots().size();
+		for (int i = 0; i < noOfInvaders; i++) {
+			for (int j = 0; j < noOfShots; j++) {
+				if(gameState.getShots().get(j).getPosition().y < gameState.getInvaders().get(i).getPosition().y + gameState.getInvaders().get(i).getHeight()
+			&&		gameState.getShots().get(j).getPosition().x < gameState.getInvaders().get(i).getPosition().x + gameState.getInvaders().get(i).getWidth()
+			&&		gameState.getShots().get(j).getPosition().x + gameState.getShots().get(j).getWidth() > gameState.getInvaders().get(i).getPosition().x	){
+					gameState.getShots().remove(j);
+					gameState.getInvaders().remove(i);
+					noOfInvaders--;
+					noOfShots--;
+					break;
+				}
+			}
+		}
+	}
+	
+	private void moveInvaders(GameState gameState, long timeDelta){
+		int gameWidthFucked = 500 - 20; //TODO: GameModel.SCREEN_WIDTH is correct, but the final check screws up...
+		int invaderSpeed = 0;
+		int leftmostInvader = gameState.getLeftmostInvader(), rightmostInvader = gameState.getRightmostInvader();
+		
+		if(gameState.getInvaders().size() > 0){ //instead of calling it for each invader. Perhaps one should, if there are different invaders, with different speeds.
+			invaderSpeed = gameState.getInvaders().get(0).getInvaderSpeed();
+		}
+		
+		/*
+		 * Flytter samtlige invaders, men tjekker inden om den aktuelle invader er den mest til venstre/højre
+		 */
+        for (int i = 0; i < gameState.getInvaders().size(); i++) {
+        	if(gameState.getInvaders().get(i).getPosition().x + gameState.getInvaders().get(i).getWidth() > rightmostInvader){	//find rightmostInvader
+        		rightmostInvader = gameState.getInvaders().get(i).getPosition().x + gameState.getInvaders().get(i).getWidth();
+        	}
+        	if(gameState.getInvaders().get(i).getPosition().x < leftmostInvader){
+        		leftmostInvader = gameState.getInvaders().get(i).getPosition().x;
+        	}
+        	
+        	if(moveInvadersRight){
+        		gameState.getInvaders().get(i).getPosition().x +=  this.distance(timeDelta, invaderSpeed);
+    		}else{ //move f***ing left :-)
+    			gameState.getInvaders().get(i).getPosition().x -=  this.distance(timeDelta, invaderSpeed);
+    		}
+		}
+        
+        /*
+         * checks if sides are hit
+         */
+        if(rightmostInvader > gameWidthFucked){ //make 'em move left and down
+    		moveInvadersRight = false;
+    		System.out.println("Changing direction, rightmostInvader: "+rightmostInvader+" leftmostInvader: "+leftmostInvader);
+    		for (int i = 0; i < gameState.getInvaders().size(); i++) {
+    			gameState.getInvaders().get(i).getPosition().y += 8;
+			}
+        }else if(leftmostInvader < 20){			//moves right and down
+        	moveInvadersRight = true;
+        	for (int i = 0; i < gameState.getInvaders().size(); i++) {
+    			gameState.getInvaders().get(i).getPosition().y += 8;
+			}
+        }
+		
+	}
+	
+	
 }

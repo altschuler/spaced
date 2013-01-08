@@ -9,12 +9,18 @@ import model.elements.KillableGameElement;
  */
 public class Invader extends KillableGameElement {
 	//TODO must implement different types of invaders
+	private int InvaderSpeed = 5;
+	
 	public Invader(int health) {
-		super(health, 20, 20);
+		super(health, 48, 48);
 	}
 
 	public Invader(int health, ICommand cmd) {
-		super(health, 20, 20, cmd);
+		super(health, 48, 48, cmd);
+	}
+
+	public int getInvaderSpeed() {
+		return InvaderSpeed;
 	}
 
 }

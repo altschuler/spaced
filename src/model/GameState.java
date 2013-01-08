@@ -22,6 +22,10 @@ public class GameState {
 	private int points;
 	private long lastUpdateTime;
 	
+	private int leftmostInvader = 500; //used for efficient deciding when the invaders should move left/right
+	private int rightmostInvader = 0;
+	private int lowestInvader; //TODO use to decide if the player has lost due to the invaders reach the Earth.
+	
 	public GameState() {
 		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
@@ -64,6 +68,30 @@ public class GameState {
 
 	public void setLastUpdateTime(long lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+
+	public int getRightmostInvader() {
+		return rightmostInvader;
+	}
+
+	public void setRightmostInvader(int rightmostInvader) {
+		this.rightmostInvader = rightmostInvader;
+	}
+
+	public int getLeftmostInvader() {
+		return leftmostInvader;
+	}
+
+	public void setLeftmostInvader(int leftmostInvader) {
+		this.leftmostInvader = leftmostInvader;
+	}
+
+	public int getLowestInvader() {
+		return lowestInvader;
+	}
+
+	public void setLowestInvader(int lowestInvader) {
+		this.lowestInvader = lowestInvader;
 	}
 
 }
