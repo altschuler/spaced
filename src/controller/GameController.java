@@ -151,6 +151,7 @@ public class GameController extends AbstractController {
 		for (int i = 0; i < noOfInvaders; i++) {
 			for (int j = 0; j < noOfShots; j++) {
 				if(gameState.getShots().get(j).getPosition().y < gameState.getInvaders().get(i).getPosition().y + gameState.getInvaders().get(i).getHeight()
+			&&		gameState.getShots().get(j).getPosition().y + gameState.getShots().get(j).getHeight() > gameState.getInvaders().get(i).getPosition().y	
 			&&		gameState.getShots().get(j).getPosition().x < gameState.getInvaders().get(i).getPosition().x + gameState.getInvaders().get(i).getWidth()
 			&&		gameState.getShots().get(j).getPosition().x + gameState.getShots().get(j).getWidth() > gameState.getInvaders().get(i).getPosition().x	){
 					gameState.getShots().remove(j);
