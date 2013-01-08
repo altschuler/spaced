@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-import controllers.GameKeyboardListener;
+import controller.GameKeyboardListener;
 
 /**
  * The main window inside which states are rendered
