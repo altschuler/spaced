@@ -8,7 +8,7 @@ import model.elements.KillableGameElement;
  */
 public class Player extends KillableGameElement {
 	private int playerMovementSpeed = 10;
-	private int playerShotFrequency = 750;
+	private int playerShotFrequency = 450;
 	private int timeOfLastShot = 0;
 	
 	public Player() {

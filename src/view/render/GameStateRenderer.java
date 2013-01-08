@@ -28,6 +28,11 @@ public class GameStateRenderer {
         
     	// Draw player
     	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer().getPosition());
+    	
+    	//Draw shots
+    	for (int i = 0; i < gameState.getShots().size(); i++) {
+    		this.draw(gfx, "view/sprites/bullet.png", gameState.getShots().get(i).getPosition());
+		}
         
     	// Draw it all
     	gfx.dispose();
@@ -44,6 +49,7 @@ public class GameStateRenderer {
         spriteHandler.add("view/sprites/invader2.png");
         spriteHandler.add("view/sprites/invader3.png");
         spriteHandler.add("view/sprites/bonus.png");
+        spriteHandler.add("view/sprites/bullet.png");
         // TODO: Bullet and bunker
     }
     
