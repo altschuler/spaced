@@ -33,4 +33,9 @@ public class GameViewState extends AbstractViewState {
 		GameModel gm = (GameModel) o;
 		this.currentPlayerLabel.setText(String.format("The text is: %s", gm.getPlayerName()));
 	}
+	
+	@Override
+	public void dispose() {
+		CommandFactory.createGameLoopEnabledCommand(false).execute();
+	}
 }
