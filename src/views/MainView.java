@@ -14,5 +14,6 @@ public class MainView extends JFrame {
 		super("Space Invaders");
 		this.setBounds(new Rectangle(0, 0, 300, 300));
 		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
