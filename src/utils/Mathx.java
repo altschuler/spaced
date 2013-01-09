@@ -61,4 +61,6 @@ public class Mathx {
 
 		return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
 	}
+	
+	//TODO perhaps make an intersects-method for circles like the one for rectangles
 }
