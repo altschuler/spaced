@@ -3,7 +3,11 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+<<<<<<< HEAD
 import javax.xml.parsers.ParserConfigurationException;
+=======
+import java.util.ArrayList;
+>>>>>>> f852bab89f547cfdaf4f0a1987d07c60eb6bad2f
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -13,8 +17,12 @@ import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
 import model.elements.PlayerIndex;
+<<<<<<< HEAD
 import org.xml.sax.SAXException;
 import utils.SaxGameStateHandler;
+=======
+import utils.SaxHandler;
+>>>>>>> f852bab89f547cfdaf4f0a1987d07c60eb6bad2f
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels

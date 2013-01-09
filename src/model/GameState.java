@@ -16,7 +16,10 @@ import model.elements.PlayerIndex;
  */
 public class GameState {
 	// Elements
+<<<<<<< HEAD
         private int id;
+=======
+>>>>>>> f852bab89f547cfdaf4f0a1987d07c60eb6bad2f
 	private HashMap<PlayerIndex, Player> players;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
