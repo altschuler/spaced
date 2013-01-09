@@ -2,9 +2,10 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Stack;
-import model.GameModel;
 import model.GameState;
 import model.elements.Bunker;
+import model.elements.Invader;
+import model.elements.InvaderType;
 import model.elements.Player;
 import model.elements.PlayerIndex;
 import org.xml.sax.Attributes;
@@ -39,6 +40,10 @@ public class SaxGameStateHandler extends DefaultHandler {
             b.getPosition().x = Double.valueOf(attributes.getValue("x"));
             b.getPosition().y = Double.valueOf(attributes.getValue("y"));
             getLevels().get(counter).getBunkers().add(b);
+        } else if (qName.equals("invader")) {
+            InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
+            int health = Integer.valueOf(attributes.getValue("health"));
+            getLevels().get(counter).getInvaders().add(new Invader(type, health));
         }
     }
 

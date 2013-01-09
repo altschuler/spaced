@@ -24,5 +24,9 @@ public class Invader extends KillableGameElement {
 	public int getSpeed() {
 		return InvaderSpeed;
 	}
+        
+        public InvaderType getType() {
+            return type;
+        }
 
 }
