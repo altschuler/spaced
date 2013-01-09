@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import utils.Mathx;
-
 import model.Coordinate;
 import model.GameModel;
 import model.GameState;
+import model.elements.PlayerIndex;
+import utils.Mathx;
 
 public class GameStateRenderer {
     
@@ -28,11 +28,12 @@ public class GameStateRenderer {
     	gfx.setColor(Color.BLACK);
     	gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
         
+    	// Draw time
     	gfx.setColor(Color.WHITE);
     	gfx.drawString(Mathx.prettyTime(gameState.getTotalGameTime()), 10, 10);
     	
     	// Draw player
-    	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer().getPosition());
+    	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer(PlayerIndex.One).getPosition());
     	
     	//Draw shots
     	for (int i = 0; i < gameState.getShots().size(); i++) {

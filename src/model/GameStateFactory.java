@@ -2,12 +2,15 @@ package model;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
+import model.elements.PlayerIndex;
 import utils.SaxHandler;
 
 /**
@@ -60,9 +63,9 @@ public class GameStateFactory {
             gs.getBunkers().add(b1);
 
             // Player
-            gs.setPlayer(new Player());
-            gs.getPlayer().getPosition().x = 250 - 24;
-            gs.getPlayer().getPosition().y = 600;
+            gs.setPlayer(PlayerIndex.One, new Player());
+            gs.getPlayer(PlayerIndex.One).getPosition().x = 250 - 24;
+            gs.getPlayer(PlayerIndex.One).getPosition().y = 600;
 
             // Invaders
             int invaderCounter = 0, columnsOfInvaders = 7, rowsOfInvaders = 3, widthBetweenInvaders = 55, heightBetweenInvaders = 50;

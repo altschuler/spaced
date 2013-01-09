@@ -27,7 +27,7 @@ public class SpriteHandler {
     }
     
      
-    private HashMap sprites = new HashMap();
+    private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
     
     public void add(String ref) {
         BufferedImage sourceImage = null;
