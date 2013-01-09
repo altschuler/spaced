@@ -1,7 +1,19 @@
+# Built files
 bin/
 *.class
+
+# Vi files
 *.swp
+
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# Eclipse project files #
+.classpath
+.project
+.settings/
+
+# Mac files
+.DS_Store
