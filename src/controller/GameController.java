@@ -13,6 +13,7 @@ import model.elements.Bullet;
 import model.elements.BulletDirection;
 import model.elements.Invader;
 import model.elements.Player;
+import model.elements.PlayerIndex;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
@@ -100,7 +101,7 @@ public class GameController extends AbstractController {
 	private boolean checkGameOver(GameState gameState) {
 		// Player is dead = loose
 		for (Invader invader : gameState.getInvaders()) {
-			if (Mathx.intersects(invader, gameState.getPlayer())) {
+			if (Mathx.intersects(invader, gameState.getPlayer(PlayerIndex.One))) {
 				CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
 				return true;
 			}
@@ -116,7 +117,7 @@ public class GameController extends AbstractController {
 	}
 
 	public void updatePlayer(GameState gameState, long timeDelta) {
-		Player player = gameState.getPlayer();
+		Player player = gameState.getPlayer(PlayerIndex.One);
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed());

@@ -1,11 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
+import model.elements.PlayerIndex;
 
 /**
  * Represents a game session. A GameState can be intialized in different ways
@@ -14,7 +16,7 @@ import model.elements.Player;
  */
 public class GameState {
 	// Elements
-	private Player player;
+	private HashMap<PlayerIndex, Player> players;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
 	private ArrayList<Bullet> bullets;
@@ -32,18 +34,17 @@ public class GameState {
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
 		this.bullets = new ArrayList<Bullet>();
-		this.player = new Player();
-		
 		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
+		this.players = new HashMap<PlayerIndex, Player>();
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Player getPlayer(PlayerIndex idx) {
+		return this.players.get(idx);
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setPlayer(PlayerIndex idx, Player player) {
+		this.players.put(idx, player);
 	}
 
 	public int getPoints() {
