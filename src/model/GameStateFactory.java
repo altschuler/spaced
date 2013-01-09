@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
 import model.elements.PlayerIndex;
+
 import org.xml.sax.SAXException;
+
+import com.rits.cloning.Cloner;
+
 import utils.SaxGameStateHandler;
 
 /**
@@ -53,7 +58,7 @@ public class GameStateFactory {
     }
     
     public GameState getLevel(int id) {
-		return levels.get(id);
+		return (GameState) new Cloner().deepClone(levels.get(id));
 	}
 
     static public GameState createLevelOne() {
