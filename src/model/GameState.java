@@ -26,8 +26,8 @@ public class GameState {
 	private long totalGameTime;
 	private boolean moveInvadersRight;
 	
-	private long lastInvaderShot;
-	private ArrayList<Invader> lowestInvaders;
+	private long lastInvaderShot; //Patricks logik siger at denne skal være i GameState
+	private ArrayList<Invader> lowestInvaders; 	//ved ikke heeelt med denne
 
 	public GameState() {
 		this.points = 0;

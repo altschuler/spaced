@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import model.Coordinate;
 import model.GameModel;
 import model.GameState;
 import model.GameStateFactory;
@@ -157,7 +158,19 @@ public class GameController extends AbstractController {
 			if (bullet.getDirection() == BulletDirection.Up) {
 				bullet.move(0,-Mathx.distance(timeDelta, bullet.getSpeed()));
 			} else {
-				bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
+				
+				//bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));   - normal, vertical movement
+				
+				/*
+				 * Making heat-seeking shots
+				 * TODO: use only on bosses?
+				 */
+				//Make math method to calculate DirectionVector?
+				double xDirectionToPlayer = (gameState.getPlayer(PlayerIndex.One).getPosition().x+24 -bullet.getPosition().x);
+				double yDirectionToPlayer = (gameState.getPlayer(PlayerIndex.One).getPosition().y -bullet.getPosition().y);
+				Coordinate vector = new Coordinate(xDirectionToPlayer, yDirectionToPlayer); //directionVector
+				vector.normalize();
+				bullet.move(vector.x*Mathx.distance(timeDelta, bullet.getSpeed())*0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
 			}
 
 			if (bullet.getPosition().y <= 0) {
@@ -187,19 +200,15 @@ public class GameController extends AbstractController {
 						gameState.getBullets().remove(j-1);
 					}else{
 						gameState.getBullets().remove(j);
-					}
-/*
- * Patricks-note-to-self: remove(j) fucker op, for hvis i er mindre end j, så er den søgte j = j-1...					
- */					
-					
-					
-					noOfShots--;
+					}noOfShots--;
 					noOfShots--;
 					break;
 				}
 			}
 			
-			//TODO add a check for whether bullets hit one another
+			if(bullet.getDirection()==BulletDirection.Down){ //collision with player
+				//TODO: make this :-)
+			}
 		}
 	}
 
@@ -222,8 +231,8 @@ public class GameController extends AbstractController {
 		if (wallHit) {
 			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : invaders) {
-				invader.getPosition().y += 15; // TODO refactor out to something
-												// like DifficultyConfiguration
+				invader.move(0,15); // TODO refactor y-coordinate out to something
+									// like DifficultyConfiguration
 			}
 		}
 	}
