@@ -1,6 +1,6 @@
 package utils;
 
-import model.Coordinate;
+import model.core.Coordinate;
 import model.elements.AbstractGameElement;
 
 public class Mathx {

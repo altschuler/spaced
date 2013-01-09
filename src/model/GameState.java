@@ -2,8 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.elements.Bonus;
 
+import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.Invader;

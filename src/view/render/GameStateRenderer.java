@@ -5,12 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import model.Coordinate;
 import model.GameModel;
 import model.GameState;
-import model.elements.Player;
+import model.core.Coordinate;
 import model.elements.Bullet;
 import model.elements.Invader;
+import model.elements.Player;
 import model.elements.PlayerIndex;
 import utils.Mathx;
 
@@ -28,8 +28,8 @@ public class GameStateRenderer {
 
 		// Draw time
 		gfx.setColor(Color.WHITE);
-		gfx.drawString(String.format("P1 Lives: %d\nTime:%s", gameState.getPlayer(PlayerIndex.One).getLives(), Mathx.prettyTime(gameState.getTotalGameTime())),
-				10, 10);
+		gfx.drawString(String.format("Time:%s", gameState.getPlayer(PlayerIndex.One).getLives(), Mathx.prettyTime(gameState.getTotalGameTime())),
+				20, 15);
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);

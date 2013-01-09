@@ -1,4 +1,4 @@
-package model;
+package model.core;
 
 /**
  * Represents a position in the game space. Uses doubles compared to Java's

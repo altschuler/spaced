@@ -1,7 +1,7 @@
 package model.elements;
 
+import model.core.Coordinate;
 import view.render.SpriteHandler;
-import model.Coordinate;
 
 /**
  * The base of all interactive game elements. The common feats 
