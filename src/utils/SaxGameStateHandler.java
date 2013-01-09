@@ -34,14 +34,14 @@ public class SaxGameStateHandler extends DefaultHandler {
                 break;
             case "player":
                 levels.get(levels.size()-1).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(attributes.getValue("health"))));
-                getLevels().get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
-                getLevels().get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
+                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
+                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
                 break;
             case "bunker":
                 Bunker b = new Bunker();
                 b.getPosition().x = Double.valueOf(attributes.getValue("x"));
                 b.getPosition().y = Double.valueOf(attributes.getValue("y"));
-                getLevels().get(levels.size()-1).getBunkers().add(b);
+                levels.get(levels.size()-1).getBunkers().add(b);
                 break;
             case "invader":
                 Invader invader = new Invader(
@@ -49,10 +49,10 @@ public class SaxGameStateHandler extends DefaultHandler {
                         Integer.valueOf(attributes.getValue("health")));
                 invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
                 invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
-                getLevels().get(levels.size()-1).getInvaders().add(invader);
+                levels.get(levels.size()-1).getInvaders().add(invader);
                 break;
             case "bonus":
-                getLevels().get(levels.size()-1).getBonuss().add(new Bonus(
+                levels.get(levels.size()-1).getBonuss().add(new Bonus(
                         Integer.valueOf(attributes.getValue("points")), 
                         Integer.valueOf(attributes.getValue("health"))));
                 break;
