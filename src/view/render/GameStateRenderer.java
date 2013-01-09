@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import model.Coordinate;
 import model.GameModel;
 import model.GameState;
+import model.elements.Player;
 import model.elements.PlayerIndex;
 import utils.Mathx;
 
@@ -30,9 +31,13 @@ public class GameStateRenderer {
         
     	// Draw time
     	gfx.setColor(Color.WHITE);
-    	gfx.drawString(Mathx.prettyTime(gameState.getTotalGameTime()), 10, 10);
+    	gfx.drawString(String.format("P1 Lives: %d\nTime:%s", gameState.getPlayer(PlayerIndex.One).getLives(), Mathx.prettyTime(gameState.getTotalGameTime())), 10, 10);
     	
     	// Draw player
+    	Player player = gameState.getPlayer(PlayerIndex.One);
+    	for (int i = 0; i < player.getLives(); i++) {
+    		this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, GameModel.SCREEN_HEIGHT - 20));
+		}
     	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer(PlayerIndex.One).getPosition());
     	
     	//Draw shots
@@ -56,6 +61,7 @@ public class GameStateRenderer {
     
     private void initSprites() {
         spriteHandler.add("view/sprites/player.png");
+        spriteHandler.add("view/sprites/player_life.png");
         spriteHandler.add("view/sprites/invader1.png");
         spriteHandler.add("view/sprites/invader2.png");
         spriteHandler.add("view/sprites/invader3.png");

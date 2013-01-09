@@ -95,12 +95,10 @@ public class GameController extends AbstractController {
 	}
 
 	private boolean checkGameOver(GameState gameState) {
-		// Player is dead = loose
-		for (Invader invader : gameState.getInvaders()) {
-			if (Mathx.intersects(invader, gameState.getPlayer(PlayerIndex.One))) {
-				CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
-				return true;
-			}
+		// Player has no more lives = loose
+		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
+			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
+			return true;
 		}
 
 		// All invaders gone = win
@@ -195,21 +193,22 @@ public class GameController extends AbstractController {
 			for (int j = 0; j < noOfShots; j++) {			//bullet-collisions
 				Bullet collisionBullet = gameState.getBullets().get(j);
 				if(i != j && Mathx.intersects(bullet, collisionBullet)){ //don't check collision with self...
-					System.out.println("Collision! i: "+i+" j: "+j);
 					gameState.getBullets().remove(i);
 					if(i < j){
 						gameState.getBullets().remove(j-1);
-					}else{
+					} else {
 						gameState.getBullets().remove(j);
-					}noOfShots--;
+					}
+					noOfShots--;
 					noOfShots--;
 					break;
 				}
 			}
 			
 			if(bullet.getDirection()==BulletDirection.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))){ //collision with player
-				//TODO: make this :-)
-				System.out.println("Player: OUCH!");
+				gameState.getPlayer(PlayerIndex.One).livesDown();
+				gameState.getBullets().remove(i);
+				noOfShots--;
 			}
 		}
 	}
