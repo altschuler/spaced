@@ -63,12 +63,4 @@ public class KillableGameElement extends GameElement {
 	public void setCommand(ICommand cmd) {
 		this.cmd = cmd;
 	}
-	
-//	@Override
-//	public KillableGameElement clone() {
-//		KillableGameElement c = (KillableGameElement) super.clone();
-//		c.setHealth(this.getHealth());
-//		c.setCommand(this.getCommand());
-//		return c;
-//	}
 }

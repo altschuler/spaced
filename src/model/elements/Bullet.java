@@ -10,10 +10,12 @@ import model.core.Direction;
  */
 public class Bullet extends GameElement {
 	private Direction direction;
+	private BulletType type;
 	
-	public Bullet(Direction direction) {
+	public Bullet(Direction direction, BulletType type) {
 		super(5, 15);
 		this.direction = direction;
+		this.type = type;
 		this.setSpeed(15);
 	}
 
@@ -25,10 +27,11 @@ public class Bullet extends GameElement {
 		this.direction = direction;
 	}
 
-//	@Override
-//	public Bullet clone() {
-//		Bullet b = (Bullet) super.clone();
-//		b.setDirection(this.getDirection());
-//		return b;
-//	}
+	public BulletType getType() {
+		return type;
+	}
+
+	public void setType(BulletType type) {
+		this.type = type;
+	}
 }

@@ -13,6 +13,9 @@ public class GameElement {
 	private int width;
 	private int height;
 	private int speed;
+	
+	private boolean destroyed;
+	
 	private String imageURL; 
 	//TODO some visual identify?
 	
@@ -27,8 +30,6 @@ public class GameElement {
 
 		this.width = spriteHandler.get(imageURL).getHeight();
 		this.height = spriteHandler.get(imageURL).getHeight();
-//		this.width = width;
-//		this.height = height;
 		this.imageURL = imageURL;
 	}
 
@@ -68,11 +69,13 @@ public class GameElement {
 		this.position.x += x;
 		this.position.y += y;
 	}
-	
-//	public GameElement clone() {
-//		GameElement c = new GameElement(this.getWidth(), this.getHeight());
-//		c.setPosition(this.getPosition().clone());
-//		c.setSpeed(this.getSpeed());
-//		return c;
-//	}
+	public boolean isDestroyed() {
+		return destroyed;
+	}
+	public void setDestroyed(boolean destroyed) {
+		this.destroyed = destroyed;
+	}
+	public void destroy() {
+		this.setDestroyed(true);
+	}
 }

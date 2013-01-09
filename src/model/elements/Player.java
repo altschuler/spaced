@@ -43,14 +43,4 @@ public class Player extends KillableGameElement {
 	public void livesDown() {
 		this.setLives(this.getLives() - 1);
 	}
-
-//	@Override
-//	public Player clone() {
-//		Player p = (Player) super.clone();
-//		p.setLives(this.getLives());
-//		p.setMaxShootFrequency(this.getMaxShootFrequency());
-//		p.setTimeOfLastShot(this.getTimeOfLastShot());
-//		
-//		return p;
-//	}
 }

@@ -17,12 +17,4 @@ public class Bonus extends KillableGameElement {
     public void setPoints(int points) {
         this.points = points;
     }
-
-//	@Override
-//	public Bonus clone() {
-//		Bonus b = (Bonus) super.clone();
-//		b.setPoints(this.getPoints());
-//
-//		return b;
-//	} 
 }

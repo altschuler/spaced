@@ -14,10 +14,4 @@ public class Bunker extends KillableGameElement {
 	public Bunker(ICommand cmd) {
 		super(10, 30, 30, cmd);
 	}
-
-//	@Override
-//	public Bunker clone() {
-//		Bunker b = (Bunker) super.clone();
-//		return b;
-//	}
 }

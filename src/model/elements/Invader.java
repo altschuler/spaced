@@ -26,6 +26,15 @@ public class Invader extends KillableGameElement {
 		this.setType(type);
 	}
 
+	public BulletType getBulletType() {
+		switch (this.getType()) {
+			case C:
+				return BulletType.Homing;
+			default:
+				return BulletType.Normal;
+		}
+	}
+
 	public InvaderType getType() {
 		return type;
 	}
@@ -33,11 +42,4 @@ public class Invader extends KillableGameElement {
 	public void setType(InvaderType type) {
 		this.type = type;
 	}
-
-//	@Override
-//	public Invader clone() {
-//		Invader i = (Invader) super.clone();
-//		i.setType(this.getType());
-//		return i;
-//	}
 }
