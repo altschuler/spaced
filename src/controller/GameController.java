@@ -201,8 +201,9 @@ public class GameController extends AbstractController {
 				}
 			}
 			
-			if(bullet.getDirection()==BulletDirection.Down){ //collision with player
+			if(bullet.getDirection()==BulletDirection.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))){ //collision with player
 				//TODO: make this :-)
+				System.out.println("OUCH!");
 			}
 		}
 	}
