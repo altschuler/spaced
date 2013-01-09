@@ -1,17 +1,13 @@
 package model;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
-import org.xml.sax.SAXException;
 import utils.SaxHandler;
 
 /**
@@ -33,30 +29,25 @@ public class GameStateFactory {
             SaxHandler handler = new SaxHandler();
             saxParser.parse(xmlInput, handler);
             
-            levels = handler.parseFile();
-            
-            // TODO:
-            for (ArrayList level : levels) {
-                for (Object obj : level) {
-                    Player o = (Player) obj;
-                    //System.out.println(obj.getClass());
-                    System.out.println(o);
-                }
-            }
+            // TODO: get parsed info
     
-        } catch (FileNotFoundException e) {
-            System.out.println("ERROR: Cannot find file: "+XML_FILE);
-            System.exit(1);
-        } catch (ParserConfigurationException e) {
-            System.out.println("ERROR: ParserConfigurationException thrown");
-            System.exit(1);
-        } catch (SAXException e) {
-            System.out.println("ERROR: SAXException thrown");
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("ERROR: IOException thrown");
-            System.exit(1);
+        } catch (Throwable err) {
+            err.printStackTrace ();
         }
+        
+//        catch (FileNotFoundException e) {
+//            System.out.println("ERROR: Cannot find file: "+XML_FILE);
+//            System.exit(1);
+//        } catch (ParserConfigurationException e) {
+//            System.out.println("ERROR: ParserConfigurationException thrown");
+//            System.exit(1);
+//        } catch (SAXException e) {
+//            System.out.println("ERROR: SAXException thrown");
+//            System.exit(1);
+//        } catch (IOException e) {
+//            System.out.println("ERROR: IOException thrown");
+//            System.exit(1);
+//        }
     }
 
     static public GameState createLevelOne() {
