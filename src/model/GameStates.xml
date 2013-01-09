@@ -2,7 +2,7 @@
 
 
 <levels>
-    <level id="1">
+    <level id="0">
         <players>
             <player x="226" y="600" health="3" />
         </players>

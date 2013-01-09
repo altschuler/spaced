@@ -22,7 +22,6 @@ public class SaxGameStateHandler extends DefaultHandler {
     
     private int counter = 0;
     private Stack<String> elementStack = new Stack<>();
-    private Stack<Object> objectStack = new Stack<>();
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
@@ -30,29 +29,36 @@ public class SaxGameStateHandler extends DefaultHandler {
 
         this.elementStack.push(qName);
         
-        if (qName.equals("level")) { 
-            getLevels().add(new GameState(0));
-        } else if (qName.equals("player")) { 
-            int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player(health));
-            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
-            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
-        } else if (qName.equals("bunker")) {
-            Bunker b = new Bunker();
-            b.getPosition().x = Double.valueOf(attributes.getValue("x"));
-            b.getPosition().y = Double.valueOf(attributes.getValue("y"));
-            getLevels().get(counter).getBunkers().add(b);
-        } else if (qName.equals("invader")) {
-            InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
-            int health = Integer.valueOf(attributes.getValue("health"));
-            Invader invader = new Invader(type, health);
-            invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
-            invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
-            getLevels().get(counter).getInvaders().add(invader);
-        } else if (qName.equals("bonus")) {
-            int points = Integer.valueOf(attributes.getValue("points"));
-            int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).getBonuss().add(new Bonus(points, health));
+        int health = 0;
+
+        switch (qName) {
+            case "level":
+                getLevels().add(new GameState(Integer.valueOf(attributes.getValue("id"))));
+                break;
+            case "player":
+                getLevels().get(counter).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(attributes.getValue("health"))));
+                getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
+                getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
+                break;
+            case "bunker":
+                Bunker b = new Bunker();
+                b.getPosition().x = Double.valueOf(attributes.getValue("x"));
+                b.getPosition().y = Double.valueOf(attributes.getValue("y"));
+                getLevels().get(counter).getBunkers().add(b);
+                break;
+            case "invader":
+                Invader invader = new Invader(
+                        InvaderType.valueOf(attributes.getValue("type")), 
+                        Integer.valueOf(attributes.getValue("health")));
+                invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
+                invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
+                getLevels().get(counter).getInvaders().add(invader);
+                break;
+            case "bonus":
+                getLevels().get(counter).getBonuss().add(new Bonus(
+                        Integer.valueOf(attributes.getValue("points")), 
+                        Integer.valueOf(attributes.getValue("health"))));
+                break;
         }
     }
 
