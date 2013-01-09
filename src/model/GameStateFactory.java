@@ -8,15 +8,14 @@ import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
-import utils.SaxHandler;
+import utils.SaxGameStateHandler;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "./GameStateLevels.xml";
-    private ArrayList<ArrayList> levels;
+    private static final String XML_FILE = "./GameStates.xml";
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -26,10 +25,14 @@ public class GameStateFactory {
             
             SAXParser saxParser = factory.newSAXParser();
             
-            SaxHandler handler = new SaxHandler();
+            SaxGameStateHandler handler = new SaxGameStateHandler();
             saxParser.parse(xmlInput, handler);
             
             // TODO: get parsed info
+            for (GameState gs : handler.levels) {
+                System.out.println(gs);
+            }
+            System.out.println("test");
     
         } catch (Throwable err) {
             err.printStackTrace ();
