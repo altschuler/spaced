@@ -42,4 +42,9 @@ abstract public class AbstractGameElement {
 	protected void setHeight(int height) {
 		this.height = height;
 	}
+	
+	public void move(double x, double y){
+		this.position.x += x;
+		this.position.y += y;
+	}
 }

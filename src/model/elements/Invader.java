@@ -9,7 +9,7 @@ import model.elements.KillableGameElement;
 public class Invader extends KillableGameElement {
 	
         private InvaderType type;
-	private int InvaderSpeed = 15;
+	private int InvaderSpeed = 10;
 	
 	public Invader(InvaderType _type, int health) {
 		super(health, 48, 48);

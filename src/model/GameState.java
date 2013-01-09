@@ -17,19 +17,25 @@ public class GameState {
 	private Player player;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
-	private ArrayList<Bullet> shots;
+	private ArrayList<Bullet> bullets;
 	
 	private int points;
 	private long lastUpdateTime;
 	private long totalGameTime;
 	private boolean moveInvadersRight;
+	
+	private long lastInvaderShot;
+	private ArrayList<Invader> lowestInvaders;
 
 	public GameState() {
 		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
-		this.shots = new ArrayList<Bullet>();
+		this.bullets = new ArrayList<Bullet>();
 		this.player = new Player();
+		
+		this.lowestInvaders = new ArrayList<Invader>();
+		this.lastInvaderShot = 0;
 	}
 
 	public Player getPlayer() {
@@ -56,8 +62,8 @@ public class GameState {
 		return invaders;
 	}
 
-	public ArrayList<Bullet> getShots() {
-		return shots;
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
 	}
 
 	public long getLastUpdateTime() {
@@ -86,5 +92,21 @@ public class GameState {
 
 	public void setMoveInvadersRight(boolean moveInvadersRight) {
 		this.moveInvadersRight = moveInvadersRight;
+	}
+
+	public long getLastInvaderShot() {
+		return lastInvaderShot;
+	}
+
+	public void setLastInvaderShot(long lastInvaderShot) {
+		this.lastInvaderShot = lastInvaderShot;
+	}
+
+	public ArrayList<Invader> getLowestInvaders() {
+		return lowestInvaders;
+	}
+
+	public void setLowestInvaders(ArrayList<Invader> lowestInvaders) {
+		this.lowestInvaders = lowestInvaders;
 	}
 }
