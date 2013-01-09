@@ -13,6 +13,7 @@ import model.elements.Bullet;
 import model.elements.BulletDirection;
 import model.elements.Invader;
 import model.elements.Player;
+import model.elements.PlayerIndex;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
@@ -27,18 +28,11 @@ public class GameController extends AbstractController {
 
 	private Timer timer;
 	private GameStateRenderer renderer;
-        private GameStateFactory factory;
 
 	public GameController(MainView gw, GameModel gm) {
 		super(gw, gm);
 
 		this.renderer = new GameStateRenderer();
-                this.factory = new GameStateFactory();
-
-		// TODO dont init this here!
-		factory.createLevelOne();
-		gameState.setLastUpdateTime(System.currentTimeMillis());
-		gm.setActiveGameState(gameState);
 	}
 
 	/**
@@ -98,7 +92,7 @@ public class GameController extends AbstractController {
 	private boolean checkGameOver(GameState gameState) {
 		// Player is dead = loose
 		for (Invader invader : gameState.getInvaders()) {
-			if (Mathx.intersects(invader, gameState.getPlayer())) {
+			if (Mathx.intersects(invader, gameState.getPlayer(PlayerIndex.One))) {
 				CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
 				return true;
 			}
@@ -114,7 +108,7 @@ public class GameController extends AbstractController {
 	}
 
 	public void updatePlayer(GameState gameState, long timeDelta) {
-		Player player = gameState.getPlayer();
+		Player player = gameState.getPlayer(PlayerIndex.One);
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed());

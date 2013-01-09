@@ -1,13 +1,19 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import javax.xml.parsers.ParserConfigurationException;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
+import model.elements.PlayerIndex;
+import org.xml.sax.SAXException;
 import utils.SaxGameStateHandler;
 
 /**
@@ -34,27 +40,23 @@ public class GameStateFactory {
             }
             System.out.println("test");
     
-        } catch (Throwable err) {
-            err.printStackTrace ();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: Cannot find file: "+XML_FILE);
+            System.exit(1);
+        } catch (ParserConfigurationException e) {
+            System.out.println("ERROR: ParserConfigurationException thrown");
+            System.exit(1);
+        } catch (SAXException e) {
+            System.out.println("ERROR: SAXException thrown");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("ERROR: IOException thrown");
+            System.exit(1);
         }
-        
-//        catch (FileNotFoundException e) {
-//            System.out.println("ERROR: Cannot find file: "+XML_FILE);
-//            System.exit(1);
-//        } catch (ParserConfigurationException e) {
-//            System.out.println("ERROR: ParserConfigurationException thrown");
-//            System.exit(1);
-//        } catch (SAXException e) {
-//            System.out.println("ERROR: SAXException thrown");
-//            System.exit(1);
-//        } catch (IOException e) {
-//            System.out.println("ERROR: IOException thrown");
-//            System.exit(1);
-//        }
     }
 
     static public GameState createLevelOne() {
-            GameState gs = new GameState();
+            GameState gs = new GameState(0);
 
             // Bunkers
             Bunker b1 = new Bunker();
@@ -63,9 +65,9 @@ public class GameStateFactory {
             gs.getBunkers().add(b1);
 
             // Player
-            gs.setPlayer(new Player());
-            gs.getPlayer().getPosition().x = 250 - 24;
-            gs.getPlayer().getPosition().y = 600;
+            gs.setPlayer(PlayerIndex.One, new Player());
+            gs.getPlayer(PlayerIndex.One).getPosition().x = 250 - 24;
+            gs.getPlayer(PlayerIndex.One).getPosition().y = 600;
 
             // Invaders
             int invaderCounter = 0, columnsOfInvaders = 7, rowsOfInvaders = 3, widthBetweenInvaders = 55, heightBetweenInvaders = 50;
