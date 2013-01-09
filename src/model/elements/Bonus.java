@@ -3,10 +3,10 @@ package model.elements;
 public class Bonus extends KillableGameElement {
     
     private int points;
-    private int speed = 10;
 
     public Bonus(int points, int health) {
         super(health, 48, 48);
+        this.setSpeed(10);
         this.points = points;
     }
 
@@ -18,14 +18,11 @@ public class Bonus extends KillableGameElement {
         this.points = points;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-    
-    
-    
+//	@Override
+//	public Bonus clone() {
+//		Bonus b = (Bonus) super.clone();
+//		b.setPoints(this.getPoints());
+//
+//		return b;
+//	} 
 }

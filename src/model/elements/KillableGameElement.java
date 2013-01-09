@@ -6,7 +6,7 @@ import command.ICommand;
  * A game element with health, meaning it can die/break. 
  * A command can be executed upon death.
  */
-public class KillableGameElement extends AbstractGameElement {
+public class KillableGameElement extends GameElement {
 	
 	private int health;
 	private ICommand cmd;
@@ -22,7 +22,7 @@ public class KillableGameElement extends AbstractGameElement {
 	
 	public KillableGameElement(int health, int width, int height, ICommand cmd) {
 		this(health, width, height);
-		this.cmd = cmd;
+		this.setCommand(cmd);
 	}
 	
 	public int getHealth() {
@@ -44,8 +44,8 @@ public class KillableGameElement extends AbstractGameElement {
 		this.health = health;
 		
 		// execute command if dead and command is non-null
-		if (this.isDead() && this.cmd != null) {
-			this.cmd.execute();
+		if (this.isDead() && this.getCommand() != null) {
+			this.getCommand().execute();
 		}
 	}
 	
@@ -56,4 +56,19 @@ public class KillableGameElement extends AbstractGameElement {
 	public boolean isDead() {
 		return this.health <= 0;
 	}
+	
+	public ICommand getCommand() {
+		return cmd;
+	}
+	public void setCommand(ICommand cmd) {
+		this.cmd = cmd;
+	}
+	
+//	@Override
+//	public KillableGameElement clone() {
+//		KillableGameElement c = (KillableGameElement) super.clone();
+//		c.setHealth(this.getHealth());
+//		c.setCommand(this.getCommand());
+//		return c;
+//	}
 }

@@ -1,7 +1,7 @@
 package utils;
 
 import model.core.Coordinate;
-import model.elements.AbstractGameElement;
+import model.elements.GameElement;
 
 public class Mathx {
 
@@ -51,7 +51,7 @@ public class Mathx {
 	 * 
 	 * @return True if a and b intersects
 	 */
-	static public boolean intersects(AbstractGameElement a, AbstractGameElement b) {
+	static public boolean intersects(GameElement a, GameElement b) {
 		Coordinate ap = a.getPosition();
 		Coordinate bp = b.getPosition();
 		double ax1 = ap.x, ax2 = ap.x + a.getWidth();
