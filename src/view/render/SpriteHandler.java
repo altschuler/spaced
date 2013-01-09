@@ -65,6 +65,7 @@ public class SpriteHandler {
     
     private void initSprites() {
         this.add("view/sprites/player.png");
+        this.add("view/sprites/player_life.png");
         this.add("view/sprites/invader1.png");
         this.add("view/sprites/invader2.png");
         this.add("view/sprites/invader3.png");
