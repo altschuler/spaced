@@ -36,6 +36,8 @@ public class GameStateFactory {
             saxParser.parse(xmlInput, handler);
             
             this.levels = handler.getLevels();
+            
+            levels.get(0).printInfo();
     
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: Cannot find file: "+XML_FILE);

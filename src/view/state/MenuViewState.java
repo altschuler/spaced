@@ -1,11 +1,8 @@
 package view.state;
 
 import java.util.Observable;
-
 import javax.swing.JLabel;
-
 import command.CommandFactory;
-
 import model.GameModel;
 import utils.GuiUtils;
 

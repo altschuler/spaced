@@ -57,7 +57,10 @@ public class GameState {
                     + " health:" + bunker.getHealth());
         }
         for (Invader invader : invaders) {
-            System.out.println("Invader: " + invader.getType() + " " + invader.getHealth());
+            System.out.println("Invader: type:" + invader.getType()
+                    + " x:" + invader.getPosition().x
+                    + " y:" + invader.getPosition().y
+                    + " health:" + invader.getHealth());
         }
 
     }

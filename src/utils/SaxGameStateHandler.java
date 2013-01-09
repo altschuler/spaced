@@ -20,51 +20,55 @@ public class SaxGameStateHandler extends DefaultHandler {
     
     private ArrayList<GameState> levels  = new ArrayList<GameState>();
     
-    private int counter = 0;
     private Stack<String> elementStack = new Stack<>();
-    private Stack<Object> objectStack = new Stack<>();
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
     throws SAXException {
 
         this.elementStack.push(qName);
-        
-        if (qName.equals("level")) { 
-            getLevels().add(new GameState(0));
-        } else if (qName.equals("player")) { 
-            int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player(health));
-            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
-            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
-        } else if (qName.equals("bunker")) {
-            Bunker b = new Bunker();
-            b.getPosition().x = Double.valueOf(attributes.getValue("x"));
-            b.getPosition().y = Double.valueOf(attributes.getValue("y"));
-            getLevels().get(counter).getBunkers().add(b);
-        } else if (qName.equals("invader")) {
-            InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
-            int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).getInvaders().add(new Invader(type, health));
-        } else if (qName.equals("bonus")) {
-            int points = Integer.valueOf(attributes.getValue("points"));
-            int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).getBonuss().add(new Bonus(points, health));
+
+        switch (qName) {
+            case "level":
+                levels.add(new GameState(Integer.valueOf(attributes.getValue("id"))));
+                break;
+            case "player":
+                levels.get(levels.size()-1).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(attributes.getValue("health"))));
+                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
+                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
+                break;
+            case "bunker":
+                Bunker b = new Bunker();
+                b.getPosition().x = Double.valueOf(attributes.getValue("x"));
+                b.getPosition().y = Double.valueOf(attributes.getValue("y"));
+                levels.get(levels.size()-1).getBunkers().add(b);
+                break;
+            case "invader":
+                Invader invader = new Invader(
+                        InvaderType.valueOf(attributes.getValue("type")), 
+                        Integer.valueOf(attributes.getValue("health")));
+                invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
+                invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
+                levels.get(levels.size()-1).getInvaders().add(invader);
+                break;
+            case "bonus":
+                levels.get(levels.size()-1).getBonuss().add(new Bonus(
+                        Integer.valueOf(attributes.getValue("points")), 
+                        Integer.valueOf(attributes.getValue("health"))));
+                break;
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName)
     throws SAXException {
-
         this.elementStack.pop();
-        
     }
 
     @Override
     public void characters(char ch[], int start, int length)
     throws SAXException {
-        //System.out.println("start characters : " + new String(ch, start, length));
+        
     }
 
     private String currentElement() {
@@ -86,58 +90,9 @@ public class SaxGameStateHandler extends DefaultHandler {
         
     }
 
-	public ArrayList<GameState> getLevels() {
-		return levels;
-	}
-    
-//    private ArrayList<String> file;
-//    private ArrayList<Object> level = new ArrayList();
-//    private ArrayList<ArrayList> levels = new ArrayList();
-//    
-//    public ArrayList parseFile() {
-//        
-//        for (int i=0; i < file.size(); i++) {
-//            if (file.get(i).equals("<players>")){
-//                Boolean players = true;
-//                int c = 0;
-//                while(players) {
-//                    c++; // Counter
-//                    
-//                    level.add(new Player());
-//                    
-//                    // Check if end of tag
-//                    players = (file.get(i+c).equals("</players>")) ? false : true;
-//                }
-//            }
-//        }
-//        
-//        levels.add(level);
-//        
-//        return levels;
-//    }
-//            
-//    
-//    public ArrayList getFile() {
-//        return file;
-//    }
-//    
-//    private void printFile() {
-//        if (file != null) {
-//            int c = 0;
-//            for (String s : file) {
-//                // Indent
-//                c = s.contains("/") ? c-1 : c+1;
-//                for (int i = 0; i < c; i++) {
-//                    System.out.print("\t");
-//                }
-//
-//                System.out.println(s);
-//            }
-//        } else {
-//            System.out.println("ERROR: null file");
-//            System.exit(1);
-//        }
-//    }
+    public ArrayList<GameState> getLevels() {
+            return levels;
+    }
     
     
 }
