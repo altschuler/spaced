@@ -7,29 +7,29 @@ import model.elements.KillableGameElement;
  * Has one life, but there are more of them.
  */
 public class Player extends KillableGameElement {
-	private int playerMovementSpeed = 10;
-	private int playerShotFrequency = 450;
-	private int timeOfLastShot = 0;
+	private int speed = 10;
+	private int maxShootFrequency = 450;
+	private long timeOfLastShot = 0;
 	
 	public Player() {
-		super(1, 20, 10);
+		super(1, 48, 48);
 	}
-	public int getPlayerMovementSpeed() {
-		return playerMovementSpeed;
+	public int getSpeed() {
+		return speed;
 	}
-	public void setPlayerMovementSpeed(int playerMovementSpeed) {
-		this.playerMovementSpeed = playerMovementSpeed;
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
-	public int getPlayerShotFrequency() {
-		return playerShotFrequency;
+	public int getMaxShootFrequency() {
+		return maxShootFrequency;
 	}
-	public void setPlayerShotFrequency(int playerShotFrequency) {
-		this.playerShotFrequency = playerShotFrequency;
+	public void setMaxShootFrequency(int maxShotFrequency) {
+		this.maxShootFrequency = maxShotFrequency;
 	}
-	public int getTimeOfLastShot() {
+	public long getTimeOfLastShot() {
 		return timeOfLastShot;
 	}
-	public void setTimeOfLastShot(int timeOfLastShot) {
+	public void setTimeOfLastShot(long timeOfLastShot) {
 		this.timeOfLastShot = timeOfLastShot;
 	}
 	

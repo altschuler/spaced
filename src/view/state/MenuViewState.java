@@ -20,7 +20,7 @@ public class MenuViewState extends AbstractViewState {
 		this.label = new JLabel();
 		this.add(this.label);
 		
-		this.add(GuiUtils.createButtonWithStateCommand("Go to board", ViewState.Game));
+		this.add(GuiUtils.createButtonWithStateCommand("Start game", ViewState.Game));
 	}
 
 	@Override

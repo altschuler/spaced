@@ -1,6 +1,6 @@
 package model.elements;
 
-import java.awt.Point;
+import model.Coordinate;
 
 /**
  * The base of all interactive game elements. The common feats 
@@ -8,22 +8,22 @@ import java.awt.Point;
  */
 abstract public class AbstractGameElement {
 	
-	private Point position;
+	private Coordinate position;
 	private int width;
 	private int height;
 	//TODO some visual identify?
 	
 	public AbstractGameElement(int width, int height) {
-		this.position = new Point(0, 0);
+		this.position = new Coordinate();
 		this.width = width;
 		this.height = height;
 	}
 	
-	public Point getPosition() {
+	public Coordinate getPosition() {
 		return position;
 	}
 
-	public void setPosition(Point position) {
+	public void setPosition(Coordinate position) {
 		this.position = position;
 	}
 

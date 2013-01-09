@@ -1,6 +1,5 @@
 package view.state;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.util.Observable;
 
@@ -31,8 +30,9 @@ public class GameViewState extends AbstractViewState {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		//TODO figure out why this cant be moved to initialize
 		CommandFactory.createGameLoopEnabledCommand(true).execute();
-		GameModel gm = (GameModel) o;
+		//GameModel gm = (GameModel) o;
 	}
 	
 	@Override

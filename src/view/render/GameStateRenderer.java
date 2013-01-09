@@ -4,8 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
+import model.Coordinate;
 import model.GameModel;
 import model.GameState;
 
@@ -20,8 +20,6 @@ public class GameStateRenderer {
     }
     
     public void render(Canvas canvas, GameState gameState) {
-        // TODO
-    	// Clear screen
     	Graphics2D gfx = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
     	gfx.setColor(Color.BLACK);
     	gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
@@ -35,7 +33,6 @@ public class GameStateRenderer {
 		}
     	
     	//Draw invaders
-    	//TODO: draw invaders
     	for (int i = 0; i < gameState.getInvaders().size(); i++) {
     		this.draw(gfx, "view/sprites/invader2.png", gameState.getInvaders().get(i).getPosition());
 		}
@@ -45,8 +42,8 @@ public class GameStateRenderer {
     	canvas.getBufferStrategy().show();
     }
         
-    public void draw(Graphics g, String ref, Point pos) {
-        g.drawImage(spriteHandler.get(ref).getImage(), pos.x, pos.y,null);
+    public void draw(Graphics g, String ref, Coordinate pos) {
+        g.drawImage(spriteHandler.get(ref).getImage(), (int) pos.x, (int) pos.y, null);
     }
     
     private void initSprites() {
@@ -56,7 +53,7 @@ public class GameStateRenderer {
         spriteHandler.add("view/sprites/invader3.png");
         spriteHandler.add("view/sprites/bonus.png");
         spriteHandler.add("view/sprites/bullet.png");
-        // TODO: Bullet and bunker
+        // TODO: Bunker
     }
     
     

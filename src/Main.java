@@ -1,7 +1,3 @@
-import java.io.File;
-
-
-
 import model.GameModel;
 import view.MainView;
 import view.state.ViewState;
@@ -9,7 +5,6 @@ import view.state.ViewState;
 import command.CommandFactory;
 
 import controller.MainController;
-import controller.SoundController;
 
 /**
  * Java entry class

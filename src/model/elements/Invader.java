@@ -1,16 +1,15 @@
 package model.elements;
 
 import command.ICommand;
-
 import model.elements.KillableGameElement;
 
 /**
  * An invader. Comes in different types.
  */
 public class Invader extends KillableGameElement {
-	//TODO must implement different types of invaders
-	private int InvaderSpeed = 5;
+	
         private InvaderType type;
+	private int InvaderSpeed = 15;
 	
 	public Invader(InvaderType _type, int health) {
 		super(health, 48, 48);
@@ -22,7 +21,7 @@ public class Invader extends KillableGameElement {
                 this.type = _type;
 	}
 
-	public int getInvaderSpeed() {
+	public int getSpeed() {
 		return InvaderSpeed;
 	}
 
