@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<!-- XML-file containing level data -->
 <levels>
     <level id="0">
+        <players>
+            <player x="226" y="600" health="3" />
+        </players>
+        <bunkers>
+            <bunker x="100" y="450" health="10" />
+            <bunker x="300" y="450" health="10" />
+            <bunker x="500" y="450" health="10" />
+        </bunkers>
+        <invaders>
+            <invader type="C" x="50" y="50" health="1" />
+            <invader type="C" x="105" y="50" health="1" />
+            <invader type="C" x="160" y="50" health="1" />
+            <invader type="C" x="215" y="50" health="1" />
+            <invader type="C" x="270" y="50" health="1" />
+            <invader type="C" x="325" y="50" health="1" />
+            <invader type="C" x="380" y="50" health="1" />
+            <invader type="B" x="50" y="100" health="1" />
+            <invader type="B" x="105" y="100" health="1" />
+            <invader type="B" x="160" y="100" health="1" />
+            <invader type="B" x="215" y="100" health="1" />
+            <invader type="B" x="270" y="100" health="1" />
+            <invader type="B" x="325" y="100" health="1" />
+            <invader type="B" x="380" y="100" health="1" />
+            <invader type="A" x="50" y="150" health="1" />
+            <invader type="A" x="105" y="150" health="1" />
+            <invader type="A" x="160" y="150" health="1" />
+            <invader type="A" x="215" y="150" health="1" />
+            <invader type="A" x="270" y="150" health="1" />
+            <invader type="A" x="325" y="150" health="1" />
+            <invader type="A" x="380" y="150" health="1" />
+        </invaders>
+        <bonuss>
+            <bonus points="50" direction="right" health="1" />
+        </bonuss>
+    </level>
+    <level id="1">
         <players>
             <player x="226" y="600" health="3" />
         </players>
