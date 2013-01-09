@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import model.elements.Bonus;
 
 import model.elements.Bullet;
 import model.elements.Bunker;
@@ -15,101 +16,125 @@ import model.elements.PlayerIndex;
  * but be created through the {@link GameStateFactory}.
  */
 public class GameState {
-	// Elements
-        private int id;
-	private HashMap<PlayerIndex, Player> players;
-	private ArrayList<Bunker> bunkers;
-	private ArrayList<Invader> invaders;
-	private ArrayList<Bullet> bullets;
-	
-	private int points;
-	private long lastUpdateTime;
-	private long totalGameTime;
-	private boolean moveInvadersRight;
-	
-	private long lastInvaderShot; //Patricks logik siger at denne skal være i GameState
-	private ArrayList<Invader> lowestInvaders; 	//ved ikke heeelt med denne
+    // Elements
+    private int id;
+    private HashMap<PlayerIndex, Player> players;
+    private ArrayList<Bunker> bunkers;
+    private ArrayList<Invader> invaders;
+    private ArrayList<Bonus> bonuss;
 
-	public GameState(int id) {
-                this.id = id;
-		this.points = 0;
-		this.bunkers = new ArrayList<Bunker>();
-		this.invaders = new ArrayList<Invader>();
-		this.bullets = new ArrayList<Bullet>();
-		this.lowestInvaders = new ArrayList<Invader>();
-		this.lastInvaderShot = 0;
-		this.players = new HashMap<PlayerIndex, Player>();
-	}
+    private ArrayList<Bullet> bullets;
 
-	public Player getPlayer(PlayerIndex idx) {
-		return this.players.get(idx);
-	}
+    private int points;
+    private long lastUpdateTime;
+    private long totalGameTime;
+    private boolean moveInvadersRight;
 
-	public void setPlayer(PlayerIndex idx, Player player) {
-		this.players.put(idx, player);
-	}
+    private long lastInvaderShot; //Patricks logik siger at denne skal vï¿½re i GameState
+    private ArrayList<Invader> lowestInvaders; 	//ved ikke heeelt med denne
 
-	public int getPoints() {
-		return points;
-	}
+    public GameState(int id) {
+            this.id = id;
+            this.points = 0;
+            this.bunkers = new ArrayList<Bunker>();
+            this.invaders = new ArrayList<Invader>();
+            this.bonuss = new ArrayList<Bonus>();
+            this.bullets = new ArrayList<Bullet>();
+            this.lowestInvaders = new ArrayList<Invader>();
+            this.lastInvaderShot = 0;
+            this.players = new HashMap<PlayerIndex, Player>();
+    }
 
-	public void setPoints(int points) {
-		this.points = points;
-	}
+    // For testing purposes
+    public void printInfo() {
+        System.out.println("ID: " + id);
+        System.out.println("Player: x:" + players.get(PlayerIndex.One).getPosition().x
+                + " y:" + players.get(PlayerIndex.One).getPosition().y
+                + " health:" + players.get(PlayerIndex.One).getHealth());
+        for (Bunker bunker : bunkers) {
+            System.out.println("Bunker: x:" + bunker.getPosition().x 
+                    + " y:" + bunker.getPosition().y 
+                    + " health:" + bunker.getHealth());
+        }
+        for (Invader invader : invaders) {
+            System.out.println("Invader: " + invader.getType() + " " + invader.getHealth());
+        }
 
-	public ArrayList<Bunker> getBunkers() {
-		return bunkers;
-	}
+    }
 
-	public ArrayList<Invader> getInvaders() {
-		return invaders;
-	}
+    public Player getPlayer(PlayerIndex idx) {
+            return this.players.get(idx);
+    }
 
-	public ArrayList<Bullet> getBullets() {
-		return bullets;
-	}
+    public void setPlayer(PlayerIndex idx, Player player) {
+            this.players.put(idx, player);
+    }
 
-	public long getLastUpdateTime() {
-		return lastUpdateTime;
-	}
+    public int getPoints() {
+            return points;
+    }
 
-	public void setLastUpdateTime(long lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
+    public void setPoints(int points) {
+            this.points = points;
+    }
 
-	public long getTotalGameTime() {
-		return totalGameTime;
-	}
+    public ArrayList<Bunker> getBunkers() {
+            return bunkers;
+    }
 
-	public void setTotalGameTime(long totalGameTime) {
-		this.totalGameTime = totalGameTime;
-	}
+    public ArrayList<Invader> getInvaders() {
+            return invaders;
+    }
+    
+    public ArrayList<Bonus> getBonuss() {
+        return bonuss;
+    }
 
-	public void addTotalGameTime(long time) {
-		this.totalGameTime += time;
-	}
+    public ArrayList<Bullet> getBullets() {
+            return bullets;
+    }
 
-	public boolean getMoveInvadersRight() {
-		return this.moveInvadersRight;
-	}
+    public long getLastUpdateTime() {
+            return lastUpdateTime;
+    }
 
-	public void setMoveInvadersRight(boolean moveInvadersRight) {
-		this.moveInvadersRight = moveInvadersRight;
-	}
+    public void setLastUpdateTime(long lastUpdateTime) {
+            this.lastUpdateTime = lastUpdateTime;
+    }
 
-	public long getLastInvaderShot() {
-		return lastInvaderShot;
-	}
+    public long getTotalGameTime() {
+            return totalGameTime;
+    }
 
-	public void setLastInvaderShot(long lastInvaderShot) {
-		this.lastInvaderShot = lastInvaderShot;
-	}
+    public void setTotalGameTime(long totalGameTime) {
+            this.totalGameTime = totalGameTime;
+    }
 
-	public ArrayList<Invader> getLowestInvaders() {
-		return lowestInvaders;
-	}
+    public void addTotalGameTime(long time) {
+            this.totalGameTime += time;
+    }
 
-	public void setLowestInvaders(ArrayList<Invader> lowestInvaders) {
-		this.lowestInvaders = lowestInvaders;
-	}
+    public boolean getMoveInvadersRight() {
+            return this.moveInvadersRight;
+    }
+
+    public void setMoveInvadersRight(boolean moveInvadersRight) {
+            this.moveInvadersRight = moveInvadersRight;
+    }
+
+    public long getLastInvaderShot() {
+            return lastInvaderShot;
+    }
+
+    public void setLastInvaderShot(long lastInvaderShot) {
+            this.lastInvaderShot = lastInvaderShot;
+    }
+
+    public ArrayList<Invader> getLowestInvaders() {
+            return lowestInvaders;
+    }
+
+    public void setLowestInvaders(ArrayList<Invader> lowestInvaders) {
+            this.lowestInvaders = lowestInvaders;
+    }
 }

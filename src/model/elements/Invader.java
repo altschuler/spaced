@@ -8,11 +8,15 @@ import model.elements.KillableGameElement;
  */
 public class Invader extends KillableGameElement {
 	
-        private InvaderType type;
+	private InvaderType type;
 	private int InvaderSpeed = 10;
 	
 	public Invader(InvaderType _type, int health) {
 		super(health, 48, 48);
+                this.type = _type;
+	}
+	public Invader(InvaderType _type, int health, String imageURL) {
+		super(health, 48, 48, imageURL);
                 this.type = _type;
 	}
 
@@ -24,5 +28,9 @@ public class Invader extends KillableGameElement {
 	public int getSpeed() {
 		return InvaderSpeed;
 	}
+        
+        public InvaderType getType() {
+            return type;
+        }
 
 }

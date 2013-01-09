@@ -10,12 +10,12 @@ public class Player extends KillableGameElement {
 	private int lives = 3;
 	private int speed = 10;
 	private int maxShootFrequency = 450;
-	private long timeOfLastShot = 0; // used when space is pressed
-
-	public Player() {
-		super(1, 48, 48);
+	private long timeOfLastShot = 0; //used when space is pressed
+	
+	public Player(int health) {
+		super(health, 48, 48);
 	}
-
+	
 	public int getSpeed() {
 		return speed;
 	}

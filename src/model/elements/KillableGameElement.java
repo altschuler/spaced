@@ -15,6 +15,10 @@ public class KillableGameElement extends AbstractGameElement {
 		super(width, height); //TODO new Point should be created here
 		this.health = health;
 	}
+	public KillableGameElement(int health, int width, int height, String imageURL) {
+		super(width, height, imageURL); //TODO new Point should be created here
+		this.health = health;
+	}
 	
 	public KillableGameElement(int health, int width, int height, ICommand cmd) {
 		this(health, width, height);

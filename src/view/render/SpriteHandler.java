@@ -15,7 +15,7 @@ public class SpriteHandler {
     private static SpriteHandler instance = null;
     
     protected SpriteHandler() {
-        // Defeat instantiation
+    	this.initSprites();
     }
     
     // Singleton
@@ -63,6 +63,15 @@ public class SpriteHandler {
         return (Sprite) null;
     }
     
+    private void initSprites() {
+        this.add("view/sprites/player.png");
+        this.add("view/sprites/invader1.png");
+        this.add("view/sprites/invader2.png");
+        this.add("view/sprites/invader3.png");
+        this.add("view/sprites/bonus.png");
+        this.add("view/sprites/bullet.png");
+        // TODO: Bunker
+    }
     
     private void fail(String message) {
         System.err.println(message);
