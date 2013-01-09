@@ -38,4 +38,8 @@ public class CommandFactory {
 	public static Command createGameLoopEnabledCommand(boolean enabled) {
 		return new GameLoopEnabledCommand(mainController.getGameController(), gameModel, enabled);
 	}
+
+	public static Command createLoadLevelCommand(int id) {
+		return new LoadLevelCommand(mainController, id);
+	}
 }

@@ -16,5 +16,10 @@ public class FlowController extends AbstractController {
 
         factory = new GameStateFactory();
     }
+    
+    public void loadLevel(int id) {
+    	this.gameModel.setActiveGameState(GameStateFactory.createLevelOne());
+//    	this.gameModel.setActiveGameState(factory.getLevel(id));
+    }
 
 }
