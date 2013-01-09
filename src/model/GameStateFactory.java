@@ -1,24 +1,20 @@
 package model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
 import utils.SaxHandler;
 
 /**

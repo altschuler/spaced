@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import javax.swing.JLabel;
 
-import model.GameModel;
 import utils.GuiUtils;
 
 /**
@@ -24,6 +23,6 @@ public class PauseMenuViewState extends AbstractViewState {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		GameModel gm = (GameModel) o;
+		//GameModel gm = (GameModel) o;
 	}
 }
