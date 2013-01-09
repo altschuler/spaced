@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import model.Coordinate;
 import model.GameModel;
 import model.GameState;
+import model.elements.Bullet;
+import model.elements.Invader;
 import model.elements.PlayerIndex;
 import utils.Mathx;
 
@@ -32,14 +34,26 @@ public class GameStateRenderer {
     	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer(PlayerIndex.One).getPosition());
     	
     	//Draw shots
-    	for (int i = 0; i < gameState.getBullets().size(); i++) {
-    		this.draw(gfx, "view/sprites/bullet.png", gameState.getBullets().get(i).getPosition());
-		}
+        for (Bullet bullet : gameState.getBullets()) {
+            this.draw(gfx, "view/sprites/bullet.png", bullet.getPosition());
+        }
     	
     	//Draw invaders
-    	for (int i = 0; i < gameState.getInvaders().size(); i++) {
-    		this.draw(gfx, "view/sprites/invader2.png", gameState.getInvaders().get(i).getPosition());
-		}
+        for (Invader invader : gameState.getInvaders()) {
+            String ref = "";
+            switch (invader.getType()) {
+                case A: 
+                    ref = "view/sprites/invaderA.png";
+                    break;
+                case B:
+                    ref = "view/sprites/invaderB.png";
+                    break;
+                case C:
+                    ref = "view/sprites/invaderC.png";
+                    break;
+            }
+            this.draw(gfx, ref, invader.getPosition());
+        }
         
     	// Empty the graphics buffer
     	gfx.dispose();

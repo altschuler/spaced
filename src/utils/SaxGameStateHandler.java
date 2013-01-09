@@ -45,7 +45,10 @@ public class SaxGameStateHandler extends DefaultHandler {
         } else if (qName.equals("invader")) {
             InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
             int health = Integer.valueOf(attributes.getValue("health"));
-            getLevels().get(counter).getInvaders().add(new Invader(type, health));
+            Invader invader = new Invader(type, health);
+            invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
+            invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
+            getLevels().get(counter).getInvaders().add(invader);
         } else if (qName.equals("bonus")) {
             int points = Integer.valueOf(attributes.getValue("points"));
             int health = Integer.valueOf(attributes.getValue("health"));
