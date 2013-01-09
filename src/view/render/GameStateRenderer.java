@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import utils.Mathx;
+
 import model.Coordinate;
 import model.GameModel;
 import model.GameState;
@@ -21,9 +23,14 @@ public class GameStateRenderer {
     
     public void render(Canvas canvas, GameState gameState) {
     	Graphics2D gfx = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+    	
+    	// Clear the screen
     	gfx.setColor(Color.BLACK);
     	gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
         
+    	gfx.setColor(Color.WHITE);
+    	gfx.drawString(Mathx.prettyTime(gameState.getTotalGameTime()), 10, 10);
+    	
     	// Draw player
     	this.draw(gfx, "view/sprites/player.png", gameState.getPlayer().getPosition());
     	
@@ -37,7 +44,7 @@ public class GameStateRenderer {
     		this.draw(gfx, "view/sprites/invader2.png", gameState.getInvaders().get(i).getPosition());
 		}
         
-    	// Draw it all
+    	// Empty the graphics buffer
     	gfx.dispose();
     	canvas.getBufferStrategy().show();
     }

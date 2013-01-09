@@ -36,6 +36,6 @@ public class CommandFactory {
 	}
 
 	public static Command createGameLoopEnabledCommand(boolean enabled) {
-		return new GameLoopEnabledCommand(mainController.getGameController(), enabled);
+		return new GameLoopEnabledCommand(mainController.getGameController(), gameModel, enabled);
 	}
 }

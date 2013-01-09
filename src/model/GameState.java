@@ -21,9 +21,9 @@ public class GameState {
 	
 	private int points;
 	private long lastUpdateTime;
+	private long totalGameTime;
+	private boolean moveInvadersRight;
 
-	private int lowestInvader; //TODO use to decide if the player has lost due to the invaders reach the Earth.
-	
 	public GameState() {
 		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
@@ -68,12 +68,23 @@ public class GameState {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	public int getLowestInvader() {
-		return lowestInvader;
+	public long getTotalGameTime() {
+		return totalGameTime;
 	}
 
-	public void setLowestInvader(int lowestInvader) {
-		this.lowestInvader = lowestInvader;
+	public void setTotalGameTime(long totalGameTime) {
+		this.totalGameTime = totalGameTime;
 	}
 
+	public void addTotalGameTime(long time) {
+		this.totalGameTime += time;
+	}
+
+	public boolean getMoveInvadersRight() {
+		return this.moveInvadersRight;
+	}
+
+	public void setMoveInvadersRight(boolean moveInvadersRight) {
+		this.moveInvadersRight = moveInvadersRight;
+	}
 }
