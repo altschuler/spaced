@@ -4,6 +4,8 @@ import java.util.Observable;
 
 import javax.swing.JLabel;
 
+import command.CommandFactory;
+
 import model.GameModel;
 import utils.GuiUtils;
 
@@ -20,7 +22,8 @@ public class MenuViewState extends AbstractViewState {
 		this.label = new JLabel();
 		this.add(this.label);
 		
-		this.add(GuiUtils.createButtonWithStateCommand("Start game", ViewState.Game));
+		this.add(GuiUtils.createButtonWithCommand("Start game", 
+				CommandFactory.createLoadLevelCommand(0).chain(CommandFactory.createSetStateCommand(ViewState.Game))));
 	}
 
 	@Override

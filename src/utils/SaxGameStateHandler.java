@@ -16,7 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SaxGameStateHandler extends DefaultHandler {
     
-    public ArrayList<GameState> levels  = new ArrayList();
+    private ArrayList<GameState> levels  = new ArrayList<GameState>();
     
     private int counter = 0;
     private Stack<String> elementStack = new Stack<>();
@@ -29,16 +29,16 @@ public class SaxGameStateHandler extends DefaultHandler {
         this.elementStack.push(qName);
         
         if (qName.equals("level")) { 
-            levels.add(new GameState(0));
+            getLevels().add(new GameState(0));
         } else if (qName.equals("player")) { 
-            levels.get(counter).setPlayer(PlayerIndex.One, new Player());
-            levels.get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
-            levels.get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
+            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player());
+            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
+            getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
         } else if (qName.equals("bunker")) {
             Bunker b = new Bunker();
             b.getPosition().x = Double.valueOf(attributes.getValue("x"));
             b.getPosition().y = Double.valueOf(attributes.getValue("y"));
-            levels.get(counter).getBunkers().add(b);
+            getLevels().get(counter).getBunkers().add(b);
         }
     }
 
@@ -74,6 +74,10 @@ public class SaxGameStateHandler extends DefaultHandler {
     public void endDocument() throws SAXException {
         
     }
+
+	public ArrayList<GameState> getLevels() {
+		return levels;
+	}
     
 //    private ArrayList<String> file;
 //    private ArrayList<Object> level = new ArrayList();

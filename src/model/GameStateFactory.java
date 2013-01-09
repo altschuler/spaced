@@ -3,6 +3,8 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -20,8 +22,9 @@ import utils.SaxGameStateHandler;
 public class GameStateFactory {
         
     private static final String XML_FILE = "./GameStates.xml";
-    
-    public GameStateFactory() {
+    private ArrayList<GameState> levels;
+
+	public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         
         try {
@@ -32,11 +35,7 @@ public class GameStateFactory {
             SaxGameStateHandler handler = new SaxGameStateHandler();
             saxParser.parse(xmlInput, handler);
             
-            // TODO: get parsed info
-            for (GameState gs : handler.levels) {
-                System.out.println(gs);
-            }
-            System.out.println("test");
+            this.levels = handler.getLevels();
     
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: Cannot find file: "+XML_FILE);
@@ -52,6 +51,10 @@ public class GameStateFactory {
             System.exit(1);
         }
     }
+    
+    public GameState getLevel(int id) {
+		return levels.get(id);
+	}
 
     static public GameState createLevelOne() {
             GameState gs = new GameState(0);

@@ -250,7 +250,7 @@ public class GameController extends AbstractController {
 			
 			if(invaders.get(i).getPosition().y == lowestInvaders.get(0).getPosition().y){ //på niveau med den forreste invader
 				lowestInvaders.add(invaders.get(i));
-			}else if(invaders.get(i).getPosition().y > lowestInvaders.get(0).getPosition().y){ //længere fremme end den
+			} else if(invaders.get(i).getPosition().y > lowestInvaders.get(0).getPosition().y){ //længere fremme end den
 				lowestInvaders.clear();
 				lowestInvaders.add(invaders.get(i));
 			}

@@ -11,12 +11,27 @@ public class MainController {
 
 	private StateController stateController;
 	private GameController gameController;
+	private FlowController flowController;
+	
 	private MainView gw;
 	private GameModel gm;
 
 	public MainController(MainView gw, GameModel gm) {
 		this.gw = gw;
 		this.gm = gm;
+	}
+
+	/**
+	 * The controller instance is lazily instantiated
+	 * 
+	 * @return A {@link FlowController} instance
+	 */
+	public FlowController getFlowController() {
+		if (this.flowController == null) {
+			this.flowController = new FlowController(gw, gm);
+		}
+		
+		return this.flowController;
 	}
 
 	/**
