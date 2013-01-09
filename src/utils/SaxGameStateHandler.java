@@ -32,7 +32,8 @@ public class SaxGameStateHandler extends DefaultHandler {
         if (qName.equals("level")) { 
             getLevels().add(new GameState(0));
         } else if (qName.equals("player")) { 
-            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player());
+            int health = Integer.valueOf(attributes.getValue("health"));
+            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player(health));
             getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
             getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
         } else if (qName.equals("bunker")) {

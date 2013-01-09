@@ -69,7 +69,7 @@ public class GameStateFactory {
             gs.getBunkers().add(b1);
 
             // Player
-            gs.setPlayer(PlayerIndex.One, new Player());
+            gs.setPlayer(PlayerIndex.One, new Player(3));
             gs.getPlayer(PlayerIndex.One).getPosition().x = 250 - 24;
             gs.getPlayer(PlayerIndex.One).getPosition().y = 600;
 

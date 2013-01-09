@@ -41,6 +41,7 @@ public class GameState {
 		this.players = new HashMap<PlayerIndex, Player>();
 	}
         
+        // For testing purposes
         public void printInfo() {
             System.out.println("ID: " + id);
             System.out.println("Player: x:" + players.get(PlayerIndex.One).getPosition().x
