@@ -175,11 +175,17 @@ public class GameController extends AbstractController {
 //collision detection
 			int noOfInvaders = gameState.getInvaders().size();
 			for (int j = 0; j < noOfInvaders; j++) { 		//invader-collisions
+				//TODO: Patrick, få invaders til at miste HP.
 				Invader invader = gameState.getInvaders().get(j);
 
 				if (Mathx.intersects(bullet, invader)) {
 					gameState.getBullets().remove(i);
-					gameState.getInvaders().remove(j);
+					
+					invader.healthDown();
+					if(invader.getHealth()==0){
+						gameState.getInvaders().remove(j);
+					}
+					
 					noOfInvaders--;
 					noOfShots--;
 					break;
@@ -203,7 +209,7 @@ public class GameController extends AbstractController {
 			
 			if(bullet.getDirection()==BulletDirection.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))){ //collision with player
 				//TODO: make this :-)
-				System.out.println("OUCH!");
+				System.out.println("Player: OUCH!");
 			}
 		}
 	}
