@@ -7,5 +7,6 @@ public enum ViewState {
 	Splash,
 	Menu,
 	Game, 
-	PauseMenu
+	PauseMenu, 
+	GameOver
 }

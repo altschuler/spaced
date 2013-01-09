@@ -20,8 +20,6 @@ public class GameStateRenderer {
     }
     
     public void render(Canvas canvas, GameState gameState) {
-        // TODO
-    	// Clear screen
     	Graphics2D gfx = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
     	gfx.setColor(Color.BLACK);
     	gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
@@ -35,7 +33,6 @@ public class GameStateRenderer {
 		}
     	
     	//Draw invaders
-    	//TODO: draw invaders
     	for (int i = 0; i < gameState.getInvaders().size(); i++) {
     		this.draw(gfx, "view/sprites/invader2.png", gameState.getInvaders().get(i).getPosition());
 		}
@@ -56,7 +53,7 @@ public class GameStateRenderer {
         spriteHandler.add("view/sprites/invader3.png");
         spriteHandler.add("view/sprites/bonus.png");
         spriteHandler.add("view/sprites/bullet.png");
-        // TODO: Bullet and bunker
+        // TODO: Bunker
     }
     
     
