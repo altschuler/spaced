@@ -1,24 +1,17 @@
 package model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.elements.Bunker;
 import model.elements.Invader;
+import model.elements.InvaderType;
 import model.elements.Player;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 import utils.SaxHandler;
 
 /**
@@ -27,19 +20,29 @@ import utils.SaxHandler;
 public class GameStateFactory {
         
     private static final String XML_FILE = "./GameStateLevels.xml";
+    private ArrayList<ArrayList> levels;
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         
         try {
-            //System.out.println(this.getClass().getResource(XML_FILE).toString());
-            //FileInputStream xmlInput = new FileInputStream(this.getClass().getClassLoader().getResource(XML_FILE).toString().substring(5));
             InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
             
             SAXParser saxParser = factory.newSAXParser();
             
-            DefaultHandler handler   = new SaxHandler();
+            SaxHandler handler = new SaxHandler();
             saxParser.parse(xmlInput, handler);
+            
+            levels = handler.parseFile();
+            
+            // TODO:
+            for (ArrayList level : levels) {
+                for (Object obj : level) {
+                    Player o = (Player) obj;
+                    //System.out.println(obj.getClass());
+                    System.out.println(o);
+                }
+            }
     
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: Cannot find file: "+XML_FILE);
@@ -67,6 +70,7 @@ public class GameStateFactory {
 
             // Player
             gs.setPlayer(new Player());
+            gs.getPlayer().getPosition().x = 250 - 24;
             gs.getPlayer().getPosition().y = 600;
 
             // Invaders
@@ -74,7 +78,7 @@ public class GameStateFactory {
             int xInvaderStart = 50, yInvaderStart = 50;
             for (int i = 0; i < columnsOfInvaders; i++) {
             	for (int j = 0; j < rowsOfInvaders; j++) {
-            		gs.getInvaders().add(new Invader(1));
+            		gs.getInvaders().add(new Invader(InvaderType.A, 1));
                 	gs.getInvaders().get(invaderCounter).getPosition().x = i*widthBetweenInvaders+xInvaderStart;
                 	gs.getInvaders().get(invaderCounter).getPosition().y = j*heightBetweenInvaders+yInvaderStart;
                 	invaderCounter++;
