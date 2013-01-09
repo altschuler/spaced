@@ -3,15 +3,10 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
-
->>>>>>> f762db13fa8d15a0686a0079203e727be7e0c8e5
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
