@@ -1,25 +1,25 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
 import model.elements.Player;
 import model.elements.PlayerIndex;
-import utils.SaxHandler;
+import org.xml.sax.SAXException;
+import utils.SaxGameStateHandler;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
         
-    private static final String XML_FILE = "./GameStateLevels.xml";
-    private ArrayList<ArrayList> levels;
+    private static final String XML_FILE = "./GameStates.xml";
     
     public GameStateFactory() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -29,32 +29,32 @@ public class GameStateFactory {
             
             SAXParser saxParser = factory.newSAXParser();
             
-            SaxHandler handler = new SaxHandler();
+            SaxGameStateHandler handler = new SaxGameStateHandler();
             saxParser.parse(xmlInput, handler);
             
             // TODO: get parsed info
+            for (GameState gs : handler.levels) {
+                System.out.println(gs);
+            }
+            System.out.println("test");
     
-        } catch (Throwable err) {
-            err.printStackTrace ();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR: Cannot find file: "+XML_FILE);
+            System.exit(1);
+        } catch (ParserConfigurationException e) {
+            System.out.println("ERROR: ParserConfigurationException thrown");
+            System.exit(1);
+        } catch (SAXException e) {
+            System.out.println("ERROR: SAXException thrown");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("ERROR: IOException thrown");
+            System.exit(1);
         }
-        
-//        catch (FileNotFoundException e) {
-//            System.out.println("ERROR: Cannot find file: "+XML_FILE);
-//            System.exit(1);
-//        } catch (ParserConfigurationException e) {
-//            System.out.println("ERROR: ParserConfigurationException thrown");
-//            System.exit(1);
-//        } catch (SAXException e) {
-//            System.out.println("ERROR: SAXException thrown");
-//            System.exit(1);
-//        } catch (IOException e) {
-//            System.out.println("ERROR: IOException thrown");
-//            System.exit(1);
-//        }
     }
 
     static public GameState createLevelOne() {
-            GameState gs = new GameState();
+            GameState gs = new GameState(0);
 
             // Bunkers
             Bunker b1 = new Bunker();

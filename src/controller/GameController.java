@@ -34,11 +34,6 @@ public class GameController extends AbstractController {
 		super(gw, gm);
 
 		this.renderer = new GameStateRenderer();
-
-		// TODO dont init this here!
-		GameState gameState = GameStateFactory.createLevelOne();
-		gameState.setLastUpdateTime(System.currentTimeMillis());
-		gm.setActiveGameState(gameState);
 	}
 
 	/**

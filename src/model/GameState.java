@@ -16,6 +16,7 @@ import model.elements.PlayerIndex;
  */
 public class GameState {
 	// Elements
+        private int id;
 	private HashMap<PlayerIndex, Player> players;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
@@ -29,7 +30,8 @@ public class GameState {
 	private long lastInvaderShot; //Patricks logik siger at denne skal være i GameState
 	private ArrayList<Invader> lowestInvaders; 	//ved ikke heeelt med denne
 
-	public GameState() {
+	public GameState(int id) {
+                this.id = id;
 		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
