@@ -13,12 +13,8 @@ import utils.Mathx;
 
 public class GameStateRenderer {
     
-    private SpriteHandler spriteHandler;
     
     public GameStateRenderer() {
-        this.spriteHandler = SpriteHandler.getInstance();
-        
-        this.initSprites();
     }
     
     public void render(Canvas canvas, GameState gameState) {
@@ -51,18 +47,10 @@ public class GameStateRenderer {
     }
         
     public void draw(Graphics g, String ref, Coordinate pos) {
-        g.drawImage(spriteHandler.get(ref).getImage(), (int) pos.x, (int) pos.y, null);
+        g.drawImage(SpriteHandler.getInstance().get(ref).getImage(), (int) pos.x, (int) pos.y, null);
     }
     
-    private void initSprites() {
-        spriteHandler.add("view/sprites/player.png");
-        spriteHandler.add("view/sprites/invader1.png");
-        spriteHandler.add("view/sprites/invader2.png");
-        spriteHandler.add("view/sprites/invader3.png");
-        spriteHandler.add("view/sprites/bonus.png");
-        spriteHandler.add("view/sprites/bullet.png");
-        // TODO: Bunker
-    }
+    
     
     
 }

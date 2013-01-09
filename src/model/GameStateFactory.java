@@ -76,7 +76,7 @@ public class GameStateFactory {
             int invaderHealth = 2;
             for (int i = 0; i < columnsOfInvaders; i++) {
             	for (int j = 0; j < rowsOfInvaders; j++) {
-            		gs.getInvaders().add(new Invader(InvaderType.A, invaderHealth));
+            		gs.getInvaders().add(new Invader(InvaderType.A, invaderHealth,"view/sprites/invader2.png"));
                 	gs.getInvaders().get(invaderCounter).getPosition().x = i*widthBetweenInvaders+xInvaderStart;
                 	gs.getInvaders().get(invaderCounter).getPosition().y = j*heightBetweenInvaders+yInvaderStart;
                 	invaderCounter++;
