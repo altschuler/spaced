@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.Stack;
 import model.GameState;
+import model.elements.Bonus;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.InvaderType;
@@ -45,6 +46,10 @@ public class SaxGameStateHandler extends DefaultHandler {
             InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
             int health = Integer.valueOf(attributes.getValue("health"));
             getLevels().get(counter).getInvaders().add(new Invader(type, health));
+        } else if (qName.equals("bonus")) {
+            int points = Integer.valueOf(attributes.getValue("points"));
+            int health = Integer.valueOf(attributes.getValue("health"));
+            getLevels().get(counter).getBonuss().add(new Bonus(points, health));
         }
     }
 
