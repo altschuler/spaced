@@ -2,9 +2,10 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Stack;
-import model.GameModel;
 import model.GameState;
 import model.elements.Bunker;
+import model.elements.Invader;
+import model.elements.InvaderType;
 import model.elements.Player;
 import model.elements.PlayerIndex;
 import org.xml.sax.Attributes;
@@ -31,7 +32,8 @@ public class SaxGameStateHandler extends DefaultHandler {
         if (qName.equals("level")) { 
             getLevels().add(new GameState(0));
         } else if (qName.equals("player")) { 
-            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player());
+            int health = Integer.valueOf(attributes.getValue("health"));
+            getLevels().get(counter).setPlayer(PlayerIndex.One, new Player(health));
             getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
             getLevels().get(counter).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
         } else if (qName.equals("bunker")) {
@@ -39,6 +41,10 @@ public class SaxGameStateHandler extends DefaultHandler {
             b.getPosition().x = Double.valueOf(attributes.getValue("x"));
             b.getPosition().y = Double.valueOf(attributes.getValue("y"));
             getLevels().get(counter).getBunkers().add(b);
+        } else if (qName.equals("invader")) {
+            InvaderType type = InvaderType.valueOf(attributes.getValue("type"));
+            int health = Integer.valueOf(attributes.getValue("health"));
+            getLevels().get(counter).getInvaders().add(new Invader(type, health));
         }
     }
 

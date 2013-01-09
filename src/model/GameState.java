@@ -27,7 +27,7 @@ public class GameState {
 	private long totalGameTime;
 	private boolean moveInvadersRight;
 	
-	private long lastInvaderShot; //Patricks logik siger at denne skal være i GameState
+	private long lastInvaderShot; //Patricks logik siger at denne skal vï¿½re i GameState
 	private ArrayList<Invader> lowestInvaders; 	//ved ikke heeelt med denne
 
 	public GameState(int id) {
@@ -40,6 +40,23 @@ public class GameState {
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
 	}
+        
+        // For testing purposes
+        public void printInfo() {
+            System.out.println("ID: " + id);
+            System.out.println("Player: x:" + players.get(PlayerIndex.One).getPosition().x
+                    + " y:" + players.get(PlayerIndex.One).getPosition().y
+                    + " health:" + players.get(PlayerIndex.One).getHealth());
+            for (Bunker bunker : bunkers) {
+                System.out.println("Bunker: x:" + bunker.getPosition().x 
+                        + " y:" + bunker.getPosition().y 
+                        + " health:" + bunker.getHealth());
+            }
+            for (Invader invader : invaders) {
+                System.out.println("Invader: " + invader.getType() + " " + invader.getHealth());
+            }
+            
+        }
 
 	public Player getPlayer(PlayerIndex idx) {
 		return this.players.get(idx);

@@ -36,6 +36,9 @@ public class GameStateFactory {
             saxParser.parse(xmlInput, handler);
             
             this.levels = handler.getLevels();
+            
+            // TEST
+            levels.get(0).printInfo();
     
         } catch (FileNotFoundException e) {
             System.out.println("ERROR: Cannot find file: "+XML_FILE);
@@ -66,7 +69,7 @@ public class GameStateFactory {
             gs.getBunkers().add(b1);
 
             // Player
-            gs.setPlayer(PlayerIndex.One, new Player());
+            gs.setPlayer(PlayerIndex.One, new Player(3));
             gs.getPlayer(PlayerIndex.One).getPosition().x = 250 - 24;
             gs.getPlayer(PlayerIndex.One).getPosition().y = 600;
 
