@@ -18,8 +18,12 @@ public class SaxConfigurationHandler extends DefaultHandler {
     
     private Stack<String> elementStack = new Stack<>();
     
-    private GameConfiguration config = new GameConfiguration();
+    private GameConfiguration config;
 
+    public SaxConfigurationHandler(GameConfiguration config) {
+    	this.config = config;
+    }
+    
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
     throws SAXException {
@@ -27,8 +31,8 @@ public class SaxConfigurationHandler extends DefaultHandler {
         this.elementStack.push(qName);
         
         switch (qName) {
-            case "default-name":
-                
+            case "defaults":
+                config.setDefaultName(attributes.getValue("name"));
                 break;
             case "highscore":
                 try {

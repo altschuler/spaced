@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <default-name>Anonymous</default-name>
+    <defaults name="LOLOLOL"/>
     
     <highscore get="http://trololo.dk/spaced-web/get_scores"
     	add="http://trololo.dk/spaced-web/add_score"/>

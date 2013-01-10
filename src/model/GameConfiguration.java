@@ -23,6 +23,7 @@ public class GameConfiguration {
     private ArrayList<Difficulty> difficulties;
 
     public GameConfiguration() {
+    	this.difficulties = new ArrayList<Difficulty>();
         this.parseXML();
     }
 
@@ -34,7 +35,7 @@ public class GameConfiguration {
 
                     SAXParser saxParser = factory.newSAXParser();
 
-                    SaxConfigurationHandler handler = new SaxConfigurationHandler();
+                    SaxConfigurationHandler handler = new SaxConfigurationHandler(this);
                     saxParser.parse(xmlInput, handler);
                     
                     
