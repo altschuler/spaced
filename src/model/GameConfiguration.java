@@ -20,6 +20,7 @@ public class GameConfiguration {
     private String defaultName;
     private URL hsGet;
     private URL hsAdd;
+    private String token;
     private ArrayList<Difficulty> difficulties;
 
     public GameConfiguration() {
@@ -81,6 +82,14 @@ public class GameConfiguration {
 
     public void setHsAdd(URL hsAdd) {
         this.hsAdd = hsAdd;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public ArrayList<Difficulty> getDifficulties() {

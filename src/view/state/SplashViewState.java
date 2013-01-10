@@ -10,6 +10,7 @@ import model.HighscoreEntry;
 import utils.GuiUtils;
 
 import command.CommandFactory;
+import java.util.Date;
 
 /**
  * First splash view states shown when initializing the game
@@ -35,7 +36,7 @@ public class SplashViewState extends AbstractViewState {
 	public void update(Observable o, Object arg) {
 		GameModel gameModel = (GameModel) o;
 		this.textf.setText(gameModel.getGameConfig().getDefaultName());
-//		this.loadEntries();
+//		this.loadEntries(); // For testing
 	}
 
 	public void printHighscores() {
@@ -49,8 +50,14 @@ public class SplashViewState extends AbstractViewState {
 		entries = this.mainController.getHighscoreController().getEntries();
 		for (HighscoreEntry entry : entries) {
 			System.out.println("Entry: name=" + entry.getPlayerName() + " score=" + entry.getScore());
-
 		}
+                this.mainController.getHighscoreController().add(new HighscoreEntry("markuzz_the_giant_KING",666,69,new Date()));
+                this.mainController.getHighscoreController().reloadEntries();
+                this.entries = this.mainController.getHighscoreController().getEntries();
+		for (HighscoreEntry entry : entries) {
+			System.out.println("Entry: name=" + entry.getPlayerName() + " score=" + entry.getScore());
+		}
+                
 	}
 
 }

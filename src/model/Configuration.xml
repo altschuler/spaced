@@ -4,7 +4,8 @@
     
     <highscore 
         get="http://trololo.dk/spaced-web/get_scores"
-    	add="http://trololo.dk/spaced-web/add_score"/>
+    	add="http://trololo.dk/spaced-web/add_score"
+        token="lo113d" />
     
     <difficulties>
         <difficulty id="0" name="Easy">
