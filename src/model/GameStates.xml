@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- XML-file containing level data -->
+<!-- 
+XML-file containing level data 
+-->
 <levels>
     <level id="0">
         <players>

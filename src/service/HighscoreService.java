@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
-
 import model.HighscoreEntry;
 
 public class HighscoreService {

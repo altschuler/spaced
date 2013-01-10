@@ -4,22 +4,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.SAXException;
-
 import utils.SaxGameStateHandler;
-
 import com.rits.cloning.Cloner;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
-
+	
 	private static final String XML_FILE = "./GameStates.xml";
 	private ArrayList<GameState> levels;
 
