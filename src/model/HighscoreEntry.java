@@ -1,10 +1,10 @@
 package model;
 
+import java.util.Comparator;
 import java.util.Date;
-
 import model.core.Difficulty;
 
-public class HighscoreEntry {
+public class HighscoreEntry implements Comparator<HighscoreEntry> {
 	
 	public static HighscoreEntry parse(String xmlString) {
 		//TODO implement
@@ -19,6 +19,12 @@ public class HighscoreEntry {
 	public HighscoreEntry() {
 		
 	}
+        
+        
+        @Override
+        public int compare(HighscoreEntry hs1, HighscoreEntry hs2) {
+           return (hs1.getScore() < hs2.getScore()) ? -1 : (hs1.getScore() > hs2.getScore()) ? 1 : 0;
+        }
 
 	public String getPlayerName() {
 		return playerName;
