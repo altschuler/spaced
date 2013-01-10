@@ -22,7 +22,7 @@ public class GameModel extends Observable {
 
 	public GameModel() {
 		this.setGameConfig(new GameConfiguration());
-		this.setActiveDifficulty(this.getGameConfig().getDifficulties().get(0));
+		this.setActiveDifficulty(this.getGameConfig().getDifficulties().get(1));
 		this.playerNames = new HashMap<PlayerIndex, String>();
 		this.setHighScore(0);
 	}

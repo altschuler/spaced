@@ -59,15 +59,16 @@ public class GameStateFactory {
 	}
 
 	static public GameState getLevel(int id) {
-		return (GameState) new Cloner().deepClone(levels.get(id));
+		for (GameState gs : levels) {
+			if (gs.getId() == id) return (GameState) new Cloner().deepClone(gs);
+		}
+		return null;
 	}
 	
 	static public boolean levelExists(int id) {
-		try {
-			levels.get(id);
-			return true;
-		} catch (Exception e) {
-			return false;
+		for (GameState gameState : levels) {
+			if (gameState.getId() == id) return true;
 		}
+		return false;
 	}
 }

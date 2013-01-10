@@ -1,5 +1,7 @@
 package controller;
 
+import command.CommandFactory;
+
 import model.GameModel;
 import model.GameStateFactory;
 import model.GameStateState;
@@ -44,14 +46,14 @@ public class FlowController extends AbstractController {
      */
     public void loadNextLevel() {
 		if (this.gameModel.getActiveGameState() == null ) {
-			this.loadLevel(0, true);	
+			this.loadLevel(1, true);	
 		}
 		else {
 			int nextLevelId = this.gameModel.getActiveGameState().getId() + 1;
 			if (GameStateFactory.levelExists(nextLevelId)) {
 				this.loadLevel(nextLevelId, true);
 			} else {
-				this.loadLevel(0, true);
+				this.loadLevel(1, true);
 				//TODO all levels won!
 			}
 		}
