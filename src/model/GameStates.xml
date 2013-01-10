@@ -9,9 +9,85 @@ XML-file containing level data
             <player x="226" y="600" health="3" />
         </players>
         <bunkers>
-            <bunker x="100" y="450" health="10" />
-            <bunker x="300" y="450" health="10" />
-            <bunker x="500" y="450" health="10" />
+            <bunker x="100" y="550" health="2" />
+			<bunker x="111" y="550" health="2" />
+			<bunker x="122" y="550" health="2" />
+			<bunker x="133" y="550" health="2" />
+			<bunker x="144" y="550" health="2" />
+			<bunker x="100" y="562" health="2" />
+			<bunker x="111" y="562" health="2" />
+			<bunker x="122" y="562" health="2" />
+			<bunker x="133" y="562" health="2" />
+			<bunker x="144" y="562" health="2" />
+			<bunker x="100" y="574" health="2" />
+			<bunker x="111" y="574" health="2" />
+			<bunker x="122" y="574" health="2" />
+			<bunker x="133" y="574" health="2" />
+			<bunker x="144" y="574" health="2" />
+			
+			<bunker x="300" y="550" health="2" />
+			<bunker x="311" y="550" health="2" />
+			<bunker x="322" y="550" health="2" />
+			<bunker x="333" y="550" health="2" />
+			<bunker x="344" y="550" health="2" />
+			<bunker x="300" y="562" health="2" />
+			<bunker x="311" y="562" health="2" />
+			<bunker x="322" y="562" health="2" />
+			<bunker x="333" y="562" health="2" />
+			<bunker x="344" y="562" health="2" />
+			<bunker x="300" y="574" health="2" />
+			<bunker x="311" y="574" health="2" />
+			<bunker x="322" y="574" health="2" />
+			<bunker x="333" y="574" health="2" />
+			<bunker x="344" y="574" health="2" />
+			
+			<bunker x="500" y="550" health="2" />
+			<bunker x="511" y="550" health="2" />
+			<bunker x="522" y="550" health="2" />
+			<bunker x="533" y="550" health="2" />
+			<bunker x="544" y="550" health="2" />
+			<bunker x="500" y="562" health="2" />
+			<bunker x="511" y="562" health="2" />
+			<bunker x="522" y="562" health="2" />
+			<bunker x="533" y="562" health="2" />
+			<bunker x="544" y="562" health="2" />
+			<bunker x="500" y="574" health="2" />
+			<bunker x="511" y="574" health="2" />
+			<bunker x="522" y="574" health="2" />
+			<bunker x="533" y="574" health="2" />
+			<bunker x="544" y="574" health="2" />
+			
+			<bunker x="700" y="550" health="2" />
+			<bunker x="711" y="550" health="2" />
+			<bunker x="722" y="550" health="2" />
+			<bunker x="733" y="550" health="2" />
+			<bunker x="744" y="550" health="2" />
+			<bunker x="700" y="562" health="2" />
+			<bunker x="711" y="562" health="2" />
+			<bunker x="722" y="562" health="2" />
+			<bunker x="733" y="562" health="2" />
+			<bunker x="744" y="562" health="2" />
+			<bunker x="700" y="574" health="2" />
+			<bunker x="711" y="574" health="2" />
+			<bunker x="722" y="574" health="2" />
+			<bunker x="733" y="574" health="2" />
+			<bunker x="744" y="574" health="2" />
+			
+			<bunker x="900" y="550" health="2" />
+			<bunker x="911" y="550" health="2" />
+			<bunker x="922" y="550" health="2" />
+			<bunker x="933" y="550" health="2" />
+			<bunker x="944" y="550" health="2" />
+			<bunker x="900" y="562" health="2" />
+			<bunker x="911" y="562" health="2" />
+			<bunker x="922" y="562" health="2" />
+			<bunker x="933" y="562" health="2" />
+			<bunker x="944" y="562" health="2" />
+			<bunker x="900" y="574" health="2" />
+			<bunker x="911" y="574" health="2" />
+			<bunker x="922" y="574" health="2" />
+			<bunker x="933" y="574" health="2" />
+			<bunker x="944" y="574" health="2" />
         </bunkers>
         <invaders>
             <invader type="C" x="50" y="50" health="1" />
@@ -45,9 +121,37 @@ XML-file containing level data
             <player x="226" y="600" health="3" />
         </players>
         <bunkers>
-            <bunker x="100" y="450" health="10" />
-            <bunker x="300" y="450" health="10" />
-            <bunker x="500" y="450" health="10" />
+            <bunker x="100" y="550" health="2" />
+			<bunker x="111" y="550" health="2" />
+			<bunker x="122" y="550" health="2" />
+			<bunker x="133" y="550" health="2" />
+			<bunker x="144" y="550" health="2" />
+			<bunker x="100" y="562" health="2" />
+			<bunker x="111" y="562" health="2" />
+			<bunker x="122" y="562" health="2" />
+			<bunker x="133" y="562" health="2" />
+			<bunker x="144" y="562" health="2" />
+			<bunker x="100" y="574" health="2" />
+			<bunker x="111" y="574" health="2" />
+			<bunker x="122" y="574" health="2" />
+			<bunker x="133" y="574" health="2" />
+			<bunker x="144" y="574" health="2" />
+			
+			<bunker x="900" y="550" health="2" />
+			<bunker x="911" y="550" health="2" />
+			<bunker x="922" y="550" health="2" />
+			<bunker x="933" y="550" health="2" />
+			<bunker x="944" y="550" health="2" />
+			<bunker x="900" y="562" health="2" />
+			<bunker x="911" y="562" health="2" />
+			<bunker x="922" y="562" health="2" />
+			<bunker x="933" y="562" health="2" />
+			<bunker x="944" y="562" health="2" />
+			<bunker x="900" y="574" health="2" />
+			<bunker x="911" y="574" health="2" />
+			<bunker x="922" y="574" health="2" />
+			<bunker x="933" y="574" health="2" />
+			<bunker x="944" y="574" health="2" />
         </bunkers>
         <invaders>
             <invader type="C" x="50" y="50" health="1" />

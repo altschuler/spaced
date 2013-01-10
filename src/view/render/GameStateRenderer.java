@@ -14,6 +14,7 @@ import model.GameState;
 import model.core.Coordinate;
 import model.core.PlayerIndex;
 import model.elements.Bullet;
+import model.elements.Bunker;
 import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
@@ -55,6 +56,7 @@ public class GameStateRenderer {
 		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
+		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
 
 		// Empty the graphics buffer
 		gfx.dispose();

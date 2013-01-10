@@ -229,6 +229,29 @@ public class GameController extends AbstractController {
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
+			
+			for (Iterator<Bunker> innerBunker = gameState.getBunkers().iterator(); innerBunker.hasNext();) {
+				Bunker collisionBunker = innerBunker.next();
+				if(Mathx.intersects(bullet, collisionBunker)){
+					collisionBunker.healthDown();
+					if(collisionBunker.getHealth() < 2){
+						switch(bullet.getDirection()){
+						case Down:
+							collisionBunker.setImageURL("view/sprites/bunkerPartBroken.png");
+							break;
+						default:
+							collisionBunker.setImageURL("view/sprites/bunkerPartBrokenUpwardsBullet.png");							
+							break;
+						}
+						
+					}
+					if (collisionBunker.isDead()) {
+						collisionBunker.destroy();
+					}
+					bullet.destroy();
+					break;
+				}
+			}
 		}
 	}
 

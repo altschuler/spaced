@@ -38,10 +38,10 @@ public class SaxGameStateHandler extends DefaultHandler {
                 levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
                 break;
             case "bunker":
-                Bunker b = new Bunker();
-                b.getPosition().x = Double.valueOf(attributes.getValue("x"));
-                b.getPosition().y = Double.valueOf(attributes.getValue("y"));
-                levels.get(levels.size()-1).getBunkers().add(b);
+                Bunker bunker = new Bunker(Integer.valueOf(attributes.getValue("health")));
+                bunker.getPosition().x = Double.valueOf(attributes.getValue("x"));
+                bunker.getPosition().y = Double.valueOf(attributes.getValue("y"));
+                levels.get(levels.size()-1).getBunkers().add(bunker);
                 break;
             case "invader":
                 Invader invader = new Invader(
