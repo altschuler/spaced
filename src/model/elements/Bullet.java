@@ -13,8 +13,8 @@ public class Bullet extends GameElement {
 	private Direction direction;
 	private BulletType type;
 	
-	public Bullet(Direction direction, BulletType type) {
-		super(5, 15);
+	public Bullet(Direction direction, BulletType type, String imageURL) {
+		super(imageURL);
 		this.direction = direction;
 		this.type = type;
 		this.setSpeed(15);

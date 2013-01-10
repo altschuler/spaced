@@ -7,7 +7,7 @@ import view.render.SpriteHandler;
  * The base of all interactive game elements. The common feats 
  * area a visual appearance and a position
  */
-public class GameElement {
+public abstract class GameElement {
 	
 	private Coordinate position;
 	private int width;
@@ -24,13 +24,13 @@ public class GameElement {
 		this.width = width;
 		this.height = height;
 	}
-	public GameElement(int width, int height, String imageURL) { //TODO implement this in all model.elements
+	public GameElement(String imageURL) { //TODO implement this in all model.elements
 		this.position = new Coordinate();
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
-
-		this.width = spriteHandler.get(imageURL).getHeight();
+		this.width = spriteHandler.get(imageURL).getWidth();
 		this.height = spriteHandler.get(imageURL).getHeight();
 		this.imageURL = imageURL;
+//TODO: fjern	System.out.println(imageURL+" width: "+width+" height: "+height);
 	}
 
     public int getSpeed() {

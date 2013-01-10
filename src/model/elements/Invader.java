@@ -17,12 +17,12 @@ public class Invader extends KillableGameElement {
 		this.setSpeed(10);
 		this.setType(type);
 	}
-
+/*
 	public Invader(InvaderType type, int health, String imageURL) {
-		super(health, 48, 48, imageURL);
+		super(health,imageURL);
 		this.setType(type);
 	}
-
+*/
 	public Invader(InvaderType type, int health, ICommand cmd) {
 		super(health, 48, 48, cmd);
 		this.setType(type);

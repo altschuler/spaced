@@ -11,7 +11,7 @@ import utils.Input;
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
 	public MainView() {
-            super("Space Invaders");
+            super("Space Invaders - HD, Widescreen Version");
             this.setResizable(false);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

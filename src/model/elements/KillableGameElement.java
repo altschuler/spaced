@@ -15,8 +15,8 @@ public class KillableGameElement extends GameElement {
 		super(width, height); //TODO new Point should be created here
 		this.health = health;
 	}
-	public KillableGameElement(int health, int width, int height, String imageURL) {
-		super(width, height, imageURL); //TODO new Point should be created here
+	public KillableGameElement(int health, String imageURL) {
+		super(imageURL); //TODO new Point should be created here
 		this.health = health;
 	}
 	

@@ -158,7 +158,7 @@ public class GameController extends AbstractController {
 				player.setTimeOfLastShot(currentTime);
 				SoundController.playSound(new File("leftright.wav"), 1, 75);
 
-				Bullet currentShot = new Bullet(Direction.Up, BulletType.Normal);
+				Bullet currentShot = new Bullet(Direction.Up, BulletType.Normal, "view/sprites/bullet.png");
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
 				gameState.getBullets().add(currentShot);
@@ -222,6 +222,7 @@ public class GameController extends AbstractController {
 			// player collision
 			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
 				gameState.getPlayer(PlayerIndex.One).livesDown();
+				System.out.println("Player position, x: "+gameState.getPlayer(PlayerIndex.One).getPosition().x+" y: "+gameState.getPlayer(PlayerIndex.One).getPosition().y);
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
@@ -276,7 +277,7 @@ public class GameController extends AbstractController {
 		Invader shootingInvader = lowestInvaders.get((int) (Math.random() * lowestInvaders.size()));
 		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
-			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType());
+			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bullet.png");
 			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
 			gameState.getBullets().add(currentShot);

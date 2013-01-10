@@ -13,8 +13,9 @@ public class Player extends KillableGameElement {
 	private int maxShootFrequency = 450;
 	private long timeOfLastShot = 0;
 	
-	public Player(int health) {
-		super(health, 48, 48);
+	
+	public Player(int health, String imageURL) {
+		super(health, imageURL);
 		this.setSpeed(10);
 	}
 

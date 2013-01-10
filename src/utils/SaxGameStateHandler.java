@@ -33,7 +33,7 @@ public class SaxGameStateHandler extends DefaultHandler {
                 levels.add(new GameState(Integer.valueOf(attributes.getValue("id"))));
                 break;
             case "player":
-                levels.get(levels.size()-1).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(attributes.getValue("health"))));
+                levels.get(levels.size()-1).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(attributes.getValue("health")),"view/sprites/player.png"));
                 levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(attributes.getValue("x"));
                 levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(attributes.getValue("y"));
                 break;
