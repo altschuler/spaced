@@ -1,6 +1,9 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Observable;
+
+import model.core.PlayerIndex;
 
 /**
  * The top-level game model which holds overall game state
@@ -10,24 +13,21 @@ public class GameModel extends Observable {
 	public static final int SCREEN_WIDTH = 500;
 	public static final int SCREEN_HEIGHT = 700;
 	
-	private String playerName;
 	private int highScore;
+	private HashMap<PlayerIndex, String> playerNames;
 	private GameState activeGameState;
 
 	public GameModel() {
-		//TODO defaults should be placed in configuration files
-		this.setPlayerName("Anonymous");
+		this.playerNames = new HashMap<PlayerIndex, String>();
 		this.setHighScore(0);
 	}
-
-	public String getPlayerName() {
-		return playerName;
+	
+	public void setPlayerName(PlayerIndex idx, String name) {
+		this.playerNames.put(idx, name);
 	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-		
-		this.notifyObservers();
+	
+	public String getPlayerName(PlayerIndex idx) {
+		return this.playerNames.get(idx);
 	}
 
 	public int getHighScore() {

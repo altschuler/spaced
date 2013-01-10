@@ -1,15 +1,17 @@
 package model.elements;
 
-import model.elements.KillableGameElement;
+import model.core.PlayerIndex;
 
 /**
  * Spacecraft that the actual player will control. Has one life, but there are
  * more of them.
  */
 public class Player extends KillableGameElement {
+	private PlayerIndex id;
+	
 	private int lives = 3;
 	private int maxShootFrequency = 450;
-	private long timeOfLastShot = 0; //used when space is pressed
+	private long timeOfLastShot = 0;
 	
 	public Player(int health) {
 		super(health, 48, 48);
@@ -42,5 +44,13 @@ public class Player extends KillableGameElement {
 
 	public void livesDown() {
 		this.setLives(this.getLives() - 1);
+	}
+
+	public PlayerIndex getId() {
+		return id;
+	}
+
+	public void setId(PlayerIndex id) {
+		this.id = id;
 	}
 }

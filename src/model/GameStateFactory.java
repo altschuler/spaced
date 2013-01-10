@@ -9,17 +9,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import model.elements.Bunker;
-import model.elements.Invader;
-import model.elements.InvaderType;
-import model.elements.Player;
-import model.elements.PlayerIndex;
-
 import org.xml.sax.SAXException;
 
-import com.rits.cloning.Cloner;
-
 import utils.SaxGameStateHandler;
+
+import com.rits.cloning.Cloner;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
@@ -30,8 +24,12 @@ public class GameStateFactory {
 	private ArrayList<GameState> levels;
 
 	public GameStateFactory() {
-		SAXParserFactory factory = SAXParserFactory.newInstance();
+		this.parseXML();
+	}
 
+	public void parseXML() {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		
 		try {
 			InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
 
@@ -60,38 +58,7 @@ public class GameStateFactory {
 	}
 
 	public GameState getLevel(int id) {
+		this.parseXML();
 		return (GameState) new Cloner().deepClone(levels.get(id));
 	}
-
-	static public GameState createLevelOne() {
-		GameState gs = new GameState(0);
-
-		// Bunkers
-		Bunker b1 = new Bunker();
-		b1.getPosition().x = 50;
-		b1.getPosition().y = 450;
-		gs.getBunkers().add(b1);
-
-		// Player
-		gs.setPlayer(PlayerIndex.One, new Player(3));
-		gs.getPlayer(PlayerIndex.One).getPosition().x = 250 - 24;
-		gs.getPlayer(PlayerIndex.One).getPosition().y = 600;
-
-		// Invaders
-		int invaderCounter = 0, columnsOfInvaders = 7, rowsOfInvaders = 3, widthBetweenInvaders = 55, heightBetweenInvaders = 50;
-		int xInvaderStart = 50, yInvaderStart = 50;
-		int invaderHealth = 2;
-		for (int i = 0; i < columnsOfInvaders; i++) {
-			for (int j = 0; j < rowsOfInvaders; j++) {
-				gs.getInvaders().add(new Invader(InvaderType.A, invaderHealth, "view/sprites/invader2.png"));
-				gs.getInvaders().get(invaderCounter).getPosition().x = i * widthBetweenInvaders + xInvaderStart;
-				gs.getInvaders().get(invaderCounter).getPosition().y = j * heightBetweenInvaders + yInvaderStart;
-				invaderCounter++;
-			}
-
-		}
-
-		return gs;
-	}
-
 }

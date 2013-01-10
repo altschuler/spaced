@@ -1,8 +1,8 @@
 package utils;
 
 import model.core.Coordinate;
+import model.core.PlayerIndex;
 import model.elements.GameElement;
-import model.elements.PlayerIndex;
 
 public class Mathx {
 

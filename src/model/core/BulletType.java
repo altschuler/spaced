@@ -1,4 +1,4 @@
-package model.elements;
+package model.core;
 
 public enum BulletType {
 	Normal,

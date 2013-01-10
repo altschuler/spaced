@@ -3,6 +3,7 @@
  */
 package model.elements;
 
+import model.core.BulletType;
 import model.core.Direction;
 
 /**

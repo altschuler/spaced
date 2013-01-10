@@ -1,4 +1,4 @@
-package model.elements;
+package model.core;
 
 /**
  * Type of invader, whick has different sprites

@@ -1,6 +1,8 @@
 package model.elements;
 
 import command.ICommand;
+import model.core.BulletType;
+import model.core.InvaderType;
 import model.elements.KillableGameElement;
 
 /**

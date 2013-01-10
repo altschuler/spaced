@@ -3,12 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.core.PlayerIndex;
 import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
-import model.elements.PlayerIndex;
 
 /**
  * Represents a game session. A GameState can be intialized in different ways

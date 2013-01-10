@@ -9,15 +9,14 @@ import javax.swing.Timer;
 
 import model.GameModel;
 import model.GameState;
+import model.core.BulletType;
 import model.core.Coordinate;
 import model.core.Direction;
+import model.core.PlayerIndex;
 import model.elements.Bullet;
-import model.elements.BulletType;
 import model.elements.Bunker;
-import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
-import model.elements.PlayerIndex;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
@@ -90,7 +89,7 @@ public class GameController extends AbstractController {
 		}
 
 		// Render the game state
-		this.renderer.render(gameView.getDisplay(), gameState);
+		this.renderer.render(gameView.getDisplay(), gameState, this.gameModel);
 
 		// Update total and last time
 		gameState.setLastUpdateTime(currentTime);

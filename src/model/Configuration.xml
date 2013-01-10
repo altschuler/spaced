@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <default-name>Anonymous</default-name>
+    
+    <highscore get="http://trololo.dk/spaced-web/get_scores"
+    	add="http://trololo.dk/spaced-web/add_score"/>
+    
+    <difficulties>
+        <difficulty id="0" name="Easy">
+            <invaders speed="10"
+                shoot-frequency="4000"/>
+            <player speed="20"
+                shoot-frequency="200"/>
+        </difficulty>
+    </difficulties>
+</config>
