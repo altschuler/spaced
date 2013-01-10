@@ -3,6 +3,7 @@ package model;
 import java.util.HashMap;
 import java.util.Observable;
 
+import model.core.Difficulty;
 import model.core.PlayerIndex;
 
 /**
@@ -17,9 +18,11 @@ public class GameModel extends Observable {
 	private HashMap<PlayerIndex, String> playerNames;
 	private GameState activeGameState;
 	private GameConfiguration gameConfig;
+	private Difficulty activeDifficulty;
 
 	public GameModel() {
 		this.setGameConfig(new GameConfiguration());
+		this.setActiveDifficulty(this.getGameConfig().getDifficulties().get(0));
 		this.playerNames = new HashMap<PlayerIndex, String>();
 		this.setHighScore(0);
 	}
@@ -58,6 +61,14 @@ public class GameModel extends Observable {
 
 	public void setGameConfig(GameConfiguration gameConfig) {
 		this.gameConfig = gameConfig;
+	}
+
+	public Difficulty getActiveDifficulty() {
+		return activeDifficulty;
+	}
+
+	public void setActiveDifficulty(Difficulty activeDifficulty) {
+		this.activeDifficulty = activeDifficulty;
 	}
 
 }

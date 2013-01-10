@@ -182,7 +182,8 @@ public class GameController extends AbstractController {
 			player.setWeapon(BulletType.Fast);
 			System.out.println("Weapon set to: "+player.getWeapon());
 		}
-//Player shoots
+		
+		//Player shoots
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
 			// the player can only shoot once per playerShotFrequency
 			long currentTime = System.currentTimeMillis();
@@ -234,17 +235,7 @@ public class GameController extends AbstractController {
 						break;
 					case Fast:
 						break;
-				}/*
-				if (bullet.getType() == BulletType.Normal) {
-					bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
-				} else if (bullet.getType() == BulletType.Homing) {
-					Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
-					target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
-					Coordinate vector = Mathx.angle(gameState.getPlayer(PlayerIndex.One).getPosition(), bullet.getPosition());
-					vector.normalize();
-
-					bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
-				}*/
+				}
 			}
 
 			if (bullet.getPosition().y <= 0) {
@@ -364,7 +355,7 @@ public class GameController extends AbstractController {
 		}
 		
 		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
-		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
+		if (currentTime - gameState.getLastInvaderShot() > this.gameModel.getActiveDifficulty().getInvaderShootFreq()) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
 			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bullet.png");
 			currentShot.setPosition(shootingInvader.getPosition().clone());
