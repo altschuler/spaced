@@ -99,7 +99,7 @@ public class GameController extends AbstractController {
 		this.updatePlayer(gameState, timeDelta);
 		this.updateInvaders(gameState, timeDelta);
 		this.invadersShoot(gameState, currentTime);
-		this.updateShots(gameState, timeDelta);
+		this.updateBullets(gameState, timeDelta);
 
 		// Sweep destroyed elements
 		this.sweep(gameState);
@@ -175,9 +175,14 @@ public class GameController extends AbstractController {
 		}
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
-//			player.getPosition().x += Mathx.distance(timeDelta, player.getSpeed());
+			player.setWeapon(BulletType.Normal);
+			System.out.println("Weapon set to: "+player.getWeapon());
 		}
-
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_2)) {
+			player.setWeapon(BulletType.Fast);
+			System.out.println("Weapon set to: "+player.getWeapon());
+		}
+//Player shoots
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
 			// the player can only shoot once per playerShotFrequency
 			long currentTime = System.currentTimeMillis();
@@ -185,9 +190,18 @@ public class GameController extends AbstractController {
 				player.setTimeOfLastShot(currentTime);
 				SoundController.playSound(new File("leftright.wav"), 1, 75);
 
-				Bullet currentShot = new Bullet(Direction.Up, BulletType.Normal, "view/sprites/bullet.png");
+				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "view/sprites/bullet.png");
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
+				switch(currentShot.getType()){
+				case Normal:
+					break;
+				case Homing:
+					break;
+				case Fast:
+					currentShot.setSpeed(currentShot.getSpeed()*2);
+					break;
+			}
 				gameState.getBullets().add(currentShot);
 			}
 		}
@@ -200,12 +214,27 @@ public class GameController extends AbstractController {
 	 * @param gameState
 	 *            Moves the bullets upwards
 	 */
-	private void updateShots(GameState gameState, long timeDelta) {
+	private void updateBullets(GameState gameState, long timeDelta) {
 		for (Bullet bullet : gameState.getBullets()) {
 			// moving the bullet
 			if (bullet.getDirection() == Direction.Up) {
 				bullet.move(0, -Mathx.distance(timeDelta, bullet.getSpeed()));
-			} else {
+			} else {		//reminder: these are ALIENS' shots!!!
+				switch(bullet.getType()){
+					case Normal:
+						bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
+						break;
+					case Homing:
+						Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
+						target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
+						Coordinate vector = Mathx.angle(gameState.getPlayer(PlayerIndex.One).getPosition(), bullet.getPosition());
+						vector.normalize();
+
+						bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
+						break;
+					case Fast:
+						break;
+				}/*
 				if (bullet.getType() == BulletType.Normal) {
 					bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
 				} else if (bullet.getType() == BulletType.Homing) {
@@ -215,7 +244,7 @@ public class GameController extends AbstractController {
 					vector.normalize();
 
 					bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
-				}
+				}*/
 			}
 
 			if (bullet.getPosition().y <= 0) {

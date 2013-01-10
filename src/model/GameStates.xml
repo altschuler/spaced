@@ -4,7 +4,7 @@
 XML-file containing level data 
 -->
 <levels>
-    <level id="0">
+    <level id="1">
         <players>
             <player x="226" y="600" health="3" />
         </players>
@@ -116,7 +116,7 @@ XML-file containing level data
             <bonus points="50" direction="right" health="1" />
         </bonuss>
     </level>
-	<level id="1">
+	<level id="2">
         <players>
             <player x="226" y="600" health="3" />
         </players>
@@ -194,7 +194,7 @@ XML-file containing level data
             <bonus points="50" direction="right" health="1" />
         </bonuss>
     </level>
-	<level id="2">
+	<level id="3">
         <players>
             <player x="226" y="600" health="3" />
         </players>
