@@ -33,6 +33,7 @@ public class ConfigurationSaxHandler extends AbstractSaxHandler {
                 try {
                     config.setHsAdd(new URL(atts.getValue("add")));
                     config.setHsGet(new URL(atts.getValue("get")));
+                    config.setToken(atts.getValue("token"));
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(ConfigurationSaxHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }

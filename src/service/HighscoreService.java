@@ -50,9 +50,34 @@ public class HighscoreService {
         this.entries = this.parseXML(s);
     }
 
-    public boolean addEntry(HighscoreEntry entry) {
-        //TODO implement
-        return true;
+    public boolean addEntry(HighscoreEntry entry, URL urlAdd, String token) {
+        String s = "";
+        URL url;
+        
+        try {
+            url = new URL(urlAdd.toString() + "?token=" + token
+                    + "&player_name=" + entry.getPlayerName()
+                    + "&score=" + entry.getScore()
+                    + "&difficulty=" + entry.getDifficulty());
+            BufferedReader reader = null;
+            
+            try {
+                reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+                for (String line; (line = reader.readLine()) != null;) {
+                    s += line;
+                }
+            } finally {
+                if (reader != null) try { reader.close(); } catch (IOException ignore) {}
+            }
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("ERROR: UnsupportedEncodingException thrown.");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("ERROR: UnsupportedEncodingException thrown.");
+            System.exit(1);
+        }
+        return (s.equals("<status>ok</status>")) ? true : false;
     }
     
     public ArrayList<HighscoreEntry> parseXML(String s) {
