@@ -16,8 +16,10 @@ public class GameModel extends Observable {
 	private int highScore;
 	private HashMap<PlayerIndex, String> playerNames;
 	private GameState activeGameState;
+	private GameConfiguration gameConfig;
 
 	public GameModel() {
+		this.setGameConfig(new GameConfiguration());
 		this.playerNames = new HashMap<PlayerIndex, String>();
 		this.setHighScore(0);
 	}
@@ -46,6 +48,16 @@ public class GameModel extends Observable {
 
 	public void setActiveGameState(GameState activeGameState) {
 		this.activeGameState = activeGameState;
+
+		this.notifyObservers();
+	}
+
+	public GameConfiguration getGameConfig() {
+		return gameConfig;
+	}
+
+	public void setGameConfig(GameConfiguration gameConfig) {
+		this.gameConfig = gameConfig;
 	}
 
 }

@@ -4,22 +4,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.SAXException;
-
 import utils.SaxGameStateHandler;
-
 import com.rits.cloning.Cloner;
 
 /**
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
-
+	
 	private static final String XML_FILE = "./GameStates.xml";
 	private ArrayList<GameState> levels;
 
@@ -40,8 +36,6 @@ public class GameStateFactory {
 
 			this.levels = handler.getLevels();
 
-			levels.get(0).printInfo();
-
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Cannot find file: " + XML_FILE);
 			System.exit(1);
@@ -58,7 +52,15 @@ public class GameStateFactory {
 	}
 
 	public GameState getLevel(int id) {
-		this.parseXML();
 		return (GameState) new Cloner().deepClone(levels.get(id));
+	}
+	
+	public boolean levelExists(int id) {
+		try {
+			levels.get(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

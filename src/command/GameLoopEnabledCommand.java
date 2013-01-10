@@ -17,14 +17,13 @@ public class GameLoopEnabledCommand extends Command {
 
 	@Override
 	public void execute() {
-		this.gameController.setGameLoopEnabled(this.enabled);
-		
 		// Make sure we dont jump in time
 		if (this.enabled) {
 			this.gameModel.getActiveGameState().setLastUpdateTime(System.currentTimeMillis());
 		}
+		
+		this.gameController.setGameLoopEnabled(this.enabled);
 
 		super.execute();
 	}
-
 }
