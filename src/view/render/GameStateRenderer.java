@@ -52,7 +52,7 @@ public class GameStateRenderer {
 			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, GameModel.SCREEN_HEIGHT - 20));
 		}
 
-// Draws everything else
+		// Draws everything else
 		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
@@ -63,7 +63,7 @@ public class GameStateRenderer {
 			Font fontBig = new Font("Verdana", Font.PLAIN, 25);
 			gfx.setFont(fontBig);
 			gfx.setColor(Color.RED);
-			String anyKeyText = "PRESS ANY KEY";
+			String anyKeyText = String.format("LEVEL %d - PRESS ANY KEY TO START", gameState.getId() + 1);
 			Rectangle2D anyKeyTextBounds = gfx.getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx);
 			gfx.drawString(anyKeyText, (int) (GameModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
 					(int) (GameModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));
