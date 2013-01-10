@@ -51,7 +51,7 @@ public class SplashViewState extends AbstractViewState {
 		for (HighscoreEntry entry : entries) {
 			System.out.println("Entry: name=" + entry.getPlayerName() + " score=" + entry.getScore());
 		}
-                this.mainController.getHighscoreController().add(new HighscoreEntry("markuzz_the_giant_KING",666,69,new Date()));
+                this.mainController.getHighscoreController().add(new HighscoreEntry("markuzz_the_giant_TARD",666,69,new Date()));
                 this.mainController.getHighscoreController().reloadEntries();
                 this.entries = this.mainController.getHighscoreController().getEntries();
 		for (HighscoreEntry entry : entries) {

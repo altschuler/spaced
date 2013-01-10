@@ -176,11 +176,12 @@ public class GameController extends AbstractController {
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
 			player.setWeapon(BulletType.Normal);
-			System.out.println("Weapon set to: "+player.getWeapon());
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_2)) {
 			player.setWeapon(BulletType.Fast);
-			System.out.println("Weapon set to: "+player.getWeapon());
+		}
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
+			player.setWeapon(BulletType.Explosive);
 		}
 //Player shoots
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
@@ -194,12 +195,14 @@ public class GameController extends AbstractController {
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
+				case Fast:
+					currentShot.setSpeed(currentShot.getSpeed()*2);
+					break;
+				case Explosive:
+					break;
 				case Normal:
 					break;
 				case Homing:
-					break;
-				case Fast:
-					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 			}
 				gameState.getBullets().add(currentShot);
@@ -232,22 +235,12 @@ public class GameController extends AbstractController {
 
 						bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
 						break;
-					case Fast:
+					default:
 						break;
-				}/*
-				if (bullet.getType() == BulletType.Normal) {
-					bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
-				} else if (bullet.getType() == BulletType.Homing) {
-					Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
-					target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
-					Coordinate vector = Mathx.angle(gameState.getPlayer(PlayerIndex.One).getPosition(), bullet.getPosition());
-					vector.normalize();
-
-					bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
-				}*/
+				}
 			}
 
-			if (bullet.getPosition().y <= 0) {
+			if (bullet.getPosition().y <= renderer.getTopBarHeight()) {
 				bullet.destroy();
 			}
 			// collision detection
