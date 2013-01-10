@@ -2,12 +2,37 @@
 <config>
     <defaults name="LOLOLOL"/>
     
-    <highscore get="http://trololo.dk/spaced-web/get_scores"
+    <highscore 
+        get="http://trololo.dk/spaced-web/get_scores"
     	add="http://trololo.dk/spaced-web/add_score"/>
     
     <difficulties>
         <difficulty id="0" name="Easy">
+            <invaders speed="5"
+                shoot-frequency="4000"/>
+            <player speed="20"
+                shoot-frequency="200"/>
+        </difficulty>
+        <difficulty id="0" name="Medium">
             <invaders speed="10"
+                shoot-frequency="4000"/>
+            <player speed="20"
+                shoot-frequency="200"/>
+        </difficulty>
+        <difficulty id="0" name="Hard">
+            <invaders speed="15"
+                shoot-frequency="4000"/>
+            <player speed="20"
+                shoot-frequency="200"/>
+        </difficulty>
+        <difficulty id="0" name="Impossible">
+            <invaders speed="20"
+                shoot-frequency="4000"/>
+            <player speed="20"
+                shoot-frequency="200"/>
+        </difficulty>
+        <difficulty id="0" name="Trolled">
+            <invaders speed="30"
                 shoot-frequency="4000"/>
             <player speed="20"
                 shoot-frequency="200"/>
