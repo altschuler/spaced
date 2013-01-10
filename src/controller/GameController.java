@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 import model.GameModel;
 import model.GameState;
+import model.GameStateState;
 import model.core.BulletType;
 import model.core.Coordinate;
 import model.core.Direction;
@@ -70,9 +71,27 @@ public class GameController extends AbstractController {
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
 
+		// Consider gameState's state
+		if (gameState.getState() == GameStateState.Waiting) {
+			if (Input.getInstance().isAnyKeyDown()) {
+				gameState.setState(GameStateState.Running);
+			} else {
+				this.renderer.render(gameView.getDisplay(), gameState, this.gameModel);
+				gameState.setLastUpdateTime(currentTime);
+				return;
+			}
+		}
+		
+		if (gameState.getState() == GameStateState.Paused) {
+			this.renderer.render(gameView.getDisplay(), gameState, this.gameModel);
+			gameState.setLastUpdateTime(currentTime);
+			return;
+		}
+		
 		// Escape triggers in-game menu
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_ESCAPE)) {
 			CommandFactory.createSetStateCommand(ViewState.PauseMenu).execute();
+			gameState.setLastUpdateTime(currentTime);
 			return;
 		}
 
@@ -129,13 +148,15 @@ public class GameController extends AbstractController {
 	private boolean checkGameOver(GameState gameState) {
 		// Player has no more lives = loose
 		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
+			gameState.setState(GameStateState.Lost);
 			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
 			return true;
 		}
 
 		// All invaders gone = win
 		if (gameState.getInvaders().size() == 0) {
-			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
+			gameState.setState(GameStateState.Won);
+			CommandFactory.createLoadNextLevelCommand().execute();
 			return true;
 		}
 

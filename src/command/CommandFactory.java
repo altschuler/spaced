@@ -39,6 +39,10 @@ public class CommandFactory {
 		return new GameLoopEnabledCommand(mainController.getGameController(), gameModel, enabled);
 	}
 
+	public static Command createStartNewGameCommand() {
+		return new StartNewGameCommand(mainController);
+	}
+
 	public static Command createLoadNextLevelCommand() {
 		return new LoadNextLevelCommand(mainController);
 	}
