@@ -15,44 +15,52 @@ import com.rits.cloning.Cloner;
  * This Factory is responsible for creating {@link GameState}s that are levels
  */
 public class GameStateFactory {
+	
+	private static final String XML_FILE = "./GameStates.xml";
+	private ArrayList<GameState> levels;
 
-    private static final String XML_FILE = "./GameStates.xml";
-    private ArrayList<GameState> levels;
+	public GameStateFactory() {
+		this.parseXML();
+	}
 
-    public GameStateFactory() {
-        this.parseXML();   
-    }
+	public void parseXML() {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		
+		try {
+			InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
 
-    public void parseXML() {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
 
-            try {
-                    InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
+			SaxGameStateHandler handler = new SaxGameStateHandler();
+			saxParser.parse(xmlInput, handler);
 
-                    SAXParser saxParser = factory.newSAXParser();
+			this.levels = handler.getLevels();
 
-                    SaxGameStateHandler handler = new SaxGameStateHandler();
-                    saxParser.parse(xmlInput, handler);
+		} catch (FileNotFoundException e) {
+			System.out.println("ERROR: Cannot find file: " + XML_FILE);
+			System.exit(1);
+		} catch (ParserConfigurationException e) {
+			System.out.println("ERROR: ParserConfigurationException thrown");
+			System.exit(1);
+		} catch (SAXException e) {
+			System.out.println("ERROR: SAXException thrown");
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println("ERROR: IOException thrown");
+			System.exit(1);
+		}
+	}
 
-                    this.levels = handler.getLevels();
-
-            } catch (FileNotFoundException e) {
-                    System.out.println("ERROR: Cannot find file: " + XML_FILE);
-                    System.exit(1);
-            } catch (ParserConfigurationException e) {
-                    System.out.println("ERROR: ParserConfigurationException thrown");
-                    System.exit(1);
-            } catch (SAXException e) {
-                    System.out.println("ERROR: SAXException thrown");
-                    System.exit(1);
-            } catch (IOException e) {
-                    System.out.println("ERROR: IOException thrown");
-                    System.exit(1);
-            }
-    }
-
-    public GameState getLevel(int id) {
-            this.parseXML();
-            return (GameState) new Cloner().deepClone(levels.get(id));
-    }
+	public GameState getLevel(int id) {
+		return (GameState) new Cloner().deepClone(levels.get(id));
+	}
+	
+	public boolean levelExists(int id) {
+		try {
+			levels.get(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

@@ -21,7 +21,7 @@ public class MenuViewState extends AbstractViewState {
 		this.add(this.label);
 		
 		this.add(GuiUtils.createButtonWithCommand("Start game", 
-				CommandFactory.createLoadLevelCommand(0).chain(CommandFactory.createSetStateCommand(ViewState.Game))));
+				CommandFactory.createLoadNextLevelCommand().chain(CommandFactory.createSetStateCommand(ViewState.Game))));
 	}
 
 	@Override

@@ -1,22 +1,22 @@
 package command;
 
-import model.GameState;
+import model.GameModel;
 import controller.GameController;
 
 
 public class UpdateGameStateCommand extends Command {
 	
-	private GameState gameState;
+	private GameModel gameModel;
 	private GameController gameController;
 
-	public UpdateGameStateCommand(GameState gs, GameController gc) {
+	public UpdateGameStateCommand(GameModel gameModel, GameController gc) {
 		this.gameController = gc;
-		this.gameState = gs;
+		this.gameModel = gameModel;
 	}
 	
 	@Override
 	public void execute() {
-		this.gameController.updateGameState(this.gameState);
+		this.gameController.updateGameState(this.gameModel.getActiveGameState());
 		
 		super.execute();
 	}

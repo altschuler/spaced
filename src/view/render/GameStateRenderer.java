@@ -38,9 +38,9 @@ public class GameStateRenderer {
 		gfx.setColor(Color.ORANGE);
 		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, 30);
 		gfx.setColor(Color.BLACK);
-		
+		 
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
-		String playerString = String.format("Player: %s", gameModel.getPlayerName(PlayerIndex.One));
+		String playerString = String.format("Inv: %s, Player: %s", gameState.getInvaders().size(), gameModel.getPlayerName(PlayerIndex.One));
 		
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
 		gfx.drawString(playerString, (int) (GameModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);

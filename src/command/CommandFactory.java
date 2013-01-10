@@ -31,15 +31,15 @@ public class CommandFactory {
 		return new SetPlayerNameCommand(gameModel, gameTextField);
 	}
 
-	public static Command createUpdateGameStateCommand(GameState activeGameState) {
-		return new UpdateGameStateCommand(activeGameState, mainController.getGameController());
+	public static Command createUpdateGameStateCommand() {
+		return new UpdateGameStateCommand(gameModel, mainController.getGameController());
 	}
 
 	public static Command createGameLoopEnabledCommand(boolean enabled) {
 		return new GameLoopEnabledCommand(mainController.getGameController(), gameModel, enabled);
 	}
 
-	public static Command createLoadLevelCommand(int id) {
-		return new LoadLevelCommand(mainController, id);
+	public static Command createLoadNextLevelCommand() {
+		return new LoadNextLevelCommand(mainController);
 	}
 }
