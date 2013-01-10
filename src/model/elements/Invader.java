@@ -14,7 +14,7 @@ public class Invader extends KillableGameElement {
 
 	private InvaderType type;
 
-	public Invader(InvaderType type, int health, String imageURL) { //TODO: messed up constructor, as there are several types of invaders
+	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
 		super(health, "view/sprites/invaderA.png");
 		switch (type) {
 			case A:

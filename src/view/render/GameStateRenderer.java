@@ -35,17 +35,6 @@ public class GameStateRenderer {
 		gfx.setColor(Color.BLACK);
 		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
 
-		// Top status bar
-		Font font = new Font("Verdana", Font.PLAIN, 15);
-		gfx.setFont(font);
-		gfx.setColor(Color.ORANGE);
-		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, 30);
-		gfx.setColor(Color.BLACK);
-		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
-		String playerString = String.format("Inv: %s, Player: %s", gameState.getInvaders().size(), gameModel.getPlayerName(PlayerIndex.One));
-		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
-		gfx.drawString(playerString, (int) (GameModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
-
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
@@ -57,13 +46,24 @@ public class GameStateRenderer {
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
 		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
+		
+		// Top status bar, draw last to go on top
+		Font font = new Font("Verdana", Font.PLAIN, 15);
+		gfx.setFont(font);
+		gfx.setColor(Color.ORANGE);
+		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, 30);
+		gfx.setColor(Color.BLACK);
+		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
+		String playerString = String.format("Inv: %s, Player: %s", gameState.getInvaders().size(), gameModel.getPlayerName(PlayerIndex.One));
+		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
+		gfx.drawString(playerString, (int) (GameModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
 			Font fontBig = new Font("Verdana", Font.PLAIN, 25);
 			gfx.setFont(fontBig);
 			gfx.setColor(Color.RED);
-			String anyKeyText = String.format("LEVEL %d - PRESS ANY KEY TO START", gameState.getId() + 1);
+			String anyKeyText = String.format("LEVEL %d - PRESS ANY KEY TO START", gameState.getId());
 			Rectangle2D anyKeyTextBounds = gfx.getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx);
 			gfx.drawString(anyKeyText, (int) (GameModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
 					(int) (GameModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));

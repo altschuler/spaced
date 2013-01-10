@@ -24,27 +24,27 @@ public class Difficulty {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getInvaderSpeed() {
-        return invaderSpeed;
+        return this.invaderSpeed;
     }
 
     public int getInvaderShootFreq() {
-        return invaderShootFreq;
+        return this.invaderShootFreq;
     }
 
     public int getPlayerSpeed() {
-        return playerSpeed;
+        return this.playerSpeed;
     }
 
     public int getPlayerShootFreq() {
-        return playerShootFreq;
+        return this.playerShootFreq;
     }
 
     public void setId(int id) {
