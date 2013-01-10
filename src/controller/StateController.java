@@ -13,8 +13,11 @@ import view.state.ViewState;
 
 public class StateController extends AbstractController {
 
-	public StateController(MainView gw, GameModel gm) {
+        private MainController mainController;
+        
+	public StateController(MainView gw, GameModel gm, MainController mc) {
 		super(gw, gm);
+                this.mainController = mc;
 	}
 
 	/**
@@ -64,6 +67,9 @@ public class StateController extends AbstractController {
 		}
 		
 		this.gameModel.addObserver(newState);
+                
+                newState.setMainController(this.mainController);
+                
 		newState.update(this.gameModel, null); // TODO W T F
 		this.mainView.setContentPane(newState);
 		

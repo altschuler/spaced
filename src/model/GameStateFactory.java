@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
-import utils.SaxGameStateHandler;
+import service.GameStateSaxHandler;
 import com.rits.cloning.Cloner;
 
 /**
@@ -31,7 +31,7 @@ public class GameStateFactory {
 
 			SAXParser saxParser = factory.newSAXParser();
 
-			SaxGameStateHandler handler = new SaxGameStateHandler();
+			GameStateSaxHandler handler = new GameStateSaxHandler();
 			saxParser.parse(xmlInput, handler);
 
 			this.levels = handler.getLevels();
