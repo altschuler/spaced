@@ -4,11 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.SAXException;
+
 import service.GameStateSaxHandler;
+
 import com.rits.cloning.Cloner;
 
 /**
@@ -17,24 +21,27 @@ import com.rits.cloning.Cloner;
 public class GameStateFactory {
 	
 	private static final String XML_FILE = "./GameStates.xml";
-	private ArrayList<GameState> levels;
+	private static ArrayList<GameState> levels;
+	private static GameModel gameModel;
 
-	public GameStateFactory() {
-		this.parseXML();
+	public static void init(GameModel $gm) {
+		gameModel = $gm;
+		
+		parseXML();
 	}
 
-	public void parseXML() {
+	private static void parseXML() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		
 		try {
-			InputStream xmlInput = this.getClass().getResourceAsStream(XML_FILE);
+			InputStream xmlInput = GameStateFactory.class.getResourceAsStream(XML_FILE);
 
 			SAXParser saxParser = factory.newSAXParser();
 
-			GameStateSaxHandler handler = new GameStateSaxHandler();
+			GameStateSaxHandler handler = new GameStateSaxHandler(gameModel.getActiveDifficulty());
 			saxParser.parse(xmlInput, handler);
 
-			this.levels = handler.getLevels();
+			levels = handler.getLevels();
 
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Cannot find file: " + XML_FILE);
@@ -51,16 +58,17 @@ public class GameStateFactory {
 		}
 	}
 
-	public GameState getLevel(int id) {
-		return (GameState) new Cloner().deepClone(levels.get(id));
+	static public GameState getLevel(int id) {
+		for (GameState gs : levels) {
+			if (gs.getId() == id) return (GameState) new Cloner().deepClone(gs);
+		}
+		return null;
 	}
 	
-	public boolean levelExists(int id) {
-		try {
-			levels.get(id);
-			return true;
-		} catch (Exception e) {
-			return false;
+	static public boolean levelExists(int id) {
+		for (GameState gameState : levels) {
+			if (gameState.getId() == id) return true;
 		}
+		return false;
 	}
 }

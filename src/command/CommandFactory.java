@@ -3,7 +3,6 @@ package command;
 import javax.swing.JTextField;
 
 import model.GameModel;
-import model.GameState;
 import view.state.ViewState;
 import controller.MainController;
 
@@ -15,8 +14,8 @@ import controller.MainController;
  */
 public class CommandFactory {
 
-	public static MainController mainController;
-	public static GameModel gameModel;
+	private static MainController mainController;
+	private static GameModel gameModel;
 
 	public static void init(MainController $gc, GameModel $gm) {
 		mainController = $gc;

@@ -1,86 +1,83 @@
 package model.core;
 
 public class Difficulty {
-	
-    private int id;
-    private String name;
-    private int invaderSpeed;
-    private int invaderShootFreq;
-    private int playerSpeed;
-    private int playerShootFreq;
 
-    public Difficulty(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-    
-    public Difficulty(int id, String name, int invaderSpeed, int invaderShootFreq, int playerSpeed, int playerShootFreq) {
-        this.id = id;
-        this.name = name;
-        this.invaderSpeed = invaderSpeed;
-        this.invaderShootFreq = invaderShootFreq;
-        this.playerSpeed = playerSpeed;
-        this.playerShootFreq = playerShootFreq;
-    }
+	private int id;
+	private String name;
+	private int invaderSpeed;
+	private int invaderShootFreq;
+	private int playerSpeed;
+	private int playerShootFreq;
 
-    public int getId() {
-        return this.id;
-    }
+	public Difficulty(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public Difficulty(int id, String name, int invaderSpeed, int invaderShootFreq, int playerSpeed, int playerShootFreq) {
+		this(id, name);
+		this.invaderSpeed = invaderSpeed;
+		this.invaderShootFreq = invaderShootFreq;
+		this.playerSpeed = playerSpeed;
+		this.playerShootFreq = playerShootFreq;
+	}
 
-    public int getInvaderSpeed() {
-        return this.invaderSpeed;
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    public int getInvaderShootFreq() {
-        return this.invaderShootFreq;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public int getPlayerSpeed() {
-        return this.playerSpeed;
-    }
+	public int getInvaderSpeed() {
+		return this.invaderSpeed;
+	}
 
-    public int getPlayerShootFreq() {
-        return this.playerShootFreq;
-    }
+	public int getInvaderShootFreq() {
+		return this.invaderShootFreq;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getPlayerSpeed() {
+		return this.playerSpeed;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public int getPlayerShootFreq() {
+		return this.playerShootFreq;
+	}
 
-    public void setInvader(int invaderSpeed, int invaderShootFreq) {
-        this.invaderSpeed = invaderSpeed;
-        this.invaderShootFreq = invaderShootFreq;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setInvaderSpeed(int invaderSpeed) {
-        this.invaderSpeed = invaderSpeed;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setInvaderShootFreq(int invaderShootFreq) {
-        this.invaderShootFreq = invaderShootFreq;
-    }
+	public void setInvader(int invaderSpeed, int invaderShootFreq) {
+		this.invaderSpeed = invaderSpeed;
+		this.invaderShootFreq = invaderShootFreq;
+	}
 
-    public void setPlayer(int playerSpeed, int playerShootFreq) {
-        this.playerSpeed = playerSpeed;
-        this.playerShootFreq = playerShootFreq;
-    }
+	public void setInvaderSpeed(int invaderSpeed) {
+		this.invaderSpeed = invaderSpeed;
+	}
 
-    public void setPlayerSpeed(int playerSpeed) {
-        this.playerSpeed = playerSpeed;
-    }
+	public void setInvaderShootFreq(int invaderShootFreq) {
+		this.invaderShootFreq = invaderShootFreq;
+	}
 
-    public void setPlayerShootFreq(int playerShootFreq) {
-        this.playerShootFreq = playerShootFreq;
-    }
-    
-    
-        
+	public void setPlayer(int playerSpeed, int playerShootFreq) {
+		this.playerSpeed = playerSpeed;
+		this.playerShootFreq = playerShootFreq;
+	}
+
+	public void setPlayerSpeed(int playerSpeed) {
+		this.playerSpeed = playerSpeed;
+	}
+
+	public void setPlayerShootFreq(int playerShootFreq) {
+		this.playerShootFreq = playerShootFreq;
+	}
+
 }

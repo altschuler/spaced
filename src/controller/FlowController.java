@@ -1,5 +1,7 @@
 package controller;
 
+import command.CommandFactory;
+
 import model.GameModel;
 import model.GameStateFactory;
 import model.GameStateState;
@@ -11,12 +13,10 @@ import view.MainView;
  */
 public class FlowController extends AbstractController {
     
-    private GameStateFactory factory;
-    
     public FlowController(MainView gw, GameModel gm) {
         super(gw, gm);
 
-        factory = new GameStateFactory();
+        GameStateFactory.init(gm);
     }
     
     /**
@@ -33,7 +33,7 @@ public class FlowController extends AbstractController {
 	    	points = this.gameModel.getActiveGameState().getPoints();
     	}
     	
-    	this.gameModel.setActiveGameState(factory.getLevel(id));
+    	this.gameModel.setActiveGameState(GameStateFactory.getLevel(id));
     	this.gameModel.getActiveGameState().setState(GameStateState.Waiting);
     	if (retainedProgress && hadGameState) {
     		this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).setLives(playerLives);
@@ -46,14 +46,14 @@ public class FlowController extends AbstractController {
      */
     public void loadNextLevel() {
 		if (this.gameModel.getActiveGameState() == null ) {
-			this.loadLevel(0, true);	
+			this.loadLevel(1, true);	
 		}
 		else {
 			int nextLevelId = this.gameModel.getActiveGameState().getId() + 1;
-			if (factory.levelExists(nextLevelId)) {
+			if (GameStateFactory.levelExists(nextLevelId)) {
 				this.loadLevel(nextLevelId, true);
 			} else {
-				this.loadLevel(0, true);
+				this.loadLevel(1, true);
 				//TODO all levels won!
 			}
 		}

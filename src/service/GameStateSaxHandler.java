@@ -1,13 +1,17 @@
 package service;
 
 import java.util.ArrayList;
+
 import model.GameState;
+import model.core.Coordinate;
+import model.core.Difficulty;
 import model.core.InvaderType;
 import model.core.PlayerIndex;
 import model.elements.Bonus;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -17,37 +21,43 @@ import org.xml.sax.SAXException;
 public class GameStateSaxHandler extends AbstractSaxHandler {
     
     private ArrayList<GameState> levels  = new ArrayList<>();
+	private Difficulty difficulty;
+	private GameState currentLevel;
 
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes atts)
-    throws SAXException {
+    public GameStateSaxHandler(Difficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	@Override
+    public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
         super.startElement(uri, localName, qName, atts);
 
         switch (qName) {
             case "level":
-                levels.add(new GameState(Integer.valueOf(atts.getValue("id"))));
+            	this.currentLevel = new GameState(Integer.valueOf(atts.getValue("id")));
+                this.levels.add(this.currentLevel);
                 break;
             case "player":
-                levels.get(levels.size()-1).setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")),"view/sprites/player.png"));
-                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().x = Double.valueOf(atts.getValue("x"));
-                levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(atts.getValue("y"));
+            	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "view/sprites/player.png"));
+            	this.currentLevel.getPlayer(PlayerIndex.One).setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
+            	this.currentLevel.getPlayer(PlayerIndex.One).setSpeed(difficulty.getPlayerSpeed());
+            	this.currentLevel.getPlayer(PlayerIndex.One).setMaxShootFrequency(difficulty.getPlayerShootFreq());
                 break;
             case "bunker":
                 Bunker b = new Bunker(Integer.valueOf(atts.getValue("health")));
-                b.getPosition().x = Double.valueOf(atts.getValue("x"));
-                b.getPosition().y = Double.valueOf(atts.getValue("y"));
-                levels.get(levels.size()-1).getBunkers().add(b);
+                b.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
+                this.currentLevel.getBunkers().add(b);
                 break;
             case "invader":
                 Invader invader = new Invader(
                         InvaderType.valueOf(atts.getValue("type")), 
                         Integer.valueOf(atts.getValue("health")));
-                invader.getPosition().x = Double.valueOf(atts.getValue("x"));
-                invader.getPosition().y = Double.valueOf(atts.getValue("y"));
-                levels.get(levels.size()-1).getInvaders().add(invader);
+                invader.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
+                invader.setSpeed(this.difficulty.getInvaderSpeed());
+                this.currentLevel.getInvaders().add(invader);
                 break;
             case "bonus":
-                levels.get(levels.size()-1).getBonuss().add(new Bonus(
+            	this.currentLevel.getBonuss().add(new Bonus(
                         Integer.valueOf(atts.getValue("points")), 
                         Integer.valueOf(atts.getValue("health"))));
                 break;
@@ -55,7 +65,7 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
     }
 
     public ArrayList<GameState> getLevels() {
-            return levels;
+            return this.levels;
     }
     
     

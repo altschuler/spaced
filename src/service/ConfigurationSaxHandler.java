@@ -41,7 +41,7 @@ public class ConfigurationSaxHandler extends AbstractSaxHandler {
             case "difficulty":
                 config.addDifficulty(new Difficulty(Integer.valueOf(atts.getValue("id")), atts.getValue("name")));
                 break;
-            case "invader":
+            case "invaders":
                 config.getDifficulties().get(config.getDifficulties().size()-1).setInvader(
                         Integer.valueOf(atts.getValue("speed")), 
                         Integer.valueOf(atts.getValue("shoot-frequency")));

@@ -12,7 +12,7 @@ public class StartNewGameCommand extends Command{
 
 	@Override
 	public void execute() {
-		this.mainController.getFlowController().loadLevel(0, false);
+		this.mainController.getFlowController().loadLevel(1, false);
 		
 		super.execute();
 	}

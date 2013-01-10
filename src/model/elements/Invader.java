@@ -1,11 +1,8 @@
 package model.elements;
 
-import utils.Mathx;
-import view.render.SpriteHandler;
-import command.ICommand;
 import model.core.BulletType;
 import model.core.InvaderType;
-import model.elements.KillableGameElement;
+import view.render.SpriteHandler;
 
 /**
  * An invader. Comes in different types.

@@ -183,7 +183,8 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
 		}
-//Player shoots
+		
+		//Player shoots
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
 			// the player can only shoot once per playerShotFrequency
 			long currentTime = System.currentTimeMillis();
@@ -263,7 +264,7 @@ public class GameController extends AbstractController {
 			for (Iterator<Bullet> innerBullets = gameState.getBullets().iterator(); innerBullets.hasNext();) {
 				Bullet collisionBullet = innerBullets.next();
 				// don't check collision with self...
-				if (!bullet.equals(collisionBullet) && Mathx.intersects(bullet, collisionBullet)) {
+				if (!bullet.equals(collisionBullet) && bullet.getDirection() != collisionBullet.getDirection() && Mathx.intersects(bullet, collisionBullet)) {
 					bullet.destroy();
 					collisionBullet.destroy();
 					break;
@@ -357,7 +358,7 @@ public class GameController extends AbstractController {
 		}
 		
 		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
-		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
+		if (currentTime - gameState.getLastInvaderShot() > this.gameModel.getActiveDifficulty().getInvaderShootFreq()) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
 			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bullet.png");
 			currentShot.setPosition(shootingInvader.getPosition().clone());
