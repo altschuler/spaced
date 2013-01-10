@@ -3,7 +3,7 @@ package view.state;
 import java.awt.Canvas;
 import java.util.Observable;
 
-import model.GameModel;
+import model.MainModel;
 
 import command.CommandFactory;
 
@@ -22,7 +22,7 @@ public class GameViewState extends AbstractViewState {
 		
 		this.display = new Canvas();
 		this.display.setIgnoreRepaint(true);
-		this.display.setBounds(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
+		this.display.setBounds(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
 		this.display.setVisible(true);
 		
 		this.add(this.getDisplay());

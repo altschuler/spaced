@@ -1,4 +1,5 @@
-import model.GameModel;
+import model.MainModel;
+import model.GameStateFactory;
 import view.MainView;
 import view.state.ViewState;
 
@@ -11,13 +12,18 @@ import controller.MainController;
  */
 public class Main {
 	public static void main(String[] args) {
-		GameModel gameModel = new GameModel();
+		// wire up mvc
+		MainModel gameModel = new MainModel();
+		
 		MainView mainView = new MainView();
-		mainView.setVisible(true);
 		MainController mainController = new MainController(mainView, gameModel);
 		
+		// init factories
 		CommandFactory.init(mainController, gameModel);
-
+		GameStateFactory.init();
+		
+		CommandFactory.createSetDifficultyCommand(0).execute(); //TODO this shouldnt really happen here... AT ALL! //FIXME!
+		
 		// bootstrap the application
 		CommandFactory.createSetStateCommand(ViewState.Splash).execute();
 	}

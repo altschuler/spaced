@@ -1,4 +1,4 @@
-package service;
+package service.parsing;
 
 import java.util.ArrayList;
 
@@ -21,12 +21,7 @@ import org.xml.sax.SAXException;
 public class GameStateSaxHandler extends AbstractSaxHandler {
     
     private ArrayList<GameState> levels  = new ArrayList<>();
-	private Difficulty difficulty;
 	private GameState currentLevel;
-
-    public GameStateSaxHandler(Difficulty difficulty) {
-		this.difficulty = difficulty;
-	}
 
 	@Override
     public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
@@ -40,8 +35,6 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
             case "player":
             	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "view/sprites/player.png"));
             	this.currentLevel.getPlayer(PlayerIndex.One).setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
-            	this.currentLevel.getPlayer(PlayerIndex.One).setSpeed(difficulty.getPlayerSpeed());
-            	this.currentLevel.getPlayer(PlayerIndex.One).setMaxShootFrequency(difficulty.getPlayerShootFreq());
                 break;
             case "bunker":
                 Bunker b = new Bunker(Integer.valueOf(atts.getValue("health")));
@@ -53,7 +46,6 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                         InvaderType.valueOf(atts.getValue("type")), 
                         Integer.valueOf(atts.getValue("health")));
                 invader.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
-                invader.setSpeed(this.difficulty.getInvaderSpeed());
                 this.currentLevel.getInvaders().add(invader);
                 break;
             case "bonus":

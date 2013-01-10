@@ -1,4 +1,4 @@
-package service;
+package service.parsing;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

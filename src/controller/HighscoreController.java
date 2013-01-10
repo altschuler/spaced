@@ -2,7 +2,7 @@ package controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import model.GameModel;
+import model.MainModel;
 import model.HighscoreEntry;
 import service.HighscoreService;
 import view.MainView;
@@ -19,7 +19,7 @@ public class HighscoreController extends AbstractController {
     
     private static final int LIMIT = 20;
     
-    public HighscoreController(MainView gw, GameModel gm) {
+    public HighscoreController(MainView gw, MainModel gm) {
         super(gw, gm);
         
         this.service = new HighscoreService();

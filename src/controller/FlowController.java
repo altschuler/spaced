@@ -2,7 +2,7 @@ package controller;
 
 import command.CommandFactory;
 
-import model.GameModel;
+import model.MainModel;
 import model.GameStateFactory;
 import model.GameStateState;
 import model.core.PlayerIndex;
@@ -13,10 +13,8 @@ import view.MainView;
  */
 public class FlowController extends AbstractController {
     
-    public FlowController(MainView gw, GameModel gm) {
+    public FlowController(MainView gw, MainModel gm) {
         super(gw, gm);
-
-        GameStateFactory.init(gm);
     }
     
     /**

@@ -1,6 +1,6 @@
 package controller;
 
-import model.GameModel;
+import model.MainModel;
 import utils.Input;
 import view.MainView;
 import view.state.AbstractViewState;
@@ -15,7 +15,7 @@ public class StateController extends AbstractController {
 
         private MainController mainController;
         
-	public StateController(MainView gw, GameModel gm, MainController mc) {
+	public StateController(MainView gw, MainModel gm, MainController mc) {
 		super(gw, gm);
                 this.mainController = mc;
 	}
