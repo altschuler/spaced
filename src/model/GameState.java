@@ -28,6 +28,8 @@ public class GameState {
 	private long totalGameTime;
 	private boolean moveInvadersRight;
 	
+	private GameStateState state;
+	
 	// Patricks logik siger at denne skal v�re i GameState
 	private long lastInvaderShot; 
 	private ArrayList<Invader> lowestInvaders; // ved ikke heeelt med denne
@@ -42,21 +44,7 @@ public class GameState {
 		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
-	}
-
-	// For testing purposes
-	public void printInfo() {
-		System.out.println("ID: " + getId());
-		System.out.println("Player: x:" + players.get(PlayerIndex.One).getPosition().x + " y:" + players.get(PlayerIndex.One).getPosition().y + " health:"
-				+ players.get(PlayerIndex.One).getHealth());
-		for (Bunker bunker : bunkers) {
-			System.out.println("Bunker: x:" + bunker.getPosition().x + " y:" + bunker.getPosition().y + " health:" + bunker.getHealth());
-		}
-		for (Invader invader : invaders) {
-			System.out.println("Invader: type:" + invader.getType() + " x:" + invader.getPosition().x + " y:" + invader.getPosition().y + " health:"
-					+ invader.getHealth());
-		}
-
+		this.state = GameStateState.Waiting;
 	}
 
 	public Player getPlayer(PlayerIndex idx) {
@@ -141,5 +129,13 @@ public class GameState {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public GameStateState getState() {
+		return state;
+	}
+
+	public void setState(GameStateState state) {
+		this.state = state;
 	}
 }
