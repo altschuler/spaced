@@ -261,7 +261,7 @@ public class GameController extends AbstractController {
 			for (Iterator<Bullet> innerBullets = gameState.getBullets().iterator(); innerBullets.hasNext();) {
 				Bullet collisionBullet = innerBullets.next();
 				// don't check collision with self...
-				if (!bullet.equals(collisionBullet) && Mathx.intersects(bullet, collisionBullet)) {
+				if (!bullet.equals(collisionBullet) && bullet.getDirection() != collisionBullet.getDirection() && Mathx.intersects(bullet, collisionBullet)) {
 					bullet.destroy();
 					collisionBullet.destroy();
 					break;

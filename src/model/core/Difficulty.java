@@ -12,18 +12,17 @@ public class Difficulty {
     public Difficulty(int id, String name) {
         this.id = id;
         this.name = name;
-    }
+	}
     
     public Difficulty(int id, String name, int invaderSpeed, int invaderShootFreq, int playerSpeed, int playerShootFreq) {
-        this.id = id;
-        this.name = name;
+        this(id, name);
         this.invaderSpeed = invaderSpeed;
         this.invaderShootFreq = invaderShootFreq;
         this.playerSpeed = playerSpeed;
         this.playerShootFreq = playerShootFreq;
     }
 
-    public int getId() {
+	public int getId() {
         return this.id;
     }
 
