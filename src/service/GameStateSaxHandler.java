@@ -33,7 +33,7 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                 levels.get(levels.size()-1).getPlayer(PlayerIndex.One).getPosition().y = Double.valueOf(atts.getValue("y"));
                 break;
             case "bunker":
-                Bunker b = new Bunker();
+                Bunker b = new Bunker(Integer.valueOf(atts.getValue("health")));
                 b.getPosition().x = Double.valueOf(atts.getValue("x"));
                 b.getPosition().y = Double.valueOf(atts.getValue("y"));
                 levels.get(levels.size()-1).getBunkers().add(b);
