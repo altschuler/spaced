@@ -152,6 +152,10 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
 			player.getPosition().x += Mathx.distance(timeDelta, player.getSpeed());
 		}
+		
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
+//			player.getPosition().x += Mathx.distance(timeDelta, player.getSpeed());
+		}
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
 			// the player can only shoot once per playerShotFrequency
@@ -229,7 +233,7 @@ public class GameController extends AbstractController {
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
-			
+			// bunker collision
 			for (Iterator<Bunker> innerBunker = gameState.getBunkers().iterator(); innerBunker.hasNext();) {
 				Bunker collisionBunker = innerBunker.next();
 				if(Mathx.intersects(bullet, collisionBunker)){

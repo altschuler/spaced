@@ -1,5 +1,6 @@
 package model.elements;
 
+import model.core.BulletType;
 import model.core.PlayerIndex;
 
 /**
@@ -12,6 +13,7 @@ public class Player extends KillableGameElement {
 	private int lives = 3;
 	private int maxShootFrequency = 450;
 	private long timeOfLastShot = 0;
+	private BulletType playersWeapon = BulletType.Normal;
 	
 	
 	public Player(int health, String imageURL) {

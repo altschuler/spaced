@@ -20,7 +20,8 @@ public class GameState {
 	private HashMap<PlayerIndex, Player> players;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
-	private ArrayList<Bonus> bonuss;
+	private ArrayList<Invader> individualInvaders; //TODO for special movement... Bosses for instance or slow-shot
+	private ArrayList<Bonus> bonus;
 	private ArrayList<Bullet> bullets;
 
 	private int points;
@@ -37,7 +38,7 @@ public class GameState {
 		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
-		this.bonuss = new ArrayList<Bonus>();
+		this.bonus = new ArrayList<Bonus>();
 		this.bullets = new ArrayList<Bullet>();
 		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
@@ -84,7 +85,7 @@ public class GameState {
 	}
 
 	public ArrayList<Bonus> getBonuss() {
-		return bonuss;
+		return bonus;
 	}
 
 	public ArrayList<Bullet> getBullets() {
