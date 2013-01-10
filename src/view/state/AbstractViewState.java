@@ -38,4 +38,10 @@ abstract public class AbstractViewState extends JPanel implements Observer {
 	 * Lets a view state initialize itself after it has been added to a frame
 	 */
 	public void initialize() {}
+
+        public void setMainController(MainController mainController) {
+            this.mainController = mainController;
+        }
+        
+        
 }

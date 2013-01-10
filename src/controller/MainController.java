@@ -12,6 +12,7 @@ public class MainController {
 	private StateController stateController;
 	private GameController gameController;
 	private FlowController flowController;
+        private HighscoreController highscoreController;
 	
 	private MainView gw;
 	private GameModel gm;
@@ -41,7 +42,7 @@ public class MainController {
 	 */
 	public StateController getStateController() {
 		if (this.stateController == null) {
-			this.stateController = new StateController(gw, gm);
+			this.stateController = new StateController(gw, gm, this);
 		}
 		
 		return this.stateController;
@@ -58,5 +59,18 @@ public class MainController {
 		}
 		
 		return this.gameController;
+	}
+
+	/**
+	 * The controller instance is lazily instantiated
+	 * 
+	 * @return A {@link HighscoreController} instance
+	 */
+	public HighscoreController getHighscoreController() {
+		if (this.highscoreController == null) {
+			this.highscoreController = new HighscoreController(gw, gm);
+		}
+		
+		return this.highscoreController;
 	}
 }

@@ -10,7 +10,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.core.Difficulty;
 import org.xml.sax.SAXException;
-import utils.SaxConfigurationHandler;
+import service.ConfigurationSaxHandler;
 import view.render.SpriteHandler;
 
 public class GameConfiguration {
@@ -35,7 +35,7 @@ public class GameConfiguration {
 
                     SAXParser saxParser = factory.newSAXParser();
 
-                    SaxConfigurationHandler handler = new SaxConfigurationHandler(this);
+                    ConfigurationSaxHandler handler = new ConfigurationSaxHandler(this);
                     saxParser.parse(xmlInput, handler);
                     
                     
