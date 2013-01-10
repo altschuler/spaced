@@ -36,8 +36,6 @@ public class GameStateFactory {
 
                     this.levels = handler.getLevels();
 
-                    levels.get(0).printInfo();
-
             } catch (FileNotFoundException e) {
                     System.out.println("ERROR: Cannot find file: " + XML_FILE);
                     System.exit(1);
