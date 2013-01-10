@@ -1,5 +1,6 @@
 package model.elements;
 
+import model.core.InvaderType;
 import command.ICommand;
 
 /**
@@ -11,20 +12,22 @@ public class KillableGameElement extends GameElement {
 	private int health;
 	private ICommand cmd;
 
-	public KillableGameElement(int health, int width, int height) {
+/*	public KillableGameElement(int health, int width, int height) {
 		super(width, height); //TODO new Point should be created here
 		this.health = health;
 	}
+*/
+
 	public KillableGameElement(int health, String imageURL) {
 		super(imageURL); //TODO new Point should be created here
 		this.health = health;
 	}
 	
-	public KillableGameElement(int health, int width, int height, ICommand cmd) {
+/*	public KillableGameElement(int health, int width, int height, ICommand cmd) {
 		this(health, width, height);
 		this.setCommand(cmd);
 	}
-	
+*/	
 	public int getHealth() {
 		return health;
 	}

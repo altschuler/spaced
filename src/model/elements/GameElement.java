@@ -1,6 +1,7 @@
 package model.elements;
 
 import model.core.Coordinate;
+import model.core.InvaderType;
 import view.render.SpriteHandler;
 
 /**
@@ -19,18 +20,12 @@ public abstract class GameElement {
 	private String imageURL; 
 	//TODO some visual identify?
 	
-	public GameElement(int width, int height) {
-		this.position = new Coordinate();
-		this.width = width;
-		this.height = height;
-	}
 	public GameElement(String imageURL) { //TODO implement this in all model.elements
 		this.position = new Coordinate();
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		this.width = spriteHandler.get(imageURL).getWidth();
 		this.height = spriteHandler.get(imageURL).getHeight();
-		this.imageURL = imageURL;
-//TODO: fjern	System.out.println(imageURL+" width: "+width+" height: "+height);
+		this.setImageURL(imageURL);
 	}
 
     public int getSpeed() {
@@ -77,5 +72,11 @@ public abstract class GameElement {
 	}
 	public void destroy() {
 		this.setDestroyed(true);
+	}
+	public String getImageURL() {
+		return imageURL;
+	}
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 }

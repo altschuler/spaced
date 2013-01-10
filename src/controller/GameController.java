@@ -226,7 +226,6 @@ public class GameController extends AbstractController {
 			// player collision
 			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
 				gameState.getPlayer(PlayerIndex.One).livesDown();
-				System.out.println("Player position, x: "+gameState.getPlayer(PlayerIndex.One).getPosition().x+" y: "+gameState.getPlayer(PlayerIndex.One).getPosition().y);
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}

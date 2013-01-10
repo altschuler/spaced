@@ -14,6 +14,7 @@ import model.GameState;
 import model.core.Coordinate;
 import model.core.PlayerIndex;
 import model.elements.Bullet;
+import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
 import utils.Mathx;
@@ -45,34 +46,15 @@ public class GameStateRenderer {
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
 		gfx.drawString(playerString, (int) (GameModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
-		// Draw player
-		Player player = gameState.getPlayer(PlayerIndex.One);
-		for (int i = 0; i < player.getLives(); i++) {
+		// Draw player's lives
+		for (int i = 0; i < gameState.getPlayer(PlayerIndex.One).getLives(); i++) {
 			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, GameModel.SCREEN_HEIGHT - 20));
 		}
-		this.draw(gfx, "view/sprites/player.png", gameState.getPlayer(PlayerIndex.One).getPosition());
 
-		// Draw shots
-		for (Bullet bullet : gameState.getBullets()) {
-			this.draw(gfx, "view/sprites/bullet.png", bullet.getPosition());
-		}
-
-		// Draw invaders
-		for (Invader invader : gameState.getInvaders()) {
-			String ref = "";
-			switch (invader.getType()) {
-			case A:
-				ref = "view/sprites/invaderA.png";
-				break;
-			case B:
-				ref = "view/sprites/invaderB.png";
-				break;
-			case C:
-				ref = "view/sprites/invaderC.png";
-				break;
-			}
-			this.draw(gfx, ref, invader.getPosition());
-		}
+// Draws everything else
+		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
+		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
+		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
 
 		// Empty the graphics buffer
 		gfx.dispose();
@@ -81,5 +63,9 @@ public class GameStateRenderer {
 
 	public void draw(Graphics g, String ref, Coordinate pos) {
 		g.drawImage(SpriteHandler.getInstance().get(ref).getImage(), (int) pos.x, (int) pos.y, null);
+	}
+	
+	public void drAwesome(Graphics g, GameElement gameElement){
+		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
 	}
 }

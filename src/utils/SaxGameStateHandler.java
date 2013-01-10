@@ -46,7 +46,7 @@ public class SaxGameStateHandler extends DefaultHandler {
             case "invader":
                 Invader invader = new Invader(
                         InvaderType.valueOf(attributes.getValue("type")), 
-                        Integer.valueOf(attributes.getValue("health")));
+                        Integer.valueOf(attributes.getValue("health")),""); //the constructor demands a String
                 invader.getPosition().x = Double.valueOf(attributes.getValue("x"));
                 invader.getPosition().y = Double.valueOf(attributes.getValue("y"));
                 levels.get(levels.size()-1).getInvaders().add(invader);

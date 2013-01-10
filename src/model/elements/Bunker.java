@@ -8,10 +8,11 @@ import command.ICommand;
  */
 public class Bunker extends KillableGameElement {
 	public Bunker() {
-		super(10, 30, 30);
+		super(10, "view/sprites/1357850269_present_48.png");
 	}
 
-	public Bunker(ICommand cmd) {
+/*	public Bunker(ICommand cmd) {
 		super(10, 30, 30, cmd);
 	}
+*/
 }
