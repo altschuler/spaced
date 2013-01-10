@@ -10,7 +10,7 @@ import view.MainView;
 public class FlowController extends AbstractController {
     
     private GameStateFactory factory;
-
+    
     public FlowController(MainView gw, GameModel gm) {
         super(gw, gm);
 
@@ -19,6 +19,23 @@ public class FlowController extends AbstractController {
     
     public void loadLevel(int id) {
     	this.gameModel.setActiveGameState(factory.getLevel(id));
+    }
+    
+    public void loadNextLevel() {
+//    	this.loadLevel(0);	
+		
+		if (this.gameModel.getActiveGameState() == null ) {
+			this.loadLevel(0);	
+		}
+		else {
+			int nextLevelId = this.gameModel.getActiveGameState().getId() + 1;
+			if (factory.levelExists(nextLevelId)) {
+				this.loadLevel(nextLevelId);
+			} else {
+				this.loadLevel(0);
+				//TODO all levels won!
+			}
+		}
     }
 
 }

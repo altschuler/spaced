@@ -281,7 +281,11 @@ public class GameController extends AbstractController {
 		for (Invader invader : lowest.values()) {
 			trimmed.add(invader);
 		}
-		// nu har man array med forreste invaders
+
+		if (trimmed.size() == 0) {
+			return;
+		}
+		
 		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
 		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
@@ -297,7 +301,7 @@ public class GameController extends AbstractController {
 	 */
 	private Timer getTimer() {
 		if (this.timer == null) {
-			this.timer = new Timer(20, new CommandListener(CommandFactory.createUpdateGameStateCommand(gameModel.getActiveGameState())));
+			this.timer = new Timer(20, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
 		}
 		return timer;
 	}

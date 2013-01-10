@@ -40,8 +40,6 @@ public class GameStateFactory {
 
 			this.levels = handler.getLevels();
 
-			levels.get(0).printInfo();
-
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: Cannot find file: " + XML_FILE);
 			System.exit(1);
@@ -58,7 +56,15 @@ public class GameStateFactory {
 	}
 
 	public GameState getLevel(int id) {
-		this.parseXML();
 		return (GameState) new Cloner().deepClone(levels.get(id));
+	}
+	
+	public boolean levelExists(int id) {
+		try {
+			levels.get(id);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

@@ -46,6 +46,8 @@ public class GameModel extends Observable {
 
 	public void setActiveGameState(GameState activeGameState) {
 		this.activeGameState = activeGameState;
+
+		this.notifyObservers();
 	}
 
 }
