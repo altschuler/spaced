@@ -1,35 +1,45 @@
 package model.elements;
 
+import model.core.Coordinate;
 import view.render.SpriteHandler;
-import model.Coordinate;
 
 /**
  * The base of all interactive game elements. The common feats 
  * area a visual appearance and a position
  */
-abstract public class AbstractGameElement {
+public class GameElement {
 	
 	private Coordinate position;
 	private int width;
 	private int height;
+	private int speed;
+	
+	private boolean destroyed;
+	
 	private String imageURL; 
 	//TODO some visual identify?
 	
-	public AbstractGameElement(int width, int height) {
+	public GameElement(int width, int height) {
 		this.position = new Coordinate();
 		this.width = width;
 		this.height = height;
 	}
-	public AbstractGameElement(int width, int height, String imageURL) { //TODO implement this in all model.elements
+	public GameElement(int width, int height, String imageURL) { //TODO implement this in all model.elements
 		this.position = new Coordinate();
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 
 		this.width = spriteHandler.get(imageURL).getHeight();
 		this.height = spriteHandler.get(imageURL).getHeight();
-//		this.width = width;
-//		this.height = height;
 		this.imageURL = imageURL;
 	}
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 	
 	public Coordinate getPosition() {
 		return position;
@@ -58,5 +68,14 @@ abstract public class AbstractGameElement {
 	public void move(double x, double y){
 		this.position.x += x;
 		this.position.y += y;
+	}
+	public boolean isDestroyed() {
+		return destroyed;
+	}
+	public void setDestroyed(boolean destroyed) {
+		this.destroyed = destroyed;
+	}
+	public void destroy() {
+		this.setDestroyed(true);
 	}
 }

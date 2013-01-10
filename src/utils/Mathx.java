@@ -1,7 +1,8 @@
 package utils;
 
-import model.Coordinate;
-import model.elements.AbstractGameElement;
+import model.core.Coordinate;
+import model.core.PlayerIndex;
+import model.elements.GameElement;
 
 public class Mathx {
 
@@ -51,7 +52,7 @@ public class Mathx {
 	 * 
 	 * @return True if a and b intersects
 	 */
-	static public boolean intersects(AbstractGameElement a, AbstractGameElement b) {
+	static public boolean intersects(GameElement a, GameElement b) {
 		Coordinate ap = a.getPosition();
 		Coordinate bp = b.getPosition();
 		double ax1 = ap.x, ax2 = ap.x + a.getWidth();
@@ -60,6 +61,9 @@ public class Mathx {
 		double by1 = bp.y, by2 = bp.y + b.getHeight();
 
 		return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
+	}
+	public static Coordinate angle(Coordinate a, Coordinate b) {
+		return new Coordinate(a.x - b.x, a.y - b.y);
 	}
 	
 	//TODO perhaps make an intersects-method for circles like the one for rectangles

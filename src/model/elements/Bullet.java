@@ -3,23 +3,36 @@
  */
 package model.elements;
 
+import model.core.BulletType;
+import model.core.Direction;
+
 /**
  * A bullet that can be fire either by the player or an {@link Invader}
  */
-public class Bullet extends AbstractGameElement {
-	private BulletDirection direction;
-	private int speed = 15;
+public class Bullet extends GameElement {
+	private Direction direction;
+	private BulletType type;
 	
-	public Bullet(BulletDirection direction) {
+	public Bullet(Direction direction, BulletType type) {
 		super(5, 15);
+		this.direction = direction;
+		this.type = type;
+		this.setSpeed(15);
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 
-	public BulletDirection getDirection() {
-		return direction;
+	public BulletType getType() {
+		return type;
 	}
-	
-	public int getSpeed(){
-		return speed;
+
+	public void setType(BulletType type) {
+		this.type = type;
 	}
 }

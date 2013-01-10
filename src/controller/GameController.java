@@ -3,18 +3,22 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.Timer;
 
-import model.Coordinate;
 import model.GameModel;
 import model.GameState;
-import model.GameStateFactory;
+import model.core.BulletType;
+import model.core.Coordinate;
+import model.core.Direction;
+import model.core.PlayerIndex;
 import model.elements.Bullet;
-import model.elements.BulletDirection;
+import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
-import model.elements.PlayerIndex;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
@@ -77,30 +81,56 @@ public class GameController extends AbstractController {
 		this.updateInvaders(gameState, timeDelta);
 		this.invadersShoot(gameState, currentTime);
 		this.updateShots(gameState, timeDelta);
-		
-		
-		
 
-		// Check if player has won or lost. Exit early if true.
+		// Sweep destroyed elements
+		this.sweep(gameState);
+
+		// Check if player has won or lost. Exit early if so.
 		if (this.checkGameOver(gameState)) {
 			return;
 		}
 
 		// Render the game state
-		this.renderer.render(gameView.getDisplay(), gameState);
+		this.renderer.render(gameView.getDisplay(), gameState, this.gameModel);
 
 		// Update total and last time
 		gameState.setLastUpdateTime(currentTime);
 		gameState.addTotalGameTime(timeDelta);
 	}
 
-	private boolean checkGameOver(GameState gameState) {
-		// Player is dead = loose
-		for (Invader invader : gameState.getInvaders()) {
-			if (Mathx.intersects(invader, gameState.getPlayer(PlayerIndex.One))) {
-				CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
-				return true;
+	private void sweep(GameState gameState) {
+		for (Iterator<Bullet> bullets = gameState.getBullets().iterator(); bullets.hasNext();) {
+			Bullet bullet = bullets.next();
+			if (bullet.isDestroyed()) {
+				bullets.remove();
 			}
+		}
+
+		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
+			Invader invader = invaders.next();
+			if (invader.isDestroyed()) {
+				invaders.remove();
+			}
+		}
+
+		for (Iterator<Bunker> bunkers = gameState.getBunkers().iterator(); bunkers.hasNext();) {
+			Bunker bunker = bunkers.next();
+			if (bunker.isDestroyed()) {
+				bunkers.remove();
+			}
+		}
+	}
+
+	/**
+	 * Check if game is over
+	 * 
+	 * @return True if game is over for any reason
+	 */
+	private boolean checkGameOver(GameState gameState) {
+		// Player has no more lives = loose
+		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
+			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
+			return true;
 		}
 
 		// All invaders gone = win
@@ -130,9 +160,9 @@ public class GameController extends AbstractController {
 				player.setTimeOfLastShot(currentTime);
 				SoundController.playSound(new File("leftright.wav"), 1, 75);
 
-				Bullet currentShot = new Bullet(BulletDirection.Up);
+				Bullet currentShot = new Bullet(Direction.Up, BulletType.Normal);
 				currentShot.setPosition(player.getPosition().clone());
-				currentShot.getPosition().x += 24;
+				currentShot.getPosition().x += player.getWidth() / 2;
 				gameState.getBullets().add(currentShot);
 			}
 		}
@@ -146,85 +176,69 @@ public class GameController extends AbstractController {
 	 *            Moves the bullets upwards
 	 */
 	private void updateShots(GameState gameState, long timeDelta) {
-		int noOfShots = gameState.getBullets().size();
-		for (int i = 0; i < noOfShots; i++) {
-			Bullet bullet = gameState.getBullets().get(i);
-//moving the bullet
-			if (bullet.getDirection() == BulletDirection.Up) {
-				bullet.move(0,-Mathx.distance(timeDelta, bullet.getSpeed()));
+		for (Bullet bullet : gameState.getBullets()) {
+			// moving the bullet
+			if (bullet.getDirection() == Direction.Up) {
+				bullet.move(0, -Mathx.distance(timeDelta, bullet.getSpeed()));
 			} else {
-				
-				//bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));   - normal, vertical movement
-				
-				/*
-				 * Making heat-seeking shots
-				 * TODO: use only on bosses?
-				 */
-				//Make math method to calculate DirectionVector?
-				double xDirectionToPlayer = (gameState.getPlayer(PlayerIndex.One).getPosition().x+24 -bullet.getPosition().x);
-				double yDirectionToPlayer = (gameState.getPlayer(PlayerIndex.One).getPosition().y -bullet.getPosition().y);
-				Coordinate vector = new Coordinate(xDirectionToPlayer, yDirectionToPlayer); //directionVector
-				vector.normalize();
-				bullet.move(vector.x*Mathx.distance(timeDelta, bullet.getSpeed())*0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
+				if (bullet.getType() == BulletType.Normal) {
+					bullet.move(0, Mathx.distance(timeDelta, bullet.getSpeed()));
+				} else if (bullet.getType() == BulletType.Homing) {
+					Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
+					target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
+					Coordinate vector = Mathx.angle(gameState.getPlayer(PlayerIndex.One).getPosition(), bullet.getPosition());
+					vector.normalize();
+
+					bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
+				}
 			}
 
 			if (bullet.getPosition().y <= 0) {
-				gameState.getBullets().remove(i);
-				noOfShots--;
+				bullet.destroy();
 			}
-//collision detection
-			int noOfInvaders = gameState.getInvaders().size();
-			for (int j = 0; j < noOfInvaders; j++) { 		//invader-collisions
-				//TODO: Patrick, få invaders til at miste HP.
-				Invader invader = gameState.getInvaders().get(j);
+			// collision detection
+			if (bullet.getDirection() == Direction.Up) {
+				for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
+					Invader invader = invaders.next();
 
-				if (Mathx.intersects(bullet, invader)) {
-					gameState.getBullets().remove(i);
-					
-					invader.healthDown();
-					if(invader.getHealth()==0){
-						gameState.getInvaders().remove(j);
+					if (Mathx.intersects(bullet, invader)) {
+						bullet.destroy();
+
+						invader.healthDown();
+						if (invader.isDead()) {
+							invader.destroy();
+						}
+						break;
 					}
-					
-					noOfInvaders--;
-					noOfShots--;
+				}
+			}
+
+			for (Iterator<Bullet> innerBullets = gameState.getBullets().iterator(); innerBullets.hasNext();) {
+				Bullet collisionBullet = innerBullets.next();
+				// don't check collision with self...
+				if (!bullet.equals(collisionBullet) && Mathx.intersects(bullet, collisionBullet)) {
+					bullet.destroy();
+					collisionBullet.destroy();
 					break;
 				}
 			}
 
-			for (int j = 0; j < noOfShots; j++) {			//bullet-collisions
-				Bullet collisionBullet = gameState.getBullets().get(j);
-				if(i != j && Mathx.intersects(bullet, collisionBullet)){ //don't check collision with self...
-					System.out.println("Collision! i: "+i+" j: "+j);
-					gameState.getBullets().remove(i);
-					if(i < j){
-						gameState.getBullets().remove(j-1);
-					}else{
-						gameState.getBullets().remove(j);
-					}noOfShots--;
-					noOfShots--;
-					break;
-				}
-			}
-			
-			if(bullet.getDirection()==BulletDirection.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))){ //collision with player
-				//TODO: make this :-)
-				System.out.println("Player: OUCH!");
+			// player collision
+			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
+				gameState.getPlayer(PlayerIndex.One).livesDown();
+				// TODO fire some command to pause and respawn the player
+				bullet.destroy();
 			}
 		}
 	}
 
 	private void updateInvaders(GameState gameState, long timeDelta) {
-		ArrayList<Invader> invaders = gameState.getInvaders();
 		boolean wallHit = false;
-
-		for (int i = 0; i < invaders.size(); i++) {
-			Invader invader = invaders.get(i);
-
+		for (Invader invader : gameState.getInvaders()) {
 			if (gameState.getMoveInvadersRight()) {
-				invader.move(Mathx.distance(timeDelta, invader.getSpeed()),0);
+				invader.move(Mathx.distance(timeDelta, invader.getSpeed()), 0);
 			} else {
-				invader.move(-Mathx.distance(timeDelta, invader.getSpeed()),0);
+				invader.move(-Mathx.distance(timeDelta, invader.getSpeed()), 0);
 			}
 
 			wallHit = wallHit || (invader.getPosition().x + invader.getWidth() > GameModel.SCREEN_WIDTH) || (invader.getPosition().x < 0);
@@ -232,49 +246,52 @@ public class GameController extends AbstractController {
 
 		if (wallHit) {
 			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
-			for (Invader invader : invaders) {
-				invader.move(0,15); // TODO refactor y-coordinate out to something
-									// like DifficultyConfiguration
+			for (Invader invader : gameState.getInvaders()) {
+				invader.move(0, 15); // TODO y coord to diff
 			}
 		}
 	}
-	
+
 	/**
 	 * @param gameState
 	 * 
-	 * Find de invaders der er placeret nederst, og lad en random en af dem skyde.
+	 *            Find de invaders der er placeret nederst, og lad en random en
+	 *            af dem skyde.
 	 */
-	private void invadersShoot(GameState gameState, long currentTime){
-		//array med laveste invaders
-		ArrayList<Invader> lowestInvaders = gameState.getLowestInvaders();
-		
-		ArrayList<Invader> invaders = gameState.getInvaders();
-		for (int i = 0; i < invaders.size(); i++) {
-			if(lowestInvaders.size()==0){//hvis der endnu ikke er en nederst invader
-				lowestInvaders.add(invaders.get(0));
+	private void invadersShoot(GameState gameState, long currentTime) {
+		// map of lowest invaders in each x column
+		HashMap<Double, Invader> lowest = new HashMap<Double, Invader>();
+
+		for (Invader invader : gameState.getInvaders()) {
+			double column = invader.getPosition().x;
+			if (!lowest.containsKey(column)) {
+				lowest.put(column, invader);
+				continue;
 			}
-			
-			if(invaders.get(i).getPosition().y == lowestInvaders.get(0).getPosition().y){ //på niveau med den forreste invader
-				lowestInvaders.add(invaders.get(i));
-			} else if(invaders.get(i).getPosition().y > lowestInvaders.get(0).getPosition().y){ //længere fremme end den
-				lowestInvaders.clear();
-				lowestInvaders.add(invaders.get(i));
+
+			for (Invader innerInvader : gameState.getInvaders()) {
+				if (!invader.equals(innerInvader) && column == innerInvader.getPosition().x && invader.getPosition().y < innerInvader.getPosition().y) {
+					lowest.remove(invader);
+					lowest.put(column, innerInvader);
+				}
 			}
 		}
-		//nu har man array med forreste invaders
-		int shootingInvader = (int) (Math.random()*lowestInvaders.size());
-		
-		if(gameState.getLastInvaderShot() - currentTime < -1000) { //shoot!
+
+		ArrayList<Invader> trimmed = new ArrayList<Invader>();
+		for (Invader invader : lowest.values()) {
+			trimmed.add(invader);
+		}
+		// nu har man array med forreste invaders
+		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
+		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
-			Bullet currentShot = new Bullet(BulletDirection.Down);
-			currentShot.setPosition(gameState.getLowestInvaders().get(shootingInvader).getPosition().clone());
+			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType());
+			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
 			gameState.getBullets().add(currentShot);
 		}
-		lowestInvaders.clear();
 	}
-	
-	
+
 	/**
 	 * Lazily gets the game loop timer
 	 */

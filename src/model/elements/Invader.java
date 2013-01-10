@@ -1,36 +1,47 @@
 package model.elements;
 
 import command.ICommand;
+import model.core.BulletType;
+import model.core.InvaderType;
 import model.elements.KillableGameElement;
 
 /**
  * An invader. Comes in different types.
  */
 public class Invader extends KillableGameElement {
-	
+
 	private InvaderType type;
-	private int InvaderSpeed = 10;
-	
-	public Invader(InvaderType _type, int health) {
+
+	public Invader(InvaderType type, int health) {
 		super(health, 48, 48);
-                this.type = _type;
+		this.setSpeed(10);
+		this.setType(type);
 	}
-	public Invader(InvaderType _type, int health, String imageURL) {
+
+	public Invader(InvaderType type, int health, String imageURL) {
 		super(health, 48, 48, imageURL);
-                this.type = _type;
+		this.setType(type);
 	}
 
-	public Invader(InvaderType _type, int health, ICommand cmd) {
+	public Invader(InvaderType type, int health, ICommand cmd) {
 		super(health, 48, 48, cmd);
-                this.type = _type;
+		this.setType(type);
 	}
 
-	public int getSpeed() {
-		return InvaderSpeed;
+	public BulletType getBulletType() {
+		switch (this.getType()) {
+			case C:
+				return BulletType.Homing;
+			default:
+				return BulletType.Normal;
+		}
 	}
-        
-        public InvaderType getType() {
-            return type;
-        }
 
+	public InvaderType getType() {
+		return type;
+	}
+
+	public void setType(InvaderType type) {
+		this.type = type;
+	}
 }
