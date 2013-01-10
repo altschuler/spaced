@@ -3,6 +3,8 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.Timer;
@@ -195,17 +197,19 @@ public class GameController extends AbstractController {
 				bullet.destroy();
 			}
 			// collision detection
-			for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
-				Invader invader = invaders.next();
+			if (bullet.getDirection() == Direction.Up) {
+				for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
+					Invader invader = invaders.next();
 
-				if (Mathx.intersects(bullet, invader)) {
-					bullet.destroy();
+					if (Mathx.intersects(bullet, invader)) {
+						bullet.destroy();
 
-					invader.healthDown();
-					if (invader.isDead()) {
-						invader.destroy();
+						invader.healthDown();
+						if (invader.isDead()) {
+							invader.destroy();
+						}
+						break;
 					}
-					break;
 				}
 			}
 
@@ -255,25 +259,30 @@ public class GameController extends AbstractController {
 	 *            af dem skyde.
 	 */
 	private void invadersShoot(GameState gameState, long currentTime) {
-		// array med laveste invaders
-		ArrayList<Invader> lowestInvaders = gameState.getLowestInvaders();
+		// map of lowest invaders in each x column
+		HashMap<Double, Invader> lowest = new HashMap<Double, Invader>();
 
 		for (Invader invader : gameState.getInvaders()) {
-			// hvis der endnu ikke er en nederste invader
-			if (lowestInvaders.size() == 0) {
-				lowestInvaders.add(gameState.getInvaders().get(0));
+			double column = invader.getPosition().x;
+			if (!lowest.containsKey(column)) {
+				lowest.put(column, invader);
+				continue;
 			}
-			// på niveau med den forreste invader
-			if (invader.getPosition().y == lowestInvaders.get(0).getPosition().y) {
-				lowestInvaders.add(invader);
-				// længere fremme end den
-			} else if (invader.getPosition().y > lowestInvaders.get(0).getPosition().y) {
-				lowestInvaders.clear();
-				lowestInvaders.add(invader);
+
+			for (Invader innerInvader : gameState.getInvaders()) {
+				if (!invader.equals(innerInvader) && column == innerInvader.getPosition().x && invader.getPosition().y < innerInvader.getPosition().y) {
+					lowest.remove(invader);
+					lowest.put(column, innerInvader);
+				}
 			}
 		}
+
+		ArrayList<Invader> trimmed = new ArrayList<Invader>();
+		for (Invader invader : lowest.values()) {
+			trimmed.add(invader);
+		}
 		// nu har man array med forreste invaders
-		Invader shootingInvader = lowestInvaders.get((int) (Math.random() * lowestInvaders.size()));
+		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
 		if (gameState.getLastInvaderShot() - currentTime < -1000) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
 			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType());
@@ -281,7 +290,6 @@ public class GameController extends AbstractController {
 			currentShot.move(24, 50);
 			gameState.getBullets().add(currentShot);
 		}
-		lowestInvaders.clear();
 	}
 
 	/**
