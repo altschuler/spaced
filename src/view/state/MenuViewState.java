@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import command.CommandFactory;
 import model.MainModel;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
@@ -42,15 +43,18 @@ public class MenuViewState extends AbstractViewState {
                 this.label.setForeground(Color.WHITE);
                 // ComboBox / Drop Down
                 this.dropd = new JComboBox();
+                this.dropd.setPreferredSize(new Dimension(120, 50));
+                this.dropd.setMaximumSize(this.dropd.getPreferredSize());
                 this.dropd.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println(("index: " + ((JComboBox) e.getSource()).getSelectedItem()));
+                        CommandFactory.createSetDifficultyCommand(String.valueOf(((JComboBox) e.getSource()).getSelectedItem())).execute();
                     }});
                 this.dropd.setAlignmentX(CENTER_ALIGNMENT);
                 // Button
                 this.btn = GuiUtils.createButtonWithCommand("Start new game", 
-				CommandFactory.createStartNewGameCommand().chain(CommandFactory.createSetStateCommand(ViewState.Game)));
+				CommandFactory.createStartNewGameCommand()
+                        .chain(CommandFactory.createSetStateCommand(ViewState.Game)));
 		this.btn.setAlignmentX(CENTER_ALIGNMENT);
                 
                 // Add to panel

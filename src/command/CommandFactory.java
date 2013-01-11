@@ -17,9 +17,9 @@ public class CommandFactory {
 	private static MainController mainController;
 	private static MainModel gameModel;
 
-	public static void init(MainController $gc, MainModel $gm) {
-		mainController = $gc;
-		gameModel = $gm;
+	public static void init(MainController gc, MainModel gm) {
+		mainController = gc;
+		gameModel = gm;
 	}
 
 	public static Command createSetStateCommand(ViewState state) {
@@ -42,7 +42,11 @@ public class CommandFactory {
 		return new SetDifficultyCommand(gameModel, id);
 	}
 
-	public static Command createStartNewGameCommand() {
+	public static Command createSetDifficultyCommand(String name) {
+		return new SetDifficultyCommand(gameModel, name);
+	}
+        
+        public static Command createStartNewGameCommand() {
 		return new StartNewGameCommand(mainController);
 	}
 

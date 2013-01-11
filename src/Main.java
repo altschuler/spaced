@@ -22,8 +22,6 @@ public class Main {
 		CommandFactory.init(mainController, gameModel);
 		GameStateFactory.init();
 		
-		CommandFactory.createSetDifficultyCommand(0).execute(); //TODO this shouldnt really happen here... AT ALL! //FIXME!
-		
 		// bootstrap the application
 		CommandFactory.createSetStateCommand(ViewState.Splash).execute();
 	}
