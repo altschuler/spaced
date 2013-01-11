@@ -2,15 +2,18 @@ package view.state;
 
 import java.util.ArrayList;
 import java.util.Observable;
-
 import javax.swing.JTextField;
-
 import model.GameModel;
 import model.HighscoreEntry;
 import utils.GuiUtils;
-
 import command.CommandFactory;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.Date;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  * First splash view states shown when initializing the game
@@ -18,18 +21,43 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SplashViewState extends AbstractViewState {
 
+	private JLabel logo;
+        private static final String LOGO_URL = "view/sprites/logo.png";
+        private JLabel label;
 	private JTextField textf;
+        private JButton btn;
 
 	private ArrayList<HighscoreEntry> entries;
 
 	public SplashViewState() {
 		super();
-
-		this.textf = new JTextField();
+                // Config panel
+                this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+                this.setBackground(Color.BLACK);
+                
+                // Logo
+                this.logo = new JLabel(new ImageIcon(this.getClass().getClassLoader().getResource(LOGO_URL)));
+                this.logo.setAlignmentX(CENTER_ALIGNMENT);
+                // Label
+                this.label = new JLabel("Enter your name:", JLabel.CENTER);
+                this.label.setForeground(Color.WHITE);
+                this.label.setAlignmentX(CENTER_ALIGNMENT);
+		// TextField
+                this.textf = new JTextField();
+                this.textf.setPreferredSize(new Dimension(150, 25));
+                this.textf.setMaximumSize(this.textf.getPreferredSize());
+                this.textf.setAlignmentX(CENTER_ALIGNMENT);
+                // Button
+                this.btn = GuiUtils.createButtonWithCommand("GO",
+				CommandFactory.createSetPlayerNameCommand(this.textf)
+                                .chain(CommandFactory.createSetStateCommand(ViewState.Menu)));
+                this.btn.setAlignmentX(CENTER_ALIGNMENT);
+                
+                // Add to panel
+                this.add(this.logo);
+                this.add(this.label);
 		this.add(this.textf);
-
-		this.add(GuiUtils.createButtonWithCommand("GO",
-				CommandFactory.createSetPlayerNameCommand(this.textf).chain(CommandFactory.createSetStateCommand(ViewState.Menu))));
+		this.add(btn);
 	}
 
 	@Override
