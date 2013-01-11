@@ -8,35 +8,35 @@
         token="lo113d" />
     
     <difficulties>
-        <difficulty id="0" name="Easy">
+        <difficulty id="0" name="Easy (lol-mode)">
             <invaders speed="1"
                 shoot-frequency="4000"/>
-            <player speed="1"
+            <player speed="2"
                 shoot-frequency="100"/>
         </difficulty>
         <difficulty id="1" name="Medium">
             <invaders speed="1"
-                shoot-frequency="4000"/>
+                shoot-frequency="3000"/>
             <player speed="2"
-                shoot-frequency="200"/>
+                shoot-frequency="400"/>
         </difficulty>
         <difficulty id="2" name="Hard">
-            <invaders speed="15"
-                shoot-frequency="4000"/>
-            <player speed="20"
-                shoot-frequency="200"/>
+            <invaders speed="1"
+                shoot-frequency="2000"/>
+            <player speed="2"
+                shoot-frequency="1000"/>
         </difficulty>
         <difficulty id="3" name="Impossible">
-            <invaders speed="20"
-                shoot-frequency="4000"/>
-            <player speed="20"
-                shoot-frequency="200"/>
+            <invaders speed="1"
+                shoot-frequency="1000"/>
+            <player speed="2"
+                shoot-frequency="1500"/>
         </difficulty>
         <difficulty id="4" name="Trolled">
-            <invaders speed="30"
-                shoot-frequency="4000"/>
-            <player speed="20"
-                shoot-frequency="200"/>
+            <invaders speed="1"
+                shoot-frequency="500"/>
+            <player speed="1"
+                shoot-frequency="10000"/>
         </difficulty>
     </difficulties>
 </config>

@@ -329,21 +329,43 @@ public class GameController extends AbstractController {
 
 	private void updateInvaders(GameState gameState, long timeDelta) {
 		boolean wallHit = false;
+//		double greatestOverlapR = 0.0;
+//		double greatestOverlapL = 0.0; //TODO FIX MEEE
+		//TODO FIIIX. Den bugger ogsaa ved lav speed.
+		
+		
+		//TODO : make check BEFORE moving ??
 		for (Invader invader : gameState.getInvaders()) {
 			if (gameState.getMoveInvadersRight()) {
 				invader.move(Mathx.distance(timeDelta, invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()), 0);
 			} else {
 				invader.move(-Mathx.distance(timeDelta, invader.getSpeed()), 0);
 			}
-
-			wallHit = wallHit || (invader.getPosition().x + invader.getWidth() > MainModel.SCREEN_WIDTH) || (invader.getPosition().x < 0);
+			double overlapLeft = -invader.getPosition().x;
+//			greatestOverlapL = Math.min(greatestOverlapL, overlapLeft);
+			double overlapRight = MainModel.SCREEN_WIDTH - invader.getPosition().x - invader.getWidth(); //negativ ved overlap
+//			greatestOverlapR = Math.min(greatestOverlapR, overlapRight);
+			
+			wallHit = wallHit || overlapRight < 0 || overlapLeft > 0;
 		}
 
 		if (wallHit) {
+/*			double quickFix = 0.0;
+			if(gameState.getMoveInvadersRight()){
+				quickFix =-greatestOverlapL;
+				quickFix = -100;
+			}else{
+				quickFix =greatestOverlapR;
+				quickFix = 100;
+				System.out.print("OverlapR: ");
+			}
+			System.out.println(quickFix);
+*/			
 			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : gameState.getInvaders()) {
 				invader.move(0, 15); // TODO y coord to diff
 			}
+//			quickFix = 0.0;
 		}
 	}
 

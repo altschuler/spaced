@@ -37,7 +37,8 @@ public class GameStateRenderer {
 
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
-		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
+//		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
+		this.draw(gfx, "view/sprites/IC1396_Hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
@@ -64,7 +65,7 @@ public class GameStateRenderer {
 		// Top status bar, draw last to go on top
 		Font font = new Font("Verdana", Font.PLAIN, 15);
 		gfx.setFont(font);
-		gfx.setColor(Color.ORANGE);
+		gfx.setColor(new Color(150,150,150,200));
 		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
