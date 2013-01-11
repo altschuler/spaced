@@ -8,8 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import model.core.Difficulty;
@@ -20,30 +18,21 @@ import utils.GuiUtils;
  * The main menu view state
  */
 @SuppressWarnings("serial")
-public class MenuViewState extends AbstractViewState {
-
-	private JLabel logo;
-        private static final String LOGO_URL = "view/sprites/logo.png";
+public class MenuViewState extends AbstractMenuViewState {
+    
         private JLabel label;
         private JComboBox dropd;
-        private JButton btn;
+        private JButton btnGame;
+        private JButton btnHighscore;
 
 	public MenuViewState() {
-		super();
-                // Config panel
-                this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-                this.setBackground(Color.BLACK);
-                
-                // Logo
-                this.logo = new JLabel(new ImageIcon(this.getClass().getClassLoader().getResource(LOGO_URL)));
-                this.logo.setAlignmentX(CENTER_ALIGNMENT);
 		// Label
                 this.label = new JLabel();
                 this.label.setAlignmentX(CENTER_ALIGNMENT);
                 this.label.setForeground(Color.WHITE);
                 // ComboBox / Drop Down
                 this.dropd = new JComboBox();
-                this.dropd.setPreferredSize(new Dimension(120, 50));
+                this.dropd.setPreferredSize(new Dimension(150, 50));
                 this.dropd.setMaximumSize(this.dropd.getPreferredSize());
                 this.dropd.addActionListener(new ActionListener() {
                     @Override
@@ -51,17 +40,19 @@ public class MenuViewState extends AbstractViewState {
                         CommandFactory.createSetDifficultyCommand(String.valueOf(((JComboBox) e.getSource()).getSelectedItem())).execute();
                     }});
                 this.dropd.setAlignmentX(CENTER_ALIGNMENT);
-                // Button
-                this.btn = GuiUtils.createButtonWithCommand("Start new game", 
+                // Buttons
+                this.btnGame = GuiUtils.createButtonWithCommand("New Game", 
 				CommandFactory.createStartNewGameCommand()
                         .chain(CommandFactory.createSetStateCommand(ViewState.Game)));
-		this.btn.setAlignmentX(CENTER_ALIGNMENT);
+                this.btnHighscore = GuiUtils.createButtonWithStateCommand("View Highscores", ViewState.Highscore);
+		this.btnGame.setAlignmentX(CENTER_ALIGNMENT);
+		this.btnHighscore.setAlignmentX(CENTER_ALIGNMENT);
                 
                 // Add to panel
-                this.add(this.logo);
 		this.add(this.label);
                 this.add(this.dropd);
-		this.add(this.btn);
+		this.add(this.btnGame);
+                this.add(this.btnHighscore);
 	}
 
 	@Override

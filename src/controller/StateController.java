@@ -6,6 +6,7 @@ import view.MainView;
 import view.state.AbstractViewState;
 import view.state.GameOverViewState;
 import view.state.GameViewState;
+import view.state.HighscoreViewState;
 import view.state.MenuViewState;
 import view.state.PauseMenuViewState;
 import view.state.SplashViewState;
@@ -39,6 +40,10 @@ public class StateController extends AbstractController {
 		switch (state) {
 			case Menu:
 				newState = new MenuViewState();
+				break;
+				
+			case Highscore:
+				newState = new HighscoreViewState();
 				break;
 				
 			case Game:

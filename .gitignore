@@ -16,3 +16,6 @@ bin/
 
 # Mac files
 .DS_Store
+
+# XCode files
+*.xcuserdatad

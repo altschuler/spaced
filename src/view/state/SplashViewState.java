@@ -19,10 +19,8 @@ import javax.swing.JLabel;
  * First splash view states shown when initializing the game
  */
 @SuppressWarnings("serial")
-public class SplashViewState extends AbstractViewState {
-
-	private JLabel logo;
-        private static final String LOGO_URL = "view/sprites/logo.png";
+public class SplashViewState extends AbstractMenuViewState {
+    
         private JLabel label;
 	private JTextField textf;
         private JButton btn;
@@ -30,14 +28,7 @@ public class SplashViewState extends AbstractViewState {
 	private ArrayList<HighscoreEntry> entries;
 
 	public SplashViewState() {
-		super();
-                // Config panel
-                this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-                this.setBackground(Color.BLACK);
-                
-                // Logo
-                this.logo = new JLabel(new ImageIcon(this.getClass().getClassLoader().getResource(LOGO_URL)));
-                this.logo.setAlignmentX(CENTER_ALIGNMENT);
+            
                 // Label
                 this.label = new JLabel("Enter your name:", JLabel.CENTER);
                 this.label.setForeground(Color.WHITE);
@@ -54,7 +45,6 @@ public class SplashViewState extends AbstractViewState {
                 this.btn.setAlignmentX(CENTER_ALIGNMENT);
                 
                 // Add to panel
-                this.add(this.logo);
                 this.add(this.label);
 		this.add(this.textf);
 		this.add(btn);

@@ -6,6 +6,7 @@ package view.state;
 public enum ViewState {
 	Splash,
 	Menu,
+        Highscore,
 	Game, 
 	PauseMenu, 
 	GameOver

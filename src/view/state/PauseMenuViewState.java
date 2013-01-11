@@ -12,23 +12,14 @@ import utils.GuiUtils;
  * The main menu view state
  */
 @SuppressWarnings("serial")
-public class PauseMenuViewState extends AbstractViewState {
+public class PauseMenuViewState extends AbstractMenuViewState {
     
-        private JLabel logo;
-        private static final String LOGO_URL = "view/sprites/logo.png";
         private JLabel label;
         private JButton btnResume;
         private JButton btnMenu;
 
 	public PauseMenuViewState() {
-		super();
-                // Config panel
-                this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-                this.setBackground(Color.BLACK);
-                
-                // Logo
-                this.logo = new JLabel(new ImageIcon(this.getClass().getClassLoader().getResource(LOGO_URL)));
-                this.logo.setAlignmentX(CENTER_ALIGNMENT);
+            
 		// Label
                 this.label = new JLabel("Game paused");
                 this.label.setForeground(Color.WHITE);
@@ -40,7 +31,6 @@ public class PauseMenuViewState extends AbstractViewState {
                 this.btnMenu.setAlignmentX(CENTER_ALIGNMENT);
                 
                 // Add to panel
-                this.add(this.logo);
 		this.add(this.label);
                 this.add(this.btnResume);
 		this.add(this.btnMenu);

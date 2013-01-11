@@ -76,7 +76,8 @@ public class SpriteHandler {
         this.add("view/sprites/bunkerPartBrokenUpwardsBullet.png");
         this.add("view/sprites/bullet.png");
         this.add("view/sprites/missile.png");
-        this.add("view/sprites/IC1396_Hubble.jpg");
+        this.add("view/sprites/hubble.jpg");
+        this.add("view/sprites/logo.png");
         this.add("view/sprites/1357850269_present_48.png");
         // TODO: Bunker
     }

@@ -2,9 +2,7 @@ package view.state;
 
 import java.awt.Canvas;
 import java.util.Observable;
-
 import model.MainModel;
-
 import command.CommandFactory;
 
 /**

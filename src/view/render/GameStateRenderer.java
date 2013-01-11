@@ -38,7 +38,7 @@ public class GameStateRenderer {
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
 //		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		this.draw(gfx, "view/sprites/IC1396_Hubble.jpg", new Coordinate(0, 0));
+		this.draw(gfx, "view/sprites/hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
