@@ -1,10 +1,8 @@
 package controller;
 
-import command.CommandFactory;
-
-import model.MainModel;
 import model.GameStateFactory;
 import model.GameStateState;
+import model.MainModel;
 import model.core.PlayerIndex;
 import view.MainView;
 
