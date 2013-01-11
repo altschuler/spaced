@@ -132,6 +132,7 @@ public class GameController extends AbstractController {
 			Invader invader = invaders.next();
 			if (invader.isDestroyed()) {
 				invaders.remove();
+				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+10);
 			}
 		}
 

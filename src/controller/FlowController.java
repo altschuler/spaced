@@ -23,19 +23,19 @@ public class FlowController extends AbstractController {
      */
     public void loadLevel(int id, boolean retainedProgress) {
     	int playerLives = 0;
-    	int points = 0;
+    	int playerPoints = 0;
     	boolean hadGameState = false;
     	if (this.gameModel.getActiveGameState() != null) {
     		hadGameState = true;
 	    	playerLives = this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).getLives();
-	    	points = this.gameModel.getActiveGameState().getPoints();
+	    	playerPoints = this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).getPoints();
     	}
     	
     	this.gameModel.setActiveGameState(GameStateFactory.getLevel(id));
     	this.gameModel.getActiveGameState().setState(GameStateState.Waiting);
     	if (retainedProgress && hadGameState) {
     		this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).setLives(playerLives);
-    		this.gameModel.getActiveGameState().setPoints(points);
+    		this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).setPoints(playerPoints);
     	}
     }
     

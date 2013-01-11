@@ -69,10 +69,11 @@ public class GameStateRenderer {
 		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
-		String playerString = String.format("Diff: %s, Inv: %s, Player: %s", 
+		String playerString = String.format("Diff: %s, Inv: %s, Player: %s, Score: %s", 
                         gameModel.getActiveDifficulty().getName(), 
                         gameState.getInvaders().size(), 
-                        gameModel.getPlayerName(PlayerIndex.One));
+                        gameModel.getPlayerName(PlayerIndex.One),
+                        gameState.getPlayer(PlayerIndex.One).getPoints());
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
 		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 

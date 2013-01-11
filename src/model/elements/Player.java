@@ -11,6 +11,7 @@ public class Player extends KillableGameElement {
 	private PlayerIndex id;
 	
 	private int lives = 3;
+	private int points = 0;
 	private int maxShootFrequency = 450;
 	private long timeOfLastShot = 0;
 	private BulletType weapon = BulletType.Normal;
@@ -63,5 +64,13 @@ public class Player extends KillableGameElement {
 
 	public void setWeapon(BulletType weapon) {
 		this.weapon = weapon;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int point) {
+		this.points = point;
 	}
 }
