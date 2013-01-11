@@ -8,12 +8,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+import java.util.Iterator;
 
 import model.MainModel;
 import model.GameState;
 import model.GameStateState;
 import model.core.Coordinate;
 import model.core.PlayerIndex;
+import model.elements.Animation;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.GameElement;
@@ -47,6 +49,16 @@ public class GameStateRenderer {
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
 		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
+		for (Iterator<Animation> animations = gameState.getAnimations().iterator(); animations.hasNext();) {
+			Animation animation = animations.next();
+			if(animation.getIndexOfLastFrame()-1 >= animation.getFrames()){
+				animations.remove();
+			}else{
+				this.drawAnimation(gfx, animation);	
+			}
+		}
+		
+		
 		
 		// Top status bar, draw last to go on top
 		Font font = new Font("Verdana", Font.PLAIN, 15);
@@ -81,6 +93,21 @@ public class GameStateRenderer {
 	
 	public void drAwesome(Graphics g, GameElement gameElement){
 		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
+	}
+	
+	public void drawAnimation(Graphics g, Animation ani){
+		Sprite spriteSheet = SpriteHandler.getInstance().get(ani.getImageURL());
+		int aniPosX = (int) ani.getPosition().x;
+		int aniPosY = (int) ani.getPosition().y;
+		int lastIndex = ani.getIndexOfLastFrame();
+		g.drawImage(spriteSheet.getImage(), aniPosX, aniPosY, aniPosX+spriteSheet.getWidth(), aniPosY+ani.getFrameHeight(), 0, (lastIndex-1)*ani.getFrameHeight(), spriteSheet.getWidth(), (lastIndex)*ani.getFrameHeight(), null);
+
+		if (System.currentTimeMillis() - ani.getTimeOfLastFrame()> ani.getTimePerFrame()) {
+			ani.setTimeOfLastFrame(System.currentTimeMillis());
+			ani.setIndexOfLastFrame(ani.getIndexOfLastFrame()+1);
+		}
+		
+		//TODO: make this... Use a SpriteSheet
 	}
 
 	public int getTopBarHeight() {

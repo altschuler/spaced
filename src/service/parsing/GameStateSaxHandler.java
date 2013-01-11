@@ -49,7 +49,7 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                 this.currentLevel.getInvaders().add(invader);
                 break;
             case "bonus":
-            	this.currentLevel.getBonuss().add(new Bonus(
+            	this.currentLevel.getBonus().add(new Bonus(
                         Integer.valueOf(atts.getValue("points")), 
                         Integer.valueOf(atts.getValue("health"))));
                 break;

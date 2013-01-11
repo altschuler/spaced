@@ -17,8 +17,10 @@ import model.core.Coordinate;
 import model.core.Difficulty;
 import model.core.Direction;
 import model.core.PlayerIndex;
+import model.elements.Animation;
 import model.elements.Bullet;
 import model.elements.Bunker;
+import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
 import utils.Input;
@@ -177,12 +179,15 @@ public class GameController extends AbstractController {
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
 			player.setWeapon(BulletType.Normal);
+			player.setMaxShootFrequency(450);
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_2)) {
 			player.setWeapon(BulletType.Fast);
+			player.setMaxShootFrequency(300);
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
+			player.setMaxShootFrequency(1000);
 		}
 		
 		//Player shoots
@@ -252,27 +257,27 @@ public class GameController extends AbstractController {
 					Invader invader = invaders.next();
 					if (Mathx.intersects(bullet, invader)) {
 						
-						if(bullet.getType() == BulletType.Explosive){
+						if(bullet.getType() == BulletType.Explosive){ //in case an invader is hit by a missile
 							double explosionRadius = 60.0;
 							
 							for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 								Invader anotherInvader = moreInvaders.next();
-								Coordinate explosionCenter = new Coordinate(bullet.getPosition().x+((double) bullet.getWidth()),
-										bullet.getPosition().y+((double) bullet.getHeight()));
+								Coordinate explosionCenter = new Coordinate(bullet.getPosition().x+((double) bullet.getWidth()/2),
+										bullet.getPosition().y+((double) bullet.getHeight()/2));
 
 								if(Mathx.circleRectangleIntersects(anotherInvader, explosionCenter, explosionRadius)){
 									anotherInvader.healthDown();
 									if (anotherInvader.isDead()) {
+										this.addExplosion(gameState, anotherInvader);
 										anotherInvader.destroy();
-									}
+										}
 								}
 							}
 						}
-						
 						bullet.destroy();
-
 						invader.healthDown();
 						if (invader.isDead()) {
+							this.addExplosion(gameState, invader);
 							invader.destroy();
 						}
 						break;
@@ -394,5 +399,9 @@ public class GameController extends AbstractController {
 			this.timer = new Timer(20, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
 		}
 		return timer;
+	}
+	
+	private void addExplosion(GameState gameState, GameElement gameElement){
+		gameState.getAnimations().add(new Animation("view/sprites/explosion.png", gameElement.getPosition().clone(), 5));
 	}
 }

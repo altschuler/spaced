@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.core.PlayerIndex;
+import model.elements.Animation;
 import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
@@ -23,6 +24,7 @@ public class GameState {
 	private ArrayList<Invader> individualInvaders; //TODO for special movement... Bosses for instance or slow-shot
 	private ArrayList<Bonus> bonus;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Animation> animations;
 
 	private int points;
 	private long lastUpdateTime;
@@ -45,6 +47,7 @@ public class GameState {
 		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
+		this.setAnimations(new ArrayList<Animation>());
 		this.state = GameStateState.Waiting;
 	}
 
@@ -72,7 +75,7 @@ public class GameState {
 		return invaders;
 	}
 
-	public ArrayList<Bonus> getBonuss() {
+	public ArrayList<Bonus> getBonus() {
 		return bonus;
 	}
 
@@ -138,5 +141,13 @@ public class GameState {
 
 	public void setState(GameStateState state) {
 		this.state = state;
+	}
+
+	public ArrayList<Animation> getAnimations() {
+		return animations;
+	}
+
+	public void setAnimations(ArrayList<Animation> animations) {
+		this.animations = animations;
 	}
 }
