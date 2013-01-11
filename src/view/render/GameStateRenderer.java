@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+
 import java.util.Iterator;
 
 import model.MainModel;
@@ -67,7 +68,10 @@ public class GameStateRenderer {
 		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
-		String playerString = String.format("Invaders left: %s, Player: %s", gameState.getInvaders().size(), gameModel.getPlayerName(PlayerIndex.One));
+		String playerString = String.format("Diff: %s, Inv: %s, Player: %s", 
+                        gameModel.getActiveDifficulty().getName(), 
+                        gameState.getInvaders().size(), 
+                        gameModel.getPlayerName(PlayerIndex.One));
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
 		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
