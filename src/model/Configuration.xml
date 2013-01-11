@@ -15,25 +15,25 @@
                 shoot-frequency="100"/>
         </difficulty>
         <difficulty id="1" name="Medium">
-            <invaders speed="1"
+            <invaders speed="2"
                 shoot-frequency="3000"/>
             <player speed="2"
                 shoot-frequency="400"/>
         </difficulty>
         <difficulty id="2" name="Hard">
-            <invaders speed="1"
+            <invaders speed="5"
                 shoot-frequency="2000"/>
             <player speed="2"
                 shoot-frequency="1000"/>
         </difficulty>
         <difficulty id="3" name="Impossible">
-            <invaders speed="1"
+            <invaders speed="10"
                 shoot-frequency="1000"/>
             <player speed="2"
                 shoot-frequency="1500"/>
         </difficulty>
         <difficulty id="4" name="Trolled">
-            <invaders speed="1"
+            <invaders speed="50"
                 shoot-frequency="500"/>
             <player speed="1"
                 shoot-frequency="10000"/>
