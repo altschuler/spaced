@@ -3,13 +3,15 @@ package model;
 import java.util.HashMap;
 import java.util.Observable;
 
+import command.CommandFactory;
+
 import model.core.Difficulty;
 import model.core.PlayerIndex;
 
 /**
  * The top-level game model which holds overall game state
  */
-public class GameModel extends Observable {
+public class MainModel extends Observable {
 
 	public static final int SCREEN_WIDTH = 1080;
 	public static final int SCREEN_HEIGHT = 700;
@@ -20,9 +22,8 @@ public class GameModel extends Observable {
 	private GameConfiguration gameConfig;
 	private Difficulty activeDifficulty;
 
-	public GameModel() {
+	public MainModel() {
 		this.setGameConfig(new GameConfiguration());
-		this.setActiveDifficulty(this.getGameConfig().getDifficulties().get(1));
 		this.playerNames = new HashMap<PlayerIndex, String>();
 		this.setHighScore(0);
 	}

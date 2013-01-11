@@ -1,11 +1,11 @@
 package controller;
 
-import model.GameModel;
+import model.MainModel;
 import view.MainView;
 
 /**
  * Controller that manages other {@link AbstractController}s, and provides them with
- * access to the {@link GameModel} and {@link MainView}.
+ * access to the {@link MainModel} and {@link MainView}.
  */
 public class MainController {
 
@@ -15,9 +15,9 @@ public class MainController {
         private HighscoreController highscoreController;
 	
 	private MainView gw;
-	private GameModel gm;
+	private MainModel gm;
 
-	public MainController(MainView gw, GameModel gm) {
+	public MainController(MainView gw, MainModel gm) {
 		this.gw = gw;
 		this.gm = gm;
 	}

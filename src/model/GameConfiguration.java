@@ -10,7 +10,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.core.Difficulty;
 import org.xml.sax.SAXException;
-import service.ConfigurationSaxHandler;
+
+import service.parsing.ConfigurationSaxHandler;
 import view.render.SpriteHandler;
 
 public class GameConfiguration {
@@ -103,4 +104,11 @@ public class GameConfiguration {
     public void addDifficulty(Difficulty difficulty) {
         this.difficulties.add(difficulty);
     }
+
+	public Difficulty getDifficulty(int id) {
+		for (Difficulty difficulty : this.getDifficulties()) {
+			if (difficulty.getId() == id) return difficulty;
+		}
+		return null;
+	}
 }

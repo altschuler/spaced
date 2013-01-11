@@ -1,15 +1,15 @@
 package command;
 
-import model.GameModel;
+import model.MainModel;
 import controller.GameController;
 
 public class GameLoopEnabledCommand extends Command {
 
 	private boolean enabled;
 	private GameController gameController;
-	private GameModel gameModel;
+	private MainModel gameModel;
 
-	public GameLoopEnabledCommand(GameController gameController, GameModel gameModel, boolean enabled) {
+	public GameLoopEnabledCommand(GameController gameController, MainModel gameModel, boolean enabled) {
 		this.gameController = gameController;
 		this.gameModel = gameModel;
 		this.enabled = enabled;

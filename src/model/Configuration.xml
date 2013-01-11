@@ -9,15 +9,15 @@
     
     <difficulties>
         <difficulty id="0" name="Easy">
-            <invaders speed="10"
+            <invaders speed="1"
                 shoot-frequency="4000"/>
-            <player speed="20"
-                shoot-frequency="200"/>
+            <player speed="1"
+                shoot-frequency="100"/>
         </difficulty>
         <difficulty id="1" name="Medium">
-            <invaders speed="10"
+            <invaders speed="1"
                 shoot-frequency="4000"/>
-            <player speed="20"
+            <player speed="2"
                 shoot-frequency="200"/>
         </difficulty>
         <difficulty id="2" name="Hard">

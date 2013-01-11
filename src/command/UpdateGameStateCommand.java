@@ -1,15 +1,15 @@
 package command;
 
-import model.GameModel;
+import model.MainModel;
 import controller.GameController;
 
 
 public class UpdateGameStateCommand extends Command {
 	
-	private GameModel gameModel;
+	private MainModel gameModel;
 	private GameController gameController;
 
-	public UpdateGameStateCommand(GameModel gameModel, GameController gc) {
+	public UpdateGameStateCommand(MainModel gameModel, GameController gc) {
 		this.gameController = gc;
 		this.gameModel = gameModel;
 	}

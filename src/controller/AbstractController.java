@@ -1,14 +1,14 @@
 package controller;
 
-import model.GameModel;
+import model.MainModel;
 import view.MainView;
 
 public class AbstractController {
 
 	protected MainView mainView;
-	protected GameModel gameModel;
+	protected MainModel gameModel;
 	
-	public AbstractController(MainView gw, GameModel gm) {
+	public AbstractController(MainView gw, MainModel gm) {
 		this.mainView = gw;
 		this.gameModel = gm;
 	}

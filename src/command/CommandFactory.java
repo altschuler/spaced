@@ -2,22 +2,22 @@ package command;
 
 import javax.swing.JTextField;
 
-import model.GameModel;
+import model.MainModel;
 import view.state.ViewState;
 import controller.MainController;
 
 /**
  * Factory class which creates commands. It is initialized with the 
- * main {@link MainController} and {@link GameModel} to easily create
+ * main {@link MainController} and {@link MainModel} to easily create
  * command which depend on these, from classes that are decoupled from them. 
  * Which is nice.
  */
 public class CommandFactory {
 
 	private static MainController mainController;
-	private static GameModel gameModel;
+	private static MainModel gameModel;
 
-	public static void init(MainController $gc, GameModel $gm) {
+	public static void init(MainController $gc, MainModel $gm) {
 		mainController = $gc;
 		gameModel = $gm;
 	}
@@ -36,6 +36,10 @@ public class CommandFactory {
 
 	public static Command createGameLoopEnabledCommand(boolean enabled) {
 		return new GameLoopEnabledCommand(mainController.getGameController(), gameModel, enabled);
+	}
+
+	public static Command createSetDifficultyCommand(int id) {
+		return new SetDifficultyCommand(gameModel, id);
 	}
 
 	public static Command createStartNewGameCommand() {

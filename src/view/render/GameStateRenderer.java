@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
-import model.GameModel;
+import model.MainModel;
 import model.GameState;
 import model.GameStateState;
 import model.core.Coordinate;
@@ -27,19 +27,19 @@ public class GameStateRenderer {
 	public GameStateRenderer() {
 	}
 
-	public void render(Canvas canvas, GameState gameState, GameModel gameModel) {
+	public void render(Canvas canvas, GameState gameState, MainModel gameModel) {
 		// Setup graphics
 		Graphics2D gfx = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
 		gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
-		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT);
+		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
-			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, GameModel.SCREEN_HEIGHT - 20));
+			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20));
 		}
 
 		// Draws everything else
@@ -52,12 +52,12 @@ public class GameStateRenderer {
 		Font font = new Font("Verdana", Font.PLAIN, 15);
 		gfx.setFont(font);
 		gfx.setColor(Color.ORANGE);
-		gfx.fillRect(0, 0, GameModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
+		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
 		String playerString = String.format("Invaders left: %s, Player: %s", gameState.getInvaders().size(), gameModel.getPlayerName(PlayerIndex.One));
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
-		gfx.drawString(playerString, (int) (GameModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
+		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
@@ -66,8 +66,8 @@ public class GameStateRenderer {
 			gfx.setColor(Color.RED);
 			String anyKeyText = String.format("LEVEL %d - PRESS ANY KEY TO START", gameState.getId());
 			Rectangle2D anyKeyTextBounds = gfx.getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx);
-			gfx.drawString(anyKeyText, (int) (GameModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
-					(int) (GameModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));
+			gfx.drawString(anyKeyText, (int) (MainModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
+					(int) (MainModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));
 		}
 		
 		// Empty the graphics buffer

@@ -2,7 +2,7 @@ package command;
 
 import javax.swing.JTextField;
 
-import model.GameModel;
+import model.MainModel;
 import model.core.PlayerIndex;
 
 /**
@@ -11,9 +11,9 @@ import model.core.PlayerIndex;
 public class SetPlayerNameCommand extends Command {
 	
 	private JTextField playerNameField;
-	private GameModel gm;
+	private MainModel gm;
 	
-	public SetPlayerNameCommand(GameModel gm, JTextField playerNameField) {
+	public SetPlayerNameCommand(MainModel gm, JTextField playerNameField) {
 		this.playerNameField = playerNameField;
 		this.gm = gm;
 	}

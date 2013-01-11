@@ -3,7 +3,7 @@ package view.state;
 import java.util.Observable;
 import javax.swing.JLabel;
 import command.CommandFactory;
-import model.GameModel;
+import model.MainModel;
 import model.core.PlayerIndex;
 import utils.GuiUtils;
 
@@ -26,7 +26,7 @@ public class MenuViewState extends AbstractViewState {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		GameModel gm = (GameModel) o;
+		MainModel gm = (MainModel) o;
 		this.label.setText(String.format("Hi %s!", gm.getPlayerName(PlayerIndex.One)));
 	}
 }

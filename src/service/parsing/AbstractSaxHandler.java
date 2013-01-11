@@ -1,4 +1,4 @@
-package service;
+package service.parsing;
 
 import java.util.Stack;
 import org.xml.sax.Attributes;

@@ -9,11 +9,12 @@ import java.util.Iterator;
 
 import javax.swing.Timer;
 
-import model.GameModel;
+import model.MainModel;
 import model.GameState;
 import model.GameStateState;
 import model.core.BulletType;
 import model.core.Coordinate;
+import model.core.Difficulty;
 import model.core.Direction;
 import model.core.PlayerIndex;
 import model.elements.Bullet;
@@ -35,7 +36,7 @@ public class GameController extends AbstractController {
 	private Timer timer;
 	private GameStateRenderer renderer;
 
-	public GameController(MainView gw, GameModel gm) {
+	public GameController(MainView gw, MainModel gm) {
 		super(gw, gm);
 
 		this.renderer = new GameStateRenderer();
@@ -167,11 +168,11 @@ public class GameController extends AbstractController {
 		Player player = gameState.getPlayer(PlayerIndex.One);
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
-			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed());
+			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
 		}
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_RIGHT)) {
-			player.getPosition().x += Mathx.distance(timeDelta, player.getSpeed());
+			player.getPosition().x += Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
 		}
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
@@ -188,7 +189,7 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
 			// the player can only shoot once per playerShotFrequency
 			long currentTime = System.currentTimeMillis();
-			if (player.getTimeOfLastShot() - currentTime < -player.getMaxShootFrequency()) {
+			if (currentTime - player.getTimeOfLastShot()> gameModel.getActiveDifficulty().getPlayerShootFreq()) {
 				player.setTimeOfLastShot(currentTime);
 				SoundController.playSound(new File("leftright.wav"), 1, 75);
 
@@ -212,7 +213,7 @@ public class GameController extends AbstractController {
 		}
 
 		player.getPosition().x = Math.max(0, player.getPosition().x);
-		player.getPosition().x = Math.min(GameModel.SCREEN_WIDTH - player.getWidth(), player.getPosition().x);
+		player.getPosition().x = Math.min(MainModel.SCREEN_WIDTH - player.getWidth(), player.getPosition().x);
 	}
 
 	/**
@@ -325,12 +326,12 @@ public class GameController extends AbstractController {
 		boolean wallHit = false;
 		for (Invader invader : gameState.getInvaders()) {
 			if (gameState.getMoveInvadersRight()) {
-				invader.move(Mathx.distance(timeDelta, invader.getSpeed()), 0);
+				invader.move(Mathx.distance(timeDelta, invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()), 0);
 			} else {
 				invader.move(-Mathx.distance(timeDelta, invader.getSpeed()), 0);
 			}
 
-			wallHit = wallHit || (invader.getPosition().x + invader.getWidth() > GameModel.SCREEN_WIDTH) || (invader.getPosition().x < 0);
+			wallHit = wallHit || (invader.getPosition().x + invader.getWidth() > MainModel.SCREEN_WIDTH) || (invader.getPosition().x < 0);
 		}
 
 		if (wallHit) {

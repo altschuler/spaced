@@ -1,4 +1,4 @@
-package service;
+package service.parsing;
 
 import java.net.MalformedURLException;
 import java.net.URL;

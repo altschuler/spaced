@@ -11,7 +11,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-import service.GameStateSaxHandler;
+import service.parsing.GameStateSaxHandler;
 
 import com.rits.cloning.Cloner;
 
@@ -20,13 +20,10 @@ import com.rits.cloning.Cloner;
  */
 public class GameStateFactory {
 	
-	private static final String XML_FILE = "./GameStates.xml";
+	private static final String XML_FILE = "./GameStates.xml"; // TODO maybe move this to config file>
 	private static ArrayList<GameState> levels;
-	private static GameModel gameModel;
 
-	public static void init(GameModel $gm) {
-		gameModel = $gm;
-		
+	public static void init() {
 		parseXML();
 	}
 
@@ -38,7 +35,7 @@ public class GameStateFactory {
 
 			SAXParser saxParser = factory.newSAXParser();
 
-			GameStateSaxHandler handler = new GameStateSaxHandler(gameModel.getActiveDifficulty());
+			GameStateSaxHandler handler = new GameStateSaxHandler();
 			saxParser.parse(xmlInput, handler);
 
 			levels = handler.getLevels();

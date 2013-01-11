@@ -14,6 +14,8 @@ import model.HighscoreEntry;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import service.parsing.HighscoreSaxHandler;
+
 public class HighscoreService {
         
     private ArrayList<HighscoreEntry> entries;

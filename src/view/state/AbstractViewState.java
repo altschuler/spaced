@@ -6,7 +6,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import model.GameModel;
+import model.MainModel;
 import view.MainView;
 import controller.MainController;
 
@@ -19,7 +19,7 @@ abstract public class AbstractViewState extends JPanel implements Observer {
 	protected MainController mainController;
 	
 	public AbstractViewState() {
-	    this.setPreferredSize(new Dimension(GameModel.SCREEN_WIDTH, GameModel.SCREEN_HEIGHT));
+	    this.setPreferredSize(new Dimension(MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT));
 	}
 
 	/* 

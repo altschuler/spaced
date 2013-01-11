@@ -5,7 +5,7 @@ import java.util.Observable;
 
 import javax.swing.JTextField;
 
-import model.GameModel;
+import model.MainModel;
 import model.HighscoreEntry;
 import utils.GuiUtils;
 
@@ -34,7 +34,7 @@ public class SplashViewState extends AbstractViewState {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		GameModel gameModel = (GameModel) o;
+		MainModel gameModel = (MainModel) o;
 		this.textf.setText(gameModel.getGameConfig().getDefaultName());
 //		this.loadEntries(); // For testing
 	}

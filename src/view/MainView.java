@@ -11,12 +11,12 @@ import utils.Input;
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
 	public MainView() {
-            super("Space Invaders - HD, Widescreen Version");
-            this.setResizable(false);
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	    this.setFocusable(true);
-	    this.requestFocusInWindow();
-	    this.addKeyListener(Input.getInstance());
+		super("Space Invaders - HD, Widescreen Version");
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		this.setFocusable(true);
+		this.requestFocusInWindow();
+		this.addKeyListener(Input.getInstance());
 	}
 }
