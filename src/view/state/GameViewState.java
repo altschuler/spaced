@@ -1,6 +1,8 @@
 package view.state;
 
 import java.awt.Canvas;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Observable;
 
 import model.MainModel;
@@ -24,6 +26,7 @@ public class GameViewState extends AbstractViewState {
 		this.display.setIgnoreRepaint(true);
 		this.display.setBounds(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
 		this.display.setVisible(true);
+		this.display.setFocusable(false);	
 		
 		this.add(this.getDisplay());
 	}
