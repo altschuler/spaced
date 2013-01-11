@@ -177,11 +177,12 @@ public class GameController extends AbstractController {
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
 			player.setWeapon(BulletType.Normal);
-			System.out.println("Weapon set to: "+player.getWeapon());
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_2)) {
 			player.setWeapon(BulletType.Fast);
-			System.out.println("Weapon set to: "+player.getWeapon());
+		}
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
+			player.setWeapon(BulletType.Explosive);
 		}
 		
 		//Player shoots
@@ -196,12 +197,15 @@ public class GameController extends AbstractController {
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
+				case Fast:
+					currentShot.setSpeed(currentShot.getSpeed()*2);
+					break;
+				case Explosive:
+					currentShot.setImageURL("view/sprites/missile.png");
+					break;
 				case Normal:
 					break;
 				case Homing:
-					break;
-				case Fast:
-					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 			}
 				gameState.getBullets().add(currentShot);
@@ -234,20 +238,37 @@ public class GameController extends AbstractController {
 
 						bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
 						break;
-					case Fast:
+					default:
 						break;
 				}
 			}
 
-			if (bullet.getPosition().y <= 0) {
+			if (bullet.getPosition().y <= renderer.getTopBarHeight()) {
 				bullet.destroy();
 			}
 			// collision detection
 			if (bullet.getDirection() == Direction.Up) {
 				for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 					Invader invader = invaders.next();
-
 					if (Mathx.intersects(bullet, invader)) {
+						
+						if(bullet.getType() == BulletType.Explosive){
+							double explosionRadius = 60.0;
+							
+							for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
+								Invader anotherInvader = moreInvaders.next();
+								Coordinate explosionCenter = new Coordinate(bullet.getPosition().x+((double) bullet.getWidth()),
+										bullet.getPosition().y+((double) bullet.getHeight()));
+
+								if(Mathx.circleRectangleIntersects(anotherInvader, explosionCenter, explosionRadius)){
+									anotherInvader.healthDown();
+									if (anotherInvader.isDead()) {
+										anotherInvader.destroy();
+									}
+								}
+							}
+						}
+						
 						bullet.destroy();
 
 						invader.healthDown();

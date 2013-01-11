@@ -57,7 +57,4 @@ public class ConfigurationSaxHandler extends AbstractSaxHandler {
     public GameConfiguration getConfig() {
         return config;
     }
-    
-    
-    
 }

@@ -21,6 +21,7 @@ import model.elements.Player;
 import utils.Mathx;
 
 public class GameStateRenderer {
+	private int topBarHeight = 30;
 
 	public GameStateRenderer() {
 	}
@@ -50,7 +51,7 @@ public class GameStateRenderer {
 		Font font = new Font("Verdana", Font.PLAIN, 15);
 		gfx.setFont(font);
 		gfx.setColor(Color.ORANGE);
-		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, 30);
+		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
 		String playerString = String.format("Diff: %s, Inv: %s, Player: %s", 
@@ -82,5 +83,9 @@ public class GameStateRenderer {
 	
 	public void drAwesome(Graphics g, GameElement gameElement){
 		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
+	}
+
+	public int getTopBarHeight() {
+		return topBarHeight;
 	}
 }
