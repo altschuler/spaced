@@ -200,6 +200,7 @@ public class GameController extends AbstractController {
 					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 				case Explosive:
+					currentShot.setImageURL("view/sprites/missile.png");
 					break;
 				case Normal:
 					break;
@@ -248,8 +249,25 @@ public class GameController extends AbstractController {
 			if (bullet.getDirection() == Direction.Up) {
 				for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 					Invader invader = invaders.next();
-
 					if (Mathx.intersects(bullet, invader)) {
+						
+						if(bullet.getType() == BulletType.Explosive){
+							double explosionRadius = 60.0;
+							
+							for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
+								Invader anotherInvader = moreInvaders.next();
+								Coordinate explosionCenter = new Coordinate(bullet.getPosition().x+((double) bullet.getWidth()),
+										bullet.getPosition().y+((double) bullet.getHeight()));
+
+								if(Mathx.circleRectangleIntersects(anotherInvader, explosionCenter, explosionRadius)){
+									anotherInvader.healthDown();
+									if (anotherInvader.isDead()) {
+										anotherInvader.destroy();
+									}
+								}
+							}
+						}
+						
 						bullet.destroy();
 
 						invader.healthDown();

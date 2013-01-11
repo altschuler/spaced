@@ -74,6 +74,7 @@ public class SpriteHandler {
         this.add("view/sprites/bunkerPartBroken.png");
         this.add("view/sprites/bunkerPartBrokenUpwardsBullet.png");
         this.add("view/sprites/bullet.png");
+        this.add("view/sprites/missile.png");
         this.add("view/sprites/1357850269_present_48.png");
         // TODO: Bunker
     }

@@ -1,7 +1,6 @@
 package utils;
 
 import model.core.Coordinate;
-import model.core.PlayerIndex;
 import model.elements.GameElement;
 
 public class Mathx {
@@ -62,6 +61,26 @@ public class Mathx {
 
 		return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
 	}
+	
+	static public boolean circleRectangleIntersects(GameElement rect, Coordinate circ, double radius){
+		double rectCenterX = rect.getPosition().x + ((double) rect.getWidth()/2);
+		double rectCenterY = rect.getPosition().y + ((double) rect.getHeight()/2);
+
+		double circleDistanceX = Math.abs(rectCenterX-circ.x);
+		double circleDistanceY = Math.abs(rectCenterY-circ.y);
+		
+		if (circleDistanceX > (rect.getWidth()/2 + radius)) { return false; }
+	    if (circleDistanceY > (rect.getHeight()/2 + radius)) { return false; }
+	    
+	    if (circleDistanceX <= (rect.getWidth()/2)) { return true; } 
+	    if (circleDistanceY <= (rect.getHeight()/2)) { return true; }
+	    
+	    double cornerDistance_squared = Math.pow((circleDistanceX - rect.getWidth()/2),2) +
+                Math.pow((circleDistanceY - rect.getHeight()/2), 2);
+
+		return (cornerDistance_squared <= Math.pow(radius,2));
+	}
+
 	public static Coordinate angle(Coordinate a, Coordinate b) {
 		return new Coordinate(a.x - b.x, a.y - b.y);
 	}
