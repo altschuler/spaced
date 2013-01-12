@@ -44,6 +44,10 @@ public class Mathx {
 	static public long distance(long timeDelta, int speed) {
 		return timeDelta / 20 * speed / 2;
 	}
+	
+	static public long distance(long timeDelta, double speed) {
+		return (long) ((double) timeDelta / 20.0 * speed / 2.0);
+	}
 
 	/**
 	 * Determine whether two game elements are intersecting, depending on their

@@ -1,11 +1,15 @@
+import java.io.File;
+
 import model.MainModel;
 import model.GameStateFactory;
+import sounds.SoundHandler;
 import view.MainView;
 import view.state.ViewState;
 
 import command.CommandFactory;
 
 import controller.MainController;
+import controller.SoundController;
 
 /**
  * Java entry class

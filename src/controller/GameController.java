@@ -21,6 +21,7 @@ import model.elements.Bunker;
 import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
+import sounds.SoundHandler;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
@@ -119,20 +120,28 @@ public class GameController extends AbstractController {
 	}
 
 	private void sweep(GameState gameState) {
+
 		for (Iterator<Bullet> bullets = gameState.getBullets().iterator(); bullets.hasNext();) {
 			Bullet bullet = bullets.next();
 			if (bullet.isDestroyed()) {
 				bullets.remove();
 			}
 		}
-
+		boolean hasInvaderDied = false;
+		
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
 			if (invader.isDestroyed()) {
+				hasInvaderDied = true;
+//TODO : should spawn bonuses here!
 				invaders.remove();
 				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+10);
 			}
 		}
+		if(hasInvaderDied){	//making this check to avoid the annoying effect of the same sound being played milliseconds apart!
+			SoundHandler.getInstance().playSound("audio/boom01.wav", 0, 0,-1.0f);
+		}
+		
 
 		for (Iterator<Bunker> bunkers = gameState.getBunkers().iterator(); bunkers.hasNext();) {
 			Bunker bunker = bunkers.next();
@@ -192,7 +201,7 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_4)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
-//				anotherInvader.destroy();
+				anotherInvader.destroy();
 				System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
 			}
 		}
@@ -203,7 +212,7 @@ public class GameController extends AbstractController {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - player.getTimeOfLastShot()> gameModel.getActiveDifficulty().getPlayerShootFreq()) {
 				player.setTimeOfLastShot(currentTime);
-				SoundController.playSound(new File("leftright.wav"), 1, 75);
+				SoundHandler.getInstance().playSound("audio/zap01.wav", 0, 0,-1.0f);
 
 				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "view/sprites/bullet.png");
 				currentShot.setPosition(player.getPosition().clone());
@@ -305,6 +314,7 @@ public class GameController extends AbstractController {
 			// player collision
 			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
 				gameState.getPlayer(PlayerIndex.One).livesDown();
+				SoundHandler.getInstance().playSound("audio/sheep01.wav", 0, 0,6.0f);
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
@@ -339,9 +349,9 @@ public class GameController extends AbstractController {
 		
 		for (Invader invader : gameState.getInvaders()) {
 			if (gameState.getMoveInvadersRight()) {
-				invader.move(Mathx.distance(timeDelta, invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()), 0);
+				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			} else {
-				invader.move(-Mathx.distance(timeDelta, invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()), 0);
+				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			}
 			double overlapLeft = -invader.getPosition().x;
 			double overlapRight = MainModel.SCREEN_WIDTH - invader.getPosition().x - invader.getWidth(); //negativ ved overlap
@@ -390,11 +400,12 @@ public class GameController extends AbstractController {
 		if (trimmed.size() == 0) {
 			return;
 		}
-		
+
 		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
 		if (currentTime - gameState.getLastInvaderShot() > this.gameModel.getActiveDifficulty().getInvaderShootFreq()) { // shoot!
 			gameState.setLastInvaderShot(currentTime);
 			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bullet.png");
+			SoundHandler.getInstance().playSound("audio/zap05.wav", 0, 0,2.0f);
 			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
 			gameState.getBullets().add(currentShot);
