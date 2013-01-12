@@ -168,8 +168,6 @@ public class GameController extends AbstractController {
 	public void updatePlayer(GameState gameState, long timeDelta) {
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		
-		player.setTotalPlayedTime(player.getTotalPlayedTime()+timeDelta);
-
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
 		}

@@ -68,7 +68,7 @@ public class GameStateRenderer {
 		gfx.setColor(new Color(150,150,150,200));
 		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
 		gfx.setColor(Color.BLACK);
-		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getPlayer(PlayerIndex.One).getTotalPlayedTime())), 12, 20);
+		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
 		String playerString = String.format("Level: %s, Diff: %s, Inv: %s, Player: %s, Score: %s", 
                         gameState.getId(),
 						gameModel.getActiveDifficulty().getName(), 
