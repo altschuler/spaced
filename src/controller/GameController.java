@@ -374,40 +374,52 @@ public class GameController extends AbstractController {
 	 *            af dem skyde.
 	 */
 	private void invadersShoot(GameState gameState, long currentTime) {
-		// map of lowest invaders in each x column
-		HashMap<Double, Invader> lowest = new HashMap<Double, Invader>();
+		//check if invaders should shoot, THEN do all the other stuff
+		if (currentTime - gameState.getLastInvaderShot() > this.gameModel.getActiveDifficulty().getInvaderShootFreq()) {
+			
+			// map of lowest invaders in each x column
+			HashMap<Double, Invader> lowest = new HashMap<Double, Invader>();
 
-		for (Invader invader : gameState.getInvaders()) {
-			double column = invader.getPosition().x;
-			if (!lowest.containsKey(column)) {
-				lowest.put(column, invader);
-				continue;
-			}
+			for (Invader invader : gameState.getInvaders()) {
+				double column = invader.getPosition().x;
+				if (!lowest.containsKey(column)) {
+					lowest.put(column, invader);
+					continue;
+				}
 
-			for (Invader innerInvader : gameState.getInvaders()) {
-				if (!invader.equals(innerInvader) && column == innerInvader.getPosition().x && invader.getPosition().y < innerInvader.getPosition().y) {
-					lowest.remove(invader);
-					lowest.put(column, innerInvader);
+				for (Invader innerInvader : gameState.getInvaders()) {
+					if (!invader.equals(innerInvader) && column == innerInvader.getPosition().x && invader.getPosition().y < innerInvader.getPosition().y) {
+						lowest.remove(invader);
+						lowest.put(column, innerInvader);
+					}
 				}
 			}
-		}
 
-		ArrayList<Invader> trimmed = new ArrayList<Invader>();
-		for (Invader invader : lowest.values()) {
-			trimmed.add(invader);
-		}
+			ArrayList<Invader> trimmed = new ArrayList<Invader>();
+			for (Invader invader : lowest.values()) {
+				trimmed.add(invader);
+			}
 
-		if (trimmed.size() == 0) {
-			return;
-		}
+			if (trimmed.size() == 0) {
+				return;
+			}
 
-		Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
-		if (currentTime - gameState.getLastInvaderShot() > this.gameModel.getActiveDifficulty().getInvaderShootFreq()) { // shoot!
+			Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
+			
 			gameState.setLastInvaderShot(currentTime);
-			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bullet.png");
+			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bulletInvader.png");
 			SoundHandler.getInstance().playSound("audio/zap05.wav", 0, 0,2.0f);
 			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
+			
+			switch(currentShot.getType()){
+			case Homing:
+				currentShot.setImageURL("view/sprites/bulletInvaderHoming.png");
+				break;
+			default:
+				break;
+			}
+			
 			gameState.getBullets().add(currentShot);
 		}
 	}

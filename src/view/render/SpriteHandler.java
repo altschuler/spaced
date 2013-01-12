@@ -69,12 +69,17 @@ public class SpriteHandler {
         this.add("view/sprites/invaderA.png");
         this.add("view/sprites/invaderB.png");
         this.add("view/sprites/invaderC.png");
+        this.add("view/sprites/invaderCRed.png");
+        this.add("view/sprites/invaderCBlue.png");
+        this.add("view/sprites/invaderCPurple.png");
         this.add("view/sprites/bonus.png");
         this.add("view/sprites/explosion.png");
         this.add("view/sprites/bunkerPart.png");
         this.add("view/sprites/bunkerPartBroken.png");
         this.add("view/sprites/bunkerPartBrokenUpwardsBullet.png");
         this.add("view/sprites/bullet.png");
+        this.add("view/sprites/bulletInvader.png");
+        this.add("view/sprites/bulletInvaderHoming.png");
         this.add("view/sprites/missile.png");
         this.add("view/sprites/hubble.jpg");
         this.add("view/sprites/logo.png");

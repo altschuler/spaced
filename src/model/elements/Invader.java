@@ -21,7 +21,7 @@ public class Invader extends KillableGameElement {
 				super.setImageURL("view/sprites/invaderB.png");
 				break;
 			default:
-				super.setImageURL("view/sprites/invaderC.png");
+				super.setImageURL("view/sprites/invaderCRed.png");
 		}
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		super.setWidth(spriteHandler.get(super.getImageURL()).getWidth());

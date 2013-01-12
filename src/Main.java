@@ -9,7 +9,6 @@ import view.state.ViewState;
 import command.CommandFactory;
 
 import controller.MainController;
-import controller.SoundController;
 
 /**
  * Java entry class

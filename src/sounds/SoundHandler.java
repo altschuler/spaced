@@ -26,7 +26,6 @@ public class SoundHandler {
     }
  
     private void initSprites() {
-    	System.out.println("initializing ze zounds!");
         this.add("audio/8bit_metal_new.wav");
         this.add("audio/bang01.wav");
         this.add("audio/bang02.wav");
@@ -72,7 +71,6 @@ public class SoundHandler {
           clip.open(inputStream);
           FloatControl gainControl =   (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
           gainControl.setValue(gain);
-//        System.out.println("Length of the soundclip: "+(double) clip.getMicrosecondLength()/1000000+"s");
           clip.loop(repeats);
           clip.start(); 
           if(stopTime > 0){
