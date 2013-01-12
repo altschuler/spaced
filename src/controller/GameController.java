@@ -167,6 +167,8 @@ public class GameController extends AbstractController {
 
 	public void updatePlayer(GameState gameState, long timeDelta) {
 		Player player = gameState.getPlayer(PlayerIndex.One);
+		
+		player.setTotalPlayedTime(player.getTotalPlayedTime()+timeDelta);
 
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
@@ -187,6 +189,14 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
 			player.setMaxShootFrequency(1000);
+		}
+//TODO: Just to get an idea of WTF is going on when the level bugs		
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_4)) {
+			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
+				Invader anotherInvader = moreInvaders.next();
+//				anotherInvader.destroy();
+				System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
+			}
 		}
 		
 		//Player shoots

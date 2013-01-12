@@ -14,6 +14,7 @@ public class Player extends KillableGameElement {
 	private int points = 0;
 	private int maxShootFrequency = 450;
 	private long timeOfLastShot = 0;
+	private long totalPlayedTime = 0;
 	private BulletType weapon = BulletType.Normal;
 	
 	
@@ -72,5 +73,13 @@ public class Player extends KillableGameElement {
 
 	public void setPoints(int point) {
 		this.points = point;
+	}
+
+	public long getTotalPlayedTime() {
+		return totalPlayedTime;
+	}
+
+	public void setTotalPlayedTime(long totalPlayedTime) {
+		this.totalPlayedTime = totalPlayedTime;
 	}
 }
