@@ -158,8 +158,7 @@ public class GameController extends AbstractController {
 	 */
 	private boolean checkGameOver(GameState gameState) {
 		// Player has no more lives = loose
-		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
-			gameState.setState(GameStateState.Lost);
+		if (gameState.getState() == GameStateState.Lost) {
 			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
 			return true;
 		}
@@ -176,6 +175,10 @@ public class GameController extends AbstractController {
 
 	public void updatePlayer(GameState gameState, long timeDelta) {
 		Player player = gameState.getPlayer(PlayerIndex.One);
+		
+		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
+			gameState.setState(GameStateState.Lost);
+		}
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
@@ -201,7 +204,8 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_4)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
-				anotherInvader.destroy();
+//				anotherInvader.destroy();
+				anotherInvader.move(2000, 0);
 				System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
 			}
 		}
@@ -347,19 +351,27 @@ public class GameController extends AbstractController {
 		boolean wallHit = false;
 //Checking if move will cause wallHit
 		for (Invader invader : gameState.getInvaders()) {
+			if(invader.getPosition().y + invader.getHeight() >= gameState.getPlayer(PlayerIndex.One).getPosition().y){
+				gameState.setState(GameStateState.Lost);
+				//Patty quick find
+				break;
+			}
+			
 			if (gameState.getMoveInvadersRight()) {
 				if(invader.getPosition().x+invader.getWidth() +Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) > MainModel.SCREEN_WIDTH){
 					wallHit = true;
+					gameState.setMoveInvadersRight(false);
 					break;
 				}
 			}else if(invader.getPosition().x -Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) < 0){
 					wallHit = true;
+					gameState.setMoveInvadersRight(true);
 					break;
 			}
 		}
 //if movement will cause wallHit: change direction
 		if (wallHit) {
-			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
+//			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : gameState.getInvaders()) {
 				invader.move(0, 15); // TODO y coord to diff
 			}
