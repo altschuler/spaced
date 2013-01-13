@@ -254,9 +254,8 @@ public class GameController extends AbstractController {
 					case Homing:
 						Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
 						target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
-						Coordinate vector = Mathx.angle(gameState.getPlayer(PlayerIndex.One).getPosition(), bullet.getPosition());
+						Coordinate vector = Mathx.angle(target, bullet.getPosition());
 						vector.normalize();
-
 						bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
 						break;
 					default:
@@ -346,25 +345,36 @@ public class GameController extends AbstractController {
 
 	private void updateInvaders(GameState gameState, long timeDelta) {
 		boolean wallHit = false;
-		
+//Checking if move will cause wallHit
 		for (Invader invader : gameState.getInvaders()) {
 			if (gameState.getMoveInvadersRight()) {
-				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
-			} else {
-				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
+				if(invader.getPosition().x+invader.getWidth() +Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) > MainModel.SCREEN_WIDTH){
+					wallHit = true;
+					break;
+				}
+			}else if(invader.getPosition().x -Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) < 0){
+					wallHit = true;
+					break;
 			}
-			double overlapLeft = -invader.getPosition().x;
-			double overlapRight = MainModel.SCREEN_WIDTH - invader.getPosition().x - invader.getWidth(); //negativ ved overlap
-			
-			wallHit = wallHit || overlapRight < 0 || overlapLeft > 0;
 		}
-
+//if movement will cause wallHit: change direction
 		if (wallHit) {
 			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : gameState.getInvaders()) {
 				invader.move(0, 15); // TODO y coord to diff
 			}
 		}
+		
+//move Invaders!
+		for (Invader invader : gameState.getInvaders()) {
+			if (gameState.getMoveInvadersRight()) {
+				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
+			} else {
+				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
+			}
+		}
+
+		
 	}
 
 	/**

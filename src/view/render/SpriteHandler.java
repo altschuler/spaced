@@ -70,6 +70,7 @@ public class SpriteHandler {
         this.add("view/sprites/invaderB.png");
         this.add("view/sprites/invaderC.png");
         this.add("view/sprites/invaderCRed.png");
+        this.add("view/sprites/invaderCRedSemi.png");
         this.add("view/sprites/invaderCBlue.png");
         this.add("view/sprites/invaderCPurple.png");
         this.add("view/sprites/bonus.png");

@@ -51,4 +51,21 @@ public class Invader extends KillableGameElement {
 	public void setType(InvaderType type) {
 		this.type = type;
 	}
+	
+	//@override
+	public void healthDown() {
+		this.setHealth(this.getHealth() - 1);
+		switch(this.getType()){
+			case C:
+				if(this.getHealth() == 1){
+					this.setImageURL("view/sprites/invaderC.png");
+				}else if(this.getHealth() <= 2){
+					this.setImageURL("view/sprites/invaderCRedSemi.png");
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	
 }
