@@ -48,11 +48,6 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                 invader.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
                 this.currentLevel.getInvaders().add(invader);
                 break;
-            case "bonus":
-            	this.currentLevel.getBonus().add(new Bonus(
-                        Integer.valueOf(atts.getValue("points")), 
-                        Integer.valueOf(atts.getValue("health"))));
-                break;
         }
     }
 

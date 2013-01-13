@@ -10,18 +10,23 @@ import view.render.SpriteHandler;
 public class Invader extends KillableGameElement {
 
 	private InvaderType type;
+	private int points;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
 		super(health, "view/sprites/invaderA.png");
 		switch (type) {
 			case A:
 				super.setImageURL("view/sprites/invaderA.png");
+				this.points=10;
 				break;
 			case B:
 				super.setImageURL("view/sprites/invaderB.png");
+				this.points=10;
 				break;
-			default:
+			case C:
 				super.setImageURL("view/sprites/invaderCRed.png");
+				this.points=30;
+				break;
 		}
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		super.setWidth(spriteHandler.get(super.getImageURL()).getWidth());
@@ -66,6 +71,10 @@ public class Invader extends KillableGameElement {
 			default:
 				break;
 		}
+	}
+
+	public int getPoints() {
+		return points;
 	}
 	
 }

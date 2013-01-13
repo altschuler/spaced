@@ -112,9 +112,6 @@ XML-file containing level data
             <invader type="A" x="325" y="150" health="1" />
             <invader type="A" x="380" y="150" health="1" />
         </invaders>
-        <bonuss>
-            <bonus points="50" direction="right" health="1" />
-        </bonuss>
     </level>
 	<level id="2">
         <players>
@@ -190,9 +187,6 @@ XML-file containing level data
             <invader type="A" x="325" y="250" health="1" />
             <invader type="A" x="380" y="250" health="1" />
         </invaders>
-        <bonuss>
-            <bonus points="50" direction="right" health="1" />
-        </bonuss>
     </level>
 	<level id="3">
         <players>
@@ -242,8 +236,5 @@ XML-file containing level data
             <invader type="C" x="215" y="200" health="3" />
             <invader type="C" x="160" y="250" health="3" />
         </invaders>
-        <bonuss>
-            <bonus points="50" direction="right" health="1" />
-        </bonuss>
     </level>
 </levels>

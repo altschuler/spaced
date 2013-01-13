@@ -59,7 +59,7 @@ public class SpriteHandler {
             return (Sprite) sprites.get(ref);
         } 
         
-        fail("ERROR: Cannot get null ref");
+        fail("ERROR: Cannot get null ref: "+ref);
         return (Sprite) null;
     }
     
@@ -84,7 +84,8 @@ public class SpriteHandler {
         this.add("view/sprites/missile.png");
         this.add("view/sprites/hubble.jpg");
         this.add("view/sprites/logo.png");
-        this.add("view/sprites/1357850269_present_48.png");
+        this.add("view/sprites/present.png");
+        this.add("view/sprites/present2.png");
         // TODO: Bunker
     }
     
