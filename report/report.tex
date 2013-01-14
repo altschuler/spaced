@@ -90,15 +90,15 @@ at opdatere views når modellen ændres. Vi gennemgår kort nogle vigtige klasser o
   sættes gennem en Command som kalder en metode på \code{StateController}.
 
 \item[\code{MainModel}]  \hfill \\
-  Den overordnede model. Heri ligger al data som beskriver programmets nuværende tilstand. Dette
+  Den overordnede model. Heri ligger al data som beskriver programmets nuvï¿½rende tilstand. Dette
   inkluderer alt fra hvor stort hovedvinduet er, til hvornår man sidst har affyret et skud. Al data
-  som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornår
+  som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornï¿½r
   blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} object. Dette gemmes
-  i \code{MainModel} som det aktive spille-sessions state. Dette object er dét som bliver givet til
-  en \code{GameController}, der så opdaterer det og sender det til rendering.
+  i \code{MainModel} som det aktive spille-sessions state. Dette object er dï¿½t som bliver givet til
+  en \code{GameController}, der sï¿½ opdaterer det og sender det til rendering.
 
 \item[Commands] \hfill \\
-  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan være} afhængig af state. Denne
+  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan vï¿½re} afhængig af state. Denne
   logik kan så efterfølgende eksekveres af hvem som helst, når som helst, uden at denne har nogen
   viden om hvad en given \code{Command} \emph{egentlig} gør. Fælles for dem alle er at implementerer
   \code{ICommand} interfacet, hvilket består af en enkelt metode: \code{execute}.  Det er specielt
@@ -151,4 +151,18 @@ har holdt os til command-line git, da den slags GUI værktøjer som regel er lidt 
 
 \subsection{Diverse}
 Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og Audacity til lydredigering\footnote{\url{http://audacity.sourceforge.net}}.
+
+\section{GameController}
+Står primært for at opdatere \code{GameState} samt at få GameStateRenderer (kaldet renderer under GameController) til at rendere GameState.
+\\Derudover anvender den javax.swing.Timer, som med faste intervaller kalder en metode... SIMON - hilfe mich!
+\\Metoden updateGameState gør følgende (i kronologisk rækkefølge):
+\begin{enumerate}
+\item currentTime og timeDelta... (vend tilbage til dette) timeDelta bruges til at bevæge samtlige GameElementâ€™er afhængigt af den tid der er gået, sådan at de for spilleren bevæger sig med konstant hastighed uafhængigt af om tiden mellem updates varierer (probs til Simon).
+\item Kontrollerer om GameStateState er Running/Waiting/Paused. Hvis denne enum er waiting/paused returnerer metoden og kører dermed ikke videre. Hvis den er running fortsætter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
+\item Herefter bliver alle GameElementâ€™erne opdateret og eventuelt fjernet hvis de er â€œdødeâ€ (metoderne for dette er uddybet nedenfor).
+\item Tjekker om man har vundet/tabt og returnerer hvis dette er tilfældet.Kalder GameStateRenderer og får denne til at rendere det aktuelle GameState.
+\item Kalder GameStateRenderer og får denne til at rendere det aktuelle GameState.
+\item Slutteligt opdateres tiden gemt i GameState.
+\end{enumerate}
+
 \end{document}

@@ -83,8 +83,9 @@ public class SpriteHandler {
         this.add("missile.png");
         this.add("hubble.jpg");
         this.add("logo.png");
-        this.add("present.png");
         this.add("present2.png");
+        this.add("heart.png");
+        this.add("snowFlake.png");
     }
     
     private void fail(String message) {

@@ -29,7 +29,7 @@ public class SoundHandler {
     public synchronized void playSound(String name, final int repeats, final int stopTime, final float gain) {
         final String ref = PATH_PREFIX + name;
         
-	    new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+	    new Thread(new Runnable() {
 	      public void run() {
         try {
           Clip clip = AudioSystem.getClip();
@@ -40,9 +40,9 @@ public class SoundHandler {
           clip.loop(repeats);
           clip.start(); 
           if(stopTime > 0){
-          try { Thread.currentThread().sleep(stopTime); }
-	        catch (InterruptedException e) { System.out.println("ERROR: sleeping");}
-          clip.stop();
+	          try { Thread.currentThread().sleep(stopTime); }
+		        catch (InterruptedException e) { System.out.println("ERROR: sleeping");}
+	          clip.stop();
           }
           
         } catch (Exception e) {

@@ -1,6 +1,5 @@
 package utils;
 
-import model.MainModel;
 import model.core.Coordinate;
 import model.elements.GameElement;
 
@@ -66,14 +65,17 @@ public class Mathx {
 		
 		if (circleDistanceX > (rect.getWidth()/2 + radius)) { return false; }
 	    if (circleDistanceY > (rect.getHeight()/2 + radius)) { return false; }
-	    
+//De to ovenstående har udelukket alle tilfælde hvor cirklen ligger udenfor en forstørret udgave af rektanglen (rektanglen + radius)
+//Derfor vil cirklen ligge indenfor rektanglen+(cirklens radius) i de to nedenstående.
 	    if (circleDistanceX <= (rect.getWidth()/2)) { return true; } 
 	    if (circleDistanceY <= (rect.getHeight()/2)) { return true; }
 	    
-	    double cornerDistance_squared = Math.pow((circleDistanceX - rect.getWidth()/2),2) +
+//Tilbage er der kun at kontrollere hjørnerne af den forstørrede rektangel (kvadrater med cirklens radius som sidelængde)
+//cornerDistanceSquared er cirklens centrums afstand til den oprindelige rektangels hjørner.
+	    double cornerDistanceSquared = Math.pow((circleDistanceX - rect.getWidth()/2),2) +
                 Math.pow((circleDistanceY - rect.getHeight()/2), 2);
-
-		return (cornerDistance_squared <= Math.pow(radius,2));
+//Er cirklens centrum længere væk end dens radius er der ikke kollision
+		return (cornerDistanceSquared <= Math.pow(radius,2));
 	}
 
 	public static Coordinate getDirectionVector(Coordinate a, Coordinate b) {
