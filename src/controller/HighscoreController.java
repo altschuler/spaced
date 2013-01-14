@@ -19,8 +19,8 @@ public class HighscoreController extends AbstractController {
     
     private static final int LIMIT = 20;
     
-    public HighscoreController(MainView gw, MainModel gm) {
-        super(gw, gm);
+    public HighscoreController(MainView mv, MainModel gm) {
+        super(mv, gm);
         
         this.service = new HighscoreService();
         this.service.loadEntries(URL_GET, LIMIT);
