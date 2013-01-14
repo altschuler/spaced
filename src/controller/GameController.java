@@ -135,7 +135,7 @@ public class GameController extends AbstractController {
 		}
 
 		boolean hasInvaderDied = false;
-		double bonusThreshold = 0.99; //TODO: make the difficulties decide this, perhaps?
+		double bonusThreshold = 0.13; //TODO: make the difficulties decide this, perhaps?
 
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
@@ -425,7 +425,6 @@ public class GameController extends AbstractController {
 //move Invaders!
 		for (Invader invader : gameState.getInvaders()) {
 			double speedMultiplier = invader.getSpeedMultiplier(timeDelta);
-		//Patty quick find	
 			if (gameState.getMoveInvadersRight()) {
 				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * speedMultiplier * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			} else {
