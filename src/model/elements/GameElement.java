@@ -2,7 +2,7 @@ package model.elements;
 
 import model.core.Coordinate;
 import model.core.InvaderType;
-import service.resources.SpriteHandler;
+import view.render.SpriteHandler;
 
 /**
  * The base of all interactive game elements. The common feats 

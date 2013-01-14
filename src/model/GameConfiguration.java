@@ -12,7 +12,7 @@ import model.core.Difficulty;
 import org.xml.sax.SAXException;
 
 import service.parsing.ConfigurationSaxHandler;
-import service.resources.SpriteHandler;
+import view.render.SpriteHandler;
 
 public class GameConfiguration {
     
