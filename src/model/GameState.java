@@ -26,7 +26,6 @@ public class GameState {
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Animation> animations;
 
-	private int points;
 	private long lastUpdateTime;
 	private long totalGameTime;
 	private boolean moveInvadersRight;
@@ -39,7 +38,6 @@ public class GameState {
 
 	public GameState(int id) {
 		this.setId(id);
-		this.points = 0;
 		this.bunkers = new ArrayList<Bunker>();
 		this.invaders = new ArrayList<Invader>();
 		this.bonuses = new ArrayList<Bonus>();
@@ -57,14 +55,6 @@ public class GameState {
 
 	public void setPlayer(PlayerIndex idx, Player player) {
 		this.players.put(idx, player);
-	}
-
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
 	}
 
 	public ArrayList<Bunker> getBunkers() {

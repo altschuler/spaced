@@ -1,7 +1,7 @@
 package model.core;
 
 public class Difficulty {
-
+	
 	private int id;
 	private String name;
 	private int invaderSpeed;
