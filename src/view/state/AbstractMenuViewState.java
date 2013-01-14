@@ -35,7 +35,7 @@ abstract public class AbstractMenuViewState extends AbstractViewState {
         this.logo.setAlignmentX(CENTER_ALIGNMENT);
         // Blank panel
         this.panel = new JPanel();
-        this.panel.setMaximumSize(new Dimension(0, (MainModel.SCREEN_HEIGHT/3)-this.logo.getHeight()));
+        this.panel.setMaximumSize(new Dimension(0, (MainModel.SCREEN_HEIGHT/5)-this.logo.getHeight()));
         this.panel.setOpaque(false);
         
         // Add to panel

@@ -19,8 +19,8 @@ public class HighscoreController extends AbstractController {
     
     private static final int LIMIT = 20;
     
-    public HighscoreController(MainView gw, MainModel gm) {
-        super(gw, gm);
+    public HighscoreController(MainView mv, MainModel gm) {
+        super(mv, gm);
         
         this.service = new HighscoreService();
         this.service.loadEntries(URL_GET, LIMIT);
@@ -33,11 +33,12 @@ public class HighscoreController extends AbstractController {
         this.entries = service.getEntries();
     }
 
-    public ArrayList<HighscoreEntry> getEntries() {
-        return entries;
+    public HighscoreEntry[] getEntries() {
+        return entries.toArray(new HighscoreEntry[entries.size()]);
     }
     
     public Boolean add(HighscoreEntry entry) {
+        this.entries.add(entry);
         return this.service.addEntry(entry, URL_ADD, TOKEN);
     }
     

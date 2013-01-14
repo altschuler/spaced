@@ -11,8 +11,8 @@ import utils.GuiUtils;
 
 public class HighscoreViewState extends AbstractMenuViewState {
     
-        private ArrayList<HighscoreEntry> entries;
-        private ArrayList<JLabel> labels;
+        private HighscoreEntry[] entries;
+        private JLabel[] labels;
         private static final int LIMIT = 10;
         private JButton btn;
 
@@ -28,6 +28,7 @@ public class HighscoreViewState extends AbstractMenuViewState {
             MainModel gm = (MainModel) o;
             
             this.entries = mainController.getHighscoreController().getEntries();
+            this.labels = new JLabel[this.entries.length];
             for (HighscoreEntry entry : entries) {
                 JLabel label = new JLabel(entry.getPlayerName()
                         + " " + entry.getScore()

@@ -10,9 +10,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.core.Difficulty;
 import org.xml.sax.SAXException;
-
 import service.parsing.ConfigurationSaxHandler;
-import service.resources.SpriteHandler;
 
 public class GameConfiguration {
     
@@ -25,7 +23,7 @@ public class GameConfiguration {
     private ArrayList<Difficulty> difficulties;
 
     public GameConfiguration() {
-    	this.difficulties = new ArrayList<Difficulty>();
+    	this.difficulties = new ArrayList<>();
         this.parseXML();
     }
 
