@@ -19,3 +19,9 @@ bin/
 
 # XCode files
 *.xcuserdatad
+
+#Rapport
+*.aux
+*.log
+*.pdf
+*.synctex.gz(busy)
