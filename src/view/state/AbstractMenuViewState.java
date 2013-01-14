@@ -15,9 +15,9 @@ abstract public class AbstractMenuViewState extends AbstractViewState {
     
     private JPanel panel;
     private JLabel logo;
-    private static final String LOGO_URL = "view/sprites/logo.png";
+    private static final String LOGO_URL = "resources/sprites/logo.png";
     private Image bg;
-    private static final String BG_URL = "view/sprites/hubble.jpg";
+    private static final String BG_URL = "resources/sprites/hubble.jpg";
     private SpriteHandler spriteHandler;
 
     public AbstractMenuViewState() {

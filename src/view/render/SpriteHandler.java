@@ -5,6 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -30,18 +31,16 @@ public class SpriteHandler {
     private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
     
     public void add(String ref) {
-        BufferedImage sourceImage = null;
-        
-        try {
-            URL url = this.getClass().getClassLoader().getResource(ref);
-            
-            if (url == null){ fail("ERROR: Can't find ref: "+ref); }
-            
-            sourceImage = ImageIO.read(url);
-        } catch (IOException e) {
-            fail("ERROR: Failed to load: "+ref);
-        }
-        
+    	BufferedImage sourceImage = null;
+
+    	try {
+			sourceImage = ImageIO.read(new File(ref));
+		} catch (IOException e1) {
+			fail("ERROR: Failed to load: "+ref);
+			e1.printStackTrace();
+		}
+
+
         // create an accelerated image of the right size to store our sprite in
         GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         Image image = gc.createCompatibleImage(sourceImage.getWidth(),sourceImage.getHeight(),Transparency.BITMASK);
@@ -64,29 +63,28 @@ public class SpriteHandler {
     }
     
     private void initSprites() {
-        this.add("view/sprites/player.png");
-        this.add("view/sprites/player_life.png");
-        this.add("view/sprites/invaderA.png");
-        this.add("view/sprites/invaderB.png");
-        this.add("view/sprites/invaderC.png");
-        this.add("view/sprites/invaderCRed.png");
-        this.add("view/sprites/invaderCRedSemi.png");
-        this.add("view/sprites/invaderCBlue.png");
-        this.add("view/sprites/invaderCPurple.png");
-        this.add("view/sprites/bonus.png");
-        this.add("view/sprites/explosion.png");
-        this.add("view/sprites/bunkerPart.png");
-        this.add("view/sprites/bunkerPartBroken.png");
-        this.add("view/sprites/bunkerPartBrokenUpwardsBullet.png");
-        this.add("view/sprites/bullet.png");
-        this.add("view/sprites/bulletInvader.png");
-        this.add("view/sprites/bulletInvaderHoming.png");
-        this.add("view/sprites/missile.png");
-        this.add("view/sprites/hubble.jpg");
-        this.add("view/sprites/logo.png");
-        this.add("view/sprites/present.png");
-        this.add("view/sprites/present2.png");
-        // TODO: Bunker
+        this.add("resources/sprites/player.png");
+        this.add("resources/sprites/player_life.png");
+        this.add("resources/sprites/invaderA.png");
+        this.add("resources/sprites/invaderB.png");
+        this.add("resources/sprites/invaderC.png");
+        this.add("resources/sprites/invaderCRed.png");
+        this.add("resources/sprites/invaderCRedSemi.png");
+        this.add("resources/sprites/invaderCBlue.png");
+        this.add("resources/sprites/invaderCPurple.png");
+        this.add("resources/sprites/bonus.png");
+        this.add("resources/sprites/explosion.png");
+        this.add("resources/sprites/bunkerPart.png");
+        this.add("resources/sprites/bunkerPartBroken.png");
+        this.add("resources/sprites/bunkerPartBrokenUpwardsBullet.png");
+        this.add("resources/sprites/bullet.png");
+        this.add("resources/sprites/bulletInvader.png");
+        this.add("resources/sprites/bulletInvaderHoming.png");
+        this.add("resources/sprites/missile.png");
+        this.add("resources/sprites/hubble.jpg");
+        this.add("resources/sprites/logo.png");
+        this.add("resources/sprites/present.png");
+        this.add("resources/sprites/present2.png");
     }
     
     private void fail(String message) {

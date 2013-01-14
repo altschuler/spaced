@@ -13,18 +13,18 @@ public class Invader extends KillableGameElement {
 	private int points;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
-		super(health, "view/sprites/invaderA.png");
+		super(health, "resources/sprites/invaderA.png");
 		switch (type) {
 			case A:
-				super.setImageURL("view/sprites/invaderA.png");
+				super.setImageURL("resources/sprites/invaderA.png");
 				this.points=10;
 				break;
 			case B:
-				super.setImageURL("view/sprites/invaderB.png");
+				super.setImageURL("resources/sprites/invaderB.png");
 				this.points=10;
 				break;
 			case C:
-				super.setImageURL("view/sprites/invaderCRed.png");
+				super.setImageURL("resources/sprites/invaderCRed.png");
 				this.points=30;
 				break;
 		}
@@ -63,9 +63,9 @@ public class Invader extends KillableGameElement {
 		switch(this.getType()){
 			case C:
 				if(this.getHealth() == 1){
-					this.setImageURL("view/sprites/invaderC.png");
+					this.setImageURL("resources/sprites/invaderC.png");
 				}else if(this.getHealth() <= 2){
-					this.setImageURL("view/sprites/invaderCRedSemi.png");
+					this.setImageURL("resources/sprites/invaderCRedSemi.png");
 				}
 				break;
 			default:

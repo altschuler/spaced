@@ -33,7 +33,7 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                 this.levels.add(this.currentLevel);
                 break;
             case "player":
-            	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "view/sprites/player.png"));
+            	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "resources/sprites/player.png"));
             	this.currentLevel.getPlayer(PlayerIndex.One).setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
                 break;
             case "bunker":

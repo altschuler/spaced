@@ -39,12 +39,12 @@ public class GameStateRenderer {
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
 //		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		this.draw(gfx, "view/sprites/hubble.jpg", new Coordinate(0, 0));
+		this.draw(gfx, "resources/sprites/hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
-			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
+			this.draw(gfx, "resources/sprites/player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
 
 		// Draws everything else

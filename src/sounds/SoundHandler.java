@@ -26,35 +26,35 @@ public class SoundHandler {
     }
  
     private void initSprites() {
-        this.add("audio/8bit_metal_new.wav");
-        this.add("audio/bang01.wav");
-        this.add("audio/bang02.wav");
-        this.add("audio/boom01.wav");
-        this.add("audio/boom02.wav");
-        this.add("audio/boom03.wav");
-        this.add("audio/boom04.wav");
-        this.add("audio/boom05.wav");
-        this.add("audio/boom06.wav");
-        this.add("audio/boom07.wav");
-        this.add("audio/fart.wav");
-        this.add("audio/game_over01.wav");
-        this.add("audio/game_over02.wav");
-        this.add("audio/muha01.wav");
-        this.add("audio/muha02.wav");
-        this.add("audio/sheep01.wav");
-        this.add("audio/tillykke_highscore01.wav");
-        this.add("audio/tillykke_highscore02.wav");
-        this.add("audio/tillykke_highscore03.wav");
-        this.add("audio/tillykke01.wav");
-        this.add("audio/zap01.wav");
-        this.add("audio/zap02.wav");
-        this.add("audio/zap03.wav");
-        this.add("audio/zap04.wav");
-        this.add("audio/zap05.wav");
-        this.add("audio/zap06.wav");
-        this.add("audio/zap07.wav");
-        this.add("audio/zap08.wav");
-        this.add("audio/zap09.wav");
+        this.add("resources/audio/8bit_metal_new.wav");
+        this.add("resources/audio/bang01.wav");
+        this.add("resources/audio/bang02.wav");
+        this.add("resources/audio/boom01.wav");
+        this.add("resources/audio/boom02.wav");
+        this.add("resources/audio/boom03.wav");
+        this.add("resources/audio/boom04.wav");
+        this.add("resources/audio/boom05.wav");
+        this.add("resources/audio/boom06.wav");
+        this.add("resources/audio/boom07.wav");
+        this.add("resources/audio/fart.wav");
+        this.add("resources/audio/game_over01.wav");
+        this.add("resources/audio/game_over02.wav");
+        this.add("resources/audio/muha01.wav");
+        this.add("resources/audio/muha02.wav");
+        this.add("resources/audio/sheep01.wav");
+        this.add("resources/audio/tillykke_highscore01.wav");
+        this.add("resources/audio/tillykke_highscore02.wav");
+        this.add("resources/audio/tillykke_highscore03.wav");
+        this.add("resources/audio/tillykke01.wav");
+        this.add("resources/audio/zap01.wav");
+        this.add("resources/audio/zap02.wav");
+        this.add("resources/audio/zap03.wav");
+        this.add("resources/audio/zap04.wav");
+        this.add("resources/audio/zap05.wav");
+        this.add("resources/audio/zap06.wav");
+        this.add("resources/audio/zap07.wav");
+        this.add("resources/audio/zap08.wav");
+        this.add("resources/audio/zap09.wav");
     }
     
     public void add(String ref) {
