@@ -1,7 +1,10 @@
 package command;
 
+import java.util.Date;
+
 import javax.swing.JTextField;
 
+import model.HighscoreEntry;
 import model.MainModel;
 import view.state.ViewState;
 import controller.MainController;
@@ -52,5 +55,9 @@ public class CommandFactory {
 
 	public static Command createLoadNextLevelCommand() {
 		return new LoadNextLevelCommand(mainController);
+	}
+
+	public static Command createSubmitHighscoreCommand(String playerName, int points, int difficultyId) {
+		return new SubmitHighscoreCommand(mainController.getHighscoreController(), new HighscoreEntry(playerName, points, difficultyId, new Date()));
 	}
 }

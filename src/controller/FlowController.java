@@ -1,10 +1,13 @@
 package controller;
 
+import command.CommandFactory;
+
 import model.GameStateFactory;
 import model.GameStateState;
 import model.MainModel;
 import model.core.PlayerIndex;
 import view.MainView;
+import view.state.ViewState;
 
 /**
  * Controls the flow of loading and changing levels.
@@ -52,8 +55,8 @@ public class FlowController extends AbstractController {
 			if (GameStateFactory.levelExists(nextLevelId)) {
 				this.loadLevel(nextLevelId, true);
 			} else {
-				this.loadLevel(1, true);
-				//TODO all levels won!
+				this.gameModel.getActiveGameState().setState(GameStateState.Won);
+				CommandFactory.createGameLoopEnabledCommand(false).chain(CommandFactory.createSetStateCommand(ViewState.GameOver)).execute();
 			}
 		}
     }

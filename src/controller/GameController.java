@@ -135,7 +135,7 @@ public class GameController extends AbstractController {
 		}
 
 		boolean hasInvaderDied = false;
-		double bonusThreshold = 0.10; //TODO: make the difficulties decide this, perhaps?
+		double bonusThreshold = 0.99; //TODO: make the difficulties decide this, perhaps?
 
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
@@ -261,8 +261,10 @@ public class GameController extends AbstractController {
 				case Score:
 					player.setPoints(player.getPoints()+50*(gameModel.getActiveDifficulty().getId()+1));
 					break;
-				default:
-					System.out.println("Tough luck - We haven't made the slow-thing yet.");
+				case Slow:
+					for (Invader invader : gameState.getInvaders()) {
+						invader.setFrozenTime(5000+invader.getFrozenTime());
+					}
 					break;
 				}
 				collisionBonus.destroy();
@@ -378,16 +380,17 @@ public class GameController extends AbstractController {
 					break;
 				}
 			}
-			
-			for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
-				Bonus collisionBonus = bonus.next();
-				if(Mathx.intersects(bullet, collisionBonus)){
-					collisionBonus.destroy();
-					bullet.destroy();
-					break;
+//Man bliver for sur når en invader skyder ens bonus!			
+			if(bullet.getDirection() == Direction.Up){
+				for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
+					Bonus collisionBonus = bonus.next();
+					if(Mathx.intersects(bullet, collisionBonus)){
+						collisionBonus.destroy();
+						bullet.destroy();
+						break;
+					}
 				}
 			}
-			
 		}
 	}
 
@@ -412,20 +415,21 @@ public class GameController extends AbstractController {
 					break;
 			}
 		}
-//if movement will cause wallHit: change direction
+//if the wall is hit: move down
 		if (wallHit) {
-//			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : gameState.getInvaders()) {
 				invader.move(0, 15); // TODO y coord to diff
 			}
 		}
-		
+//Check if invaders are slowed
 //move Invaders!
 		for (Invader invader : gameState.getInvaders()) {
+			double speedMultiplier = invader.getSpeedMultiplier(timeDelta);
+		//Patty quick find	
 			if (gameState.getMoveInvadersRight()) {
-				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
+				invader.move(Mathx.distance(timeDelta, (invader.getSpeed() * speedMultiplier * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			} else {
-				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
+				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * speedMultiplier * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			}
 		}
 

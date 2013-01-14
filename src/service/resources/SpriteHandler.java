@@ -70,8 +70,12 @@ public class SpriteHandler {
         this.add("invaderC.png");
         this.add("invaderCRed.png");
         this.add("invaderCRedSemi.png");
-        this.add("invaderCBlue.png");
-        this.add("invaderCPurple.png");
+        this.add("aBlue.png");
+        this.add("bBlue.png");
+        this.add("cBlue.png");
+        this.add("aRed.png");
+        this.add("bRed.png");
+        this.add("cRed.png");
         this.add("bonus.png");
         this.add("explosion.png");
         this.add("bunkerPart.png");

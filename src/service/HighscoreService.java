@@ -17,97 +17,92 @@ import org.xml.sax.SAXException;
 import service.parsing.HighscoreSaxHandler;
 
 public class HighscoreService {
-        
-    private ArrayList<HighscoreEntry> entries;
 
-    public HighscoreService() {
-        this.entries = new ArrayList();
-    }
+	private ArrayList<HighscoreEntry> entries;
 
-    public void loadEntries(URL urlGet, int limit) {
-        String s = "";
-        URL url;
-        
-        try {
-            url = new URL(urlGet.toString() + "?limit=" + limit);
-            BufferedReader reader = null;
-            
-            try {
-                reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+	public HighscoreService() {
+		this.entries = new ArrayList();
+	}
 
-                for (String line; (line = reader.readLine()) != null;) {
-                    s += line;
-                }
-            } finally {
-                if (reader != null) try { reader.close(); } catch (IOException ignore) {}
-            }
-        } catch (UnsupportedEncodingException e) {
-            System.out.println("ERROR: UnsupportedEncodingException thrown.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("ERROR: UnsupportedEncodingException thrown.");
-            System.exit(1);
-        }
-        
-        this.entries = this.parseXML(s);
-    }
+	public void loadEntries(URL urlGet, int limit) {
+		String s = "";
+		URL url;
 
-    public boolean addEntry(HighscoreEntry entry, URL urlAdd, String token) {
-        String s = "";
-        URL url;
-        
-        try {
-            url = new URL(urlAdd.toString() + "?token=" + token
-                    + "&player_name=" + entry.getPlayerName()
-                    + "&score=" + entry.getScore()
-                    + "&difficulty=" + entry.getDifficulty());
-            BufferedReader reader = null;
-            
-            try {
-                reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+		try {
+			url = new URL(urlGet.toString() + "?limit=" + limit);
+			BufferedReader reader = null;
 
-                for (String line; (line = reader.readLine()) != null;) {
-                    s += line;
-                }
-            } finally {
-                if (reader != null) try { reader.close(); } catch (IOException ignore) {}
-            }
-        } catch (UnsupportedEncodingException e) {
-            System.out.println("ERROR: UnsupportedEncodingException thrown.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.out.println("ERROR: UnsupportedEncodingException thrown.");
-            System.exit(1);
-        }
-        return (s.equals("<status>ok</status>")) ? true : false;
-    }
-    
-    public ArrayList<HighscoreEntry> parseXML(String s) {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+			try {
+				reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
-            try {
-                    SAXParser saxParser = factory.newSAXParser();
+				for (String line; (line = reader.readLine()) != null;) {
+					s += line;
+				}
+			} finally {
+				if (reader != null)
+					try {
+						reader.close();
+					} catch (IOException ignore) {
+					}
+			}
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("ERROR: UnsupportedEncodingException thrown.");
+			System.exit(1);
+		} catch (IOException e) {
+			System.out.println("ERROR: UnsupportedEncodingException thrown.");
+			System.exit(1);
+		}
 
-                    HighscoreSaxHandler handler = new HighscoreSaxHandler();
-                    saxParser.parse(new InputSource(new StringReader(s)), handler);
-            
-                    return handler.getEntries();
+		this.entries = this.parseXML(s);
+	}
 
-            } catch (ParserConfigurationException e) {
-                    System.out.println("ERROR: ParserConfigurationException thrown");
-                    System.exit(1);
-            } catch (SAXException e) {
-                    System.out.println("ERROR: SAXException thrown");
-                    System.exit(1);
-            } catch (IOException e) {
-                    System.out.println("ERROR: IOException thrown");
-                    System.exit(1);
-            }
-            
-            return (ArrayList) null;
-    }
+	public boolean addEntry(HighscoreEntry entry, URL urlAdd, String token) {
+		String s = "";
+		URL url;
 
-    public ArrayList<HighscoreEntry> getEntries() {
-        return entries;
-    }
+		try {
+			url = new URL(urlAdd.toString() + "?token=" + token + "&player_name=" + entry.getPlayerName() + "&score=" + entry.getScore() + "&difficulty="
+					+ entry.getDifficulty());
+			BufferedReader reader = null;
+
+			try {
+				reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+				for (String line; (line = reader.readLine()) != null;) {
+					s += line;
+				}
+			} finally {
+				if (reader != null)
+					try {
+						reader.close();
+					} catch (IOException ignore) {
+					}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return s.equals("<status>ok</status>");
+	}
+
+	public ArrayList<HighscoreEntry> parseXML(String s) {
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+
+		try {
+			SAXParser saxParser = factory.newSAXParser();
+
+			HighscoreSaxHandler handler = new HighscoreSaxHandler();
+			saxParser.parse(new InputSource(new StringReader(s)), handler);
+
+			return handler.getEntries();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return null;
+	}
+
+	public ArrayList<HighscoreEntry> getEntries() {
+		return entries;
+	}
 }

@@ -2,6 +2,8 @@ package view.render;
 
 import service.resources.Sprite;
 import service.resources.SpriteHandler;
+
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import model.MainModel;
 import model.GameState;
@@ -47,10 +50,28 @@ public class GameStateRenderer {
 			this.draw(gfx, "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
 
-		// Draws everything else
+		// Draws everything else (Invaders, player, bullets, bunkers, bonuses & animations)
+//		Graphics2D transGraph = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+		Graphics2D transparentGraphics[] = new Graphics2D[2];// = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+		transparentGraphics[0] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+		transparentGraphics[0].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
+		transparentGraphics[1] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+        transparentGraphics[1].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
+		for (Invader invader : gameState.getInvaders()) {	
+			this.drAwesome(gfx, invader);	
+			if(invader.getFrozenTime() > 0){
+				this.drawBlueInvader(transparentGraphics[0],invader);
+			}
+			if(invader.getHealth() > 2){
+				this.drawRedInvader(transparentGraphics[1],invader);
+			}else if(invader.getHealth() > 1){
+				this.drawRedInvader(transparentGraphics[0],invader);
+			}
+		}
+		transparentGraphics[0].dispose();
+		transparentGraphics[1].dispose();
 		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
-		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
 		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
 		for (Bonus bonus : gameState.getBonuses()){	this.drAwesome(gfx, bonus);			}
 		for (Iterator<Animation> animations = gameState.getAnimations().iterator(); animations.hasNext();) {
@@ -104,6 +125,27 @@ public class GameStateRenderer {
 	public void drAwesome(Graphics g, GameElement gameElement){
 		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
 	}
+	
+	public void drawBlueInvader(Graphics graf, Invader invader) {  
+		String ref = "aBlue.png";
+        switch(invader.getType()){
+	        case B:	    ref = "bBlue.png";	   	break;
+	        case C:     ref = "cBlue.png";	   	break;
+	        default:	break;
+        }
+        graf.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
+    }
+	
+	public void drawRedInvader(Graphics graphics, Invader invader) {  
+		String ref = "aRed.png";
+        switch(invader.getType()){
+	        case B:	    ref = "bRed.png";	   	break;
+	        case C:     ref = "cRed.png";	   	break;
+	        default:	break;
+        }
+        graphics.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
+    }
+	
 	
 	public void drawAnimation(Graphics g, Animation ani){
 		Sprite spriteSheet = SpriteHandler.getInstance().get(ani.getImageURL());

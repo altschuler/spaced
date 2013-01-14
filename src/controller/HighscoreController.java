@@ -21,16 +21,19 @@ public class HighscoreController extends AbstractController {
     
     public HighscoreController(MainView mv, MainModel gm) {
         super(mv, gm);
-        
+        this.entries = new ArrayList<HighscoreEntry>();
         this.service = new HighscoreService();
-        this.service.loadEntries(URL_GET, LIMIT);
-        this.entries = service.getEntries();
+        this.loadEntries();
     }
+
+	public void loadEntries() {
+		this.service.loadEntries(URL_GET, LIMIT);
+        this.entries = service.getEntries();
+	}
     
     public void reloadEntries() {
         this.service = new HighscoreService();
-        this.service.loadEntries(URL_GET, LIMIT);
-        this.entries = service.getEntries();
+        loadEntries();
     }
 
     public HighscoreEntry[] getEntries() {

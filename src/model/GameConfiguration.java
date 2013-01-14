@@ -104,6 +104,7 @@ public class GameConfiguration {
     }
 
 	public Difficulty getDifficulty(int id) {
+		id = Math.min(id, 4);
 		for (Difficulty difficulty : this.getDifficulties()) {
 			if (difficulty.getId() == id) return difficulty;
 		}

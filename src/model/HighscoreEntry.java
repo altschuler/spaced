@@ -3,7 +3,7 @@ package model;
 import java.util.Comparator;
 import java.util.Date;
 
-public class HighscoreEntry implements Comparator<HighscoreEntry> {
+public class HighscoreEntry implements Comparator<HighscoreEntry>, Comparable<HighscoreEntry> {
 	
     private String playerName;
     private int score;
@@ -21,6 +21,11 @@ public class HighscoreEntry implements Comparator<HighscoreEntry> {
     public int compare(HighscoreEntry hs1, HighscoreEntry hs2) {
        return (hs1.getScore() < hs2.getScore()) ? -1 : (hs1.getScore() > hs2.getScore()) ? 1 : 0;
     }
+
+	@Override
+	public int compareTo(HighscoreEntry o) {
+		return this.compare(o, this);
+	}
 
     public String getPlayerName() {
         return playerName;

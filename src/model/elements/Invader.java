@@ -11,6 +11,7 @@ public class Invader extends KillableGameElement {
 
 	private InvaderType type;
 	private int points;
+	private int frozenTime;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
 		super(health, "invaderA.png");
@@ -24,7 +25,7 @@ public class Invader extends KillableGameElement {
 				this.points=10;
 				break;
 			case C:
-				super.setImageURL("invaderCRed.png");
+				super.setImageURL("invaderC.png");
 				this.points=30;
 				break;
 		}
@@ -60,21 +61,27 @@ public class Invader extends KillableGameElement {
 	//@override
 	public void healthDown() {
 		this.setHealth(this.getHealth() - 1);
-		switch(this.getType()){
-			case C:
-				if(this.getHealth() == 1){
-					this.setImageURL("invaderC.png");
-				}else if(this.getHealth() <= 2){
-					this.setImageURL("invaderCRedSemi.png");
-				}
-				break;
-			default:
-				break;
-		}
 	}
 
 	public int getPoints() {
 		return points;
+	}
+
+	public int getFrozenTime() {
+		return frozenTime;
+	}
+
+	public void setFrozenTime(int frozenTime) {
+		this.frozenTime = frozenTime;
+	}
+	
+	public double getSpeedMultiplier(long timeDelta){
+		if(this.getFrozenTime() > 0){	//The invaders are slowed!
+			this.setFrozenTime(this.getFrozenTime()- (int) timeDelta);
+			return 0.5;
+		}else{
+			return 1.0;
+		}
 	}
 	
 }
