@@ -370,6 +370,16 @@ public class GameController extends AbstractController {
 					break;
 				}
 			}
+			
+			for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
+				Bonus collisionBonus = bonus.next();
+				if(Mathx.intersects(bullet, collisionBonus)){
+					collisionBonus.destroy();
+					bullet.destroy();
+					break;
+				}
+			}
+			
 		}
 	}
 
