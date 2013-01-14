@@ -9,6 +9,8 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -25,66 +27,141 @@
 
 \begin{document}
 
-\section*{Opbygning}
-\subsection{Overordnet struktur}
-Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur. Programmet er opbygget med
-den klassiske MVC arkitektur. MVC er blevet brugt og beskrevet sï¿½ meget at det nï¿½sten kan siges at
-vï¿½re blevet en klichï¿½. Det er umuligt at definere helt prï¿½cist hvordan en egentlig korrekt
-implementering ser ud, men de overordnede princippet gï¿½lder mere eller mindre for alle varianter.
+\section{Afgrænsning}
+\emph{Her beskrives hvordan afgrænsnings processen foregik og hvad resultatet var.}\\*
+Vi vidste fra starten at det er umuligt at vide præcist hvor langt man kan nå i et givent
+tidsrum. Derfor var mentaliteten hele tiden at udvikle programmet på så generisk vis som muligt,
+således at det ville være nemt at udbygge med nye features, og det uden at koden bliver såkaldt
+``slamkode'' (dvs. uorganiseret, dårlig performance, uoverskueligt, etc). Dette er også en af
+softwareudviklingens tommelfingerregler: ``It's gonna change''.
 
-I vores tilfï¿½lde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
+Derfor har vi forsøgt at holde koden DRY \footnote{Don't Repeat Yourself
+  \url{http://en.wikipedia.org/wiki/Don't_repeat_yourself}}, velstruktureret, i henhold til bevist
+velfungerende design principper, osv.
+
+Et par features som vi dog vidste at vi ville/skulle nå at implementere:
+\begin{description}
+  \item[Klassisk Space Invaders gameplay] \hfill \\
+    Hermed menes ``forsinkede'' skud, bevægende invaders som skyder tilbage, bunkers og den slags.
+
+  \item[Menu system] \hfill \\
+    Et system til at vise og styre forskellige skærme (såsom menu, selve spillet, game over,
+    highscore), samt et system til at oprette disse på en simpel måde.
+
+  \item[Highscores] \hfill \\
+    Et highscore system (som blev implementeret gennem en web service vi også udviklede, således at
+    highscoren er global).
+
+\end{description}
+
+Derfor brugte vi de første dage på at udvikle arkitekturen og gennemtænke hvordan tingene skulle
+sættes passende sammen. Derefter begyndte vi at udvikle specifikke dele af programmet, og her blev
+det også meget nemmere at dele opgaver ud, da delene som regel var fuldstændig uafhængige og dermed
+nemt kunne udvikles seperat.
+
+Dette leder til programmets struktur.
+
+\section{Opbygning}
+\subsection{Overordnet struktur}
+\emph{Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur.}\\*
+Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
+beskrevet så meget at det næsten kan siges at være blevet en kliché. Det er umuligt at definere helt
+præcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men de
+overordnede princippet gælder mere eller mindre for alle varianter. Disse principper inkluderer
+f.eks. at controller ``snakker med'' model og view og dermed agerer mellemmand mellem de to, og at
+view og model ikke kommunikerer direkte. Sidstenævnte bryder vi en smule, idet vi bruger Observer
+pattern.
+
+I vores tilfælde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
 bruger vi Command pattern til at facilitere eksekvering af ``cachet'' logik, og Observer pattern til
-at opdatere views nï¿½r modellen ï¿½ndres. Vi gennemgï¿½r kort nogle vigtige klasser og principper:
+at opdatere views når modellen ændres. Vi gennemgår kort nogle vigtige klasser og principper:
 
 \begin{description}
 \item[\code{MainController}] \hfill \\
   Den overordnede controller, som holder instanser af sub-controllers og ikke laver noget egentligt
-  arbejde selv. Pointen er, at har man en reference til \code{MainController}, kan man tilgï¿½ alle
-  andre controllers som getters pï¿½ denne. Dette gï¿½r det nemt og bekvemt at kalde forskellige sub
+  arbejde selv. Pointen er, at har man en reference til \code{MainController}, kan man tilgå alle
+  andre controllers som getters på denne. Dette gør det nemt og bekvemt at kalde forskellige sub
   controller metoder fra forskellige steder uden at skulle sende hver enkel controller rundt for
   sig.
 
 \item[\code{MainView}]  \hfill \\
-  Det ï¿½verste view, hvori alle andre views bliver renderet. \code{MainView} indeholder pï¿½ ethvert
-  givent tidspunkt ï¿½n instans af \code{AbstractViewState}, som bliver renderet i vinduet. Denne
-  sï¿½ttes gennem en Command som kalder en metode pï¿½ \code{StateController}.
+  Det øverste view, hvori alle andre views bliver renderet. \code{MainView} indeholder på ethvert
+  givent tidspunkt én instans af \code{AbstractViewState}, som bliver renderet i vinduet. Denne
+  sættes gennem en Command som kalder en metode på \code{StateController}.
 
 \item[\code{MainModel}]  \hfill \\
   Den overordnede model. Heri ligger al data som beskriver programmets nuvï¿½rende tilstand. Dette
-  inkluderer alt fra hvor stort hovedvinduet er, til hvornï¿½r man sidst har affyret et skud. Al data
+  inkluderer alt fra hvor stort hovedvinduet er, til hvornår man sidst har affyret et skud. Al data
   som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornï¿½r
   blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} object. Dette gemmes
   i \code{MainModel} som det aktive spille-sessions state. Dette object er dï¿½t som bliver givet til
   en \code{GameController}, der sï¿½ opdaterer det og sender det til rendering.
 
 \item[Commands] \hfill \\
-  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan vï¿½re} afhï¿½ngig af state. Denne
-  logik kan sï¿½ efterfï¿½lgende eksekveres af hvem som helst, nï¿½r som helst, uden at denne har nogen
-  viden om hvad en given \code{Command} \emph{egentlig} gï¿½r. Fï¿½lles for dem alle er at implementerer
-  \code{ICommand} interfacet, hvilket bestï¿½r af en enkelt metode: \code{execute}.  Det er specielt
-  bekvemt til f.eks. at eksekvere logik ved tryk pï¿½ knapper (hvor knappen ikke skal vide hvad den
-  laver), men ogsï¿½ til generelt at lagre og udfï¿½re logik fra andre steder.  Vi har det klassiske
-  command pattern en smule ved at implementere en \code{chain} metode, som effektivt sï¿½tter
-  \code{Command}s sammen i rï¿½kkefï¿½lge og returnerer en ny command.
+  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan vï¿½re} afhængig af state. Denne
+  logik kan så efterfølgende eksekveres af hvem som helst, når som helst, uden at denne har nogen
+  viden om hvad en given \code{Command} \emph{egentlig} gør. Fælles for dem alle er at implementerer
+  \code{ICommand} interfacet, hvilket består af en enkelt metode: \code{execute}.  Det er specielt
+  bekvemt til f.eks. at eksekvere logik ved tryk på knapper (hvor knappen ikke skal vide hvad den
+  laver), men også til generelt at lagre og udføre logik fra andre steder.  Vi har det klassiske
+  command pattern en smule ved at implementere en \code{chain} metode, som effektivt sætter
+  \code{Command}s sammen i rækkefølge og returnerer en ny command.
 
 \item[Observers] \hfill \\
-  \code{MainModel} implementerer Java's \code{Observable}. Det er en mï¿½de for et object at eksponere
-  et interface som gï¿½r et andet object, en \code{Observer}, opmï¿½rksom pï¿½ hvornï¿½r den er
-  opdateret. Vha. observer pattern gï¿½res dette fuldstï¿½ndig decoupled, og \code{MainModel} har altsï¿½
-  ingen ide om hvem der lytter efter dens ï¿½ndringer. ï¿½ndringerne annonceres gennem
+  \code{MainModel} implementerer Java's \code{Observable}. Det er en måde for et object at eksponere
+  et interface som gør et andet object, en \code{Observer}, opmærksom på hvornår den er
+  opdateret. Vha. observer pattern gøres dette fuldstændig decoupled, og \code{MainModel} har altså
+  ingen ide om hvem der lytter efter dens ændringer. Ændringerne annonceres gennem
   \code{Oberservable}s \code{notifyObservers} metode.
 \end{description}
 
+\section{Evaluering}
+\subsection{Samlet resulta}
+
+
+\section{Værktøjer}
+\subsection{Versionsstyring}
+Til projektet har vi brugt git\footnote{git scm: \url{http://git-scm.com}}. Det har visse fordele over
+f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bruge git:
+
+\begin{description}
+  \item[Distribueret] \hfill \\
+    git er en af de eneste fuldstændig distribuerede VCS'er. Man arbejder altid i sit eget lokale
+    repository, og kan gøre hvad man vil, uafhængigt af alle andre. Man har så et hostet
+    \emph{main} repository, som regel kaldet origin, som vi hoster på GitHub \footnote{GitHub:
+      \url{http://github.com}}. 
+
+    En fremragende følge af dette er at alle kan arbejde uden netforbindelse, og da et commit bliver
+    committet lokalt går det \emph{meget} hurtigere, da der ikke skal forbindes til server.
+
+  \item[Branching] \hfill \\
+    Branching er meget mere ligetil i git i forhold til SVN og Mercurial, og skift af branch samt
+    merge af disse er intuitivt og nemt.
+
+  \item[Performance og størrelse] \hfill \\
+    git er utroligt hurtigt, og utrolig god til at kompresse data (til sammenligning fylder Mozillas
+    samlede repo med commit historie 12gb i SVN og noget ala 400mb i git!).
+\end{description}
+
+\subsection{IDE}
+Som IDE har vi brugt både Eclipse\footnote{Eclipse:\url{http://www.eclipse.org}} og
+NetBeans\footnote{NetBeans: \url{http://www.netbeans.org}}. De to minder meget om hinanden, er begge
+open source og valget er en smagssag. Begge har de også integration af versionsstyring, hvor vi dog
+har holdt os til command-line git, da den slags GUI værktøjer som regel er lidt ustabile.
+
+\subsection{Diverse}
+Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og Audacity til lydredigering\footnote{\url{http://audacity.sourceforge.net}}.
+
 \section{GameController}
-StÃ¥r primÃ¦rt for at opdatere \code{GameState} samt at fÃ¥ GameStateRenderer (kaldet renderer under GameController) til at rendere GameState.
+Står primært for at opdatere \code{GameState} samt at få GameStateRenderer (kaldet renderer under GameController) til at rendere GameState.
 \\Derudover anvender den javax.swing.Timer, som med faste intervaller kalder en metode... SIMON - hilfe mich!
-\\Metoden updateGameState gÃ¸r fÃ¸lgende (i kronologisk rÃ¦kkefÃ¸lge):
+\\Metoden updateGameState gør følgende (i kronologisk rækkefølge):
 \begin{enumerate}
-\item currentTime og timeDelta... (vend tilbage til dette) timeDelta bruges til at bevÃ¦ge samtlige GameElementâ€™er afhÃ¦ngigt af den tid der er gÃ¥et, sÃ¥dan at de for spilleren bevÃ¦ger sig med konstant hastighed uafhÃ¦ngigt af om tiden mellem updates varierer (probs til Simon).
-\item Kontrollerer om GameStateState er Running/Waiting/Paused. Hvis denne enum er waiting/paused returnerer metoden og kÃ¸rer dermed ikke videre. Hvis den er running fortsÃ¦tter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
-\item Herefter bliver alle GameElementâ€™erne opdateret og eventuelt fjernet hvis de er â€œdÃ¸deâ€ (metoderne for dette er uddybet nedenfor).
-\item Tjekker om man har vundet/tabt og returnerer hvis dette er tilfÃ¦ldet.Kalder GameStateRenderer og fÃ¥r denne til at rendere det aktuelle GameState.
-\item Kalder GameStateRenderer og fÃ¥r denne til at rendere det aktuelle GameState.
+\item currentTime og timeDelta... (vend tilbage til dette) timeDelta bruges til at bevæge samtlige GameElementâ€™er afhængigt af den tid der er gået, sådan at de for spilleren bevæger sig med konstant hastighed uafhængigt af om tiden mellem updates varierer (probs til Simon).
+\item Kontrollerer om GameStateState er Running/Waiting/Paused. Hvis denne enum er waiting/paused returnerer metoden og kører dermed ikke videre. Hvis den er running fortsætter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
+\item Herefter bliver alle GameElementâ€™erne opdateret og eventuelt fjernet hvis de er â€œdødeâ€ (metoderne for dette er uddybet nedenfor).
+\item Tjekker om man har vundet/tabt og returnerer hvis dette er tilfældet.Kalder GameStateRenderer og får denne til at rendere det aktuelle GameState.
+\item Kalder GameStateRenderer og får denne til at rendere det aktuelle GameState.
 \item Slutteligt opdateres tiden gemt i GameState.
 \end{enumerate}
 
