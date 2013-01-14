@@ -33,8 +33,8 @@ public class HighscoreController extends AbstractController {
         this.entries = service.getEntries();
     }
 
-    public ArrayList<HighscoreEntry> getEntries() {
-        return entries;
+    public HighscoreEntry[] getEntries() {
+        return entries.toArray(new HighscoreEntry[entries.size()]);
     }
     
     public Boolean add(HighscoreEntry entry) {

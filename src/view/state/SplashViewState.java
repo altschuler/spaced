@@ -10,8 +10,6 @@ import command.CommandFactory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Date;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -25,7 +23,7 @@ public class SplashViewState extends AbstractMenuViewState {
 	private JTextField textf;
         private JButton btn;
 
-	private ArrayList<HighscoreEntry> entries;
+	private HighscoreEntry[] entries;
 
 	public SplashViewState() {
             
