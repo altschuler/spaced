@@ -1,13 +1,10 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import javax.swing.Timer;
-
 import model.GameState;
 import model.GameStateState;
 import model.MainModel;
@@ -22,14 +19,13 @@ import model.elements.Bunker;
 import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
-import sounds.SoundHandler;
+import service.resources.SoundHandler;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
 import view.render.GameStateRenderer;
 import view.state.GameViewState;
 import view.state.ViewState;
-
 import command.CommandFactory;
 import command.CommandListener;
 
@@ -151,7 +147,7 @@ public class GameController extends AbstractController {
 			}
 		}
 		if(hasInvaderDied){	//making this check to avoid the annoying effect of the same sound being played milliseconds apart!
-			SoundHandler.getInstance().playSound("resources/audio/boom01.wav", 0, 0,-1.0f);
+			SoundHandler.getInstance().playSound("boom01.wav", 0, 0,-1.0f);
 		}
 		
 
@@ -233,9 +229,9 @@ public class GameController extends AbstractController {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - player.getTimeOfLastShot()> gameModel.getActiveDifficulty().getPlayerShootFreq()) {
 				player.setTimeOfLastShot(currentTime);
-				SoundHandler.getInstance().playSound("resources/audio/zap01.wav", 0, 0,-1.0f);
+				SoundHandler.getInstance().playSound("zap01.wav", 0, 0,-1.0f);
 
-				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "resources/sprites/bullet.png");
+				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "bullet.png");
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
@@ -243,7 +239,7 @@ public class GameController extends AbstractController {
 					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 				case Explosive:
-					currentShot.setImageURL("resources/sprites/missile.png");
+					currentShot.setImageURL("missile.png");
 					break;
 				case Normal:
 					break;
@@ -343,7 +339,7 @@ public class GameController extends AbstractController {
 			// player collision
 			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
 				gameState.getPlayer(PlayerIndex.One).livesDown();
-				SoundHandler.getInstance().playSound("resources/audio/sheep01.wav", 0, 0,6.0f);
+				SoundHandler.getInstance().playSound("sheep01.wav", 0, 0,6.0f);
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
@@ -355,10 +351,10 @@ public class GameController extends AbstractController {
 					if(collisionBunker.getHealth() < 2){
 						switch(bullet.getDirection()){
 						case Down:
-							collisionBunker.setImageURL("resources/sprites/bunkerPartBroken.png");
+							collisionBunker.setImageURL("bunkerPartBroken.png");
 							break;
 						default:
-							collisionBunker.setImageURL("resources/sprites/bunkerPartBrokenUpwardsBullet.png");							
+							collisionBunker.setImageURL("bunkerPartBrokenUpwardsBullet.png");							
 							break;
 						}
 						
@@ -464,14 +460,14 @@ public class GameController extends AbstractController {
 			Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
 			
 			gameState.setLastInvaderShot(currentTime);
-			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"resources/sprites/bulletInvader.png");
-			SoundHandler.getInstance().playSound("resources/audio/zap05.wav", 0, 0,2.0f);
+			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"bulletInvader.png");
+			SoundHandler.getInstance().playSound("zap05.wav", 0, 0,2.0f);
 			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
 			
 			switch(currentShot.getType()){
 			case Homing:
-				currentShot.setImageURL("resources/sprites/bulletInvaderHoming.png");
+				currentShot.setImageURL("bulletInvaderHoming.png");
 				break;
 			default:
 				break;
@@ -492,6 +488,6 @@ public class GameController extends AbstractController {
 	}
 	
 	private void addExplosion(GameState gameState, GameElement gameElement){
-		gameState.getAnimations().add(new Animation("resources/sprites/explosion.png", gameElement.getPosition().clone(), 5));
+		gameState.getAnimations().add(new Animation("explosion.png", gameElement.getPosition().clone(), 5));
 	}
 }

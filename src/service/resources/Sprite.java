@@ -1,11 +1,10 @@
-package view.render;
+package service.resources;
 
 import java.awt.Image;
 
 public class Sprite {
     
     private Image image;
-    
     
     public Sprite(Image _image) {
         this.image = _image;

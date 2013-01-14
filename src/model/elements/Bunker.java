@@ -8,7 +8,7 @@ import command.ICommand;
  */
 public class Bunker extends KillableGameElement {
 	public Bunker(int health) {
-		super(health, "resources/sprites/bunkerPart.png");
+		super(health, "bunkerPart.png");
 	}
 /*	public Bunker(ICommand cmd) {
 		super(10, 30, 30, cmd);

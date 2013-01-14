@@ -1,5 +1,7 @@
 package view.render;
 
+import service.resources.Sprite;
+import service.resources.SpriteHandler;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -7,9 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
-
 import java.util.Iterator;
-
 import model.MainModel;
 import model.GameState;
 import model.GameStateState;
@@ -39,12 +39,12 @@ public class GameStateRenderer {
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
 //		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		this.draw(gfx, "resources/sprites/hubble.jpg", new Coordinate(0, 0));
+		this.draw(gfx, "hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
-			this.draw(gfx, "resources/sprites/player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
+			this.draw(gfx, "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
 
 		// Draws everything else
@@ -110,7 +110,10 @@ public class GameStateRenderer {
 		int aniPosX = (int) ani.getPosition().x;
 		int aniPosY = (int) ani.getPosition().y;
 		int lastIndex = ani.getIndexOfLastFrame();
-		g.drawImage(spriteSheet.getImage(), aniPosX, aniPosY, aniPosX+spriteSheet.getWidth(), aniPosY+ani.getFrameHeight(), 0, (lastIndex-1)*ani.getFrameHeight(), spriteSheet.getWidth(), (lastIndex)*ani.getFrameHeight(), null);
+		g.drawImage(spriteSheet.getImage(), aniPosX, aniPosY, 
+                        aniPosX+spriteSheet.getWidth(), aniPosY+ani.getFrameHeight(), 0, 
+                        (lastIndex-1)*ani.getFrameHeight(), spriteSheet.getWidth(), 
+                        (lastIndex)*ani.getFrameHeight(), null);
 
 		if (System.currentTimeMillis() - ani.getTimeOfLastFrame()> ani.getTimePerFrame()) {
 			ani.setTimeOfLastFrame(System.currentTimeMillis());

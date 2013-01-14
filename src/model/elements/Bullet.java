@@ -1,6 +1,3 @@
-/**
- * 
- */
 package model.elements;
 
 import model.core.BulletType;

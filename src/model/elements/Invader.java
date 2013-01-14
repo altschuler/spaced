@@ -2,7 +2,7 @@ package model.elements;
 
 import model.core.BulletType;
 import model.core.InvaderType;
-import view.render.SpriteHandler;
+import service.resources.SpriteHandler;
 
 /**
  * An invader. Comes in different types.
@@ -13,18 +13,18 @@ public class Invader extends KillableGameElement {
 	private int points;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
-		super(health, "resources/sprites/invaderA.png");
+		super(health, "invaderA.png");
 		switch (type) {
 			case A:
-				super.setImageURL("resources/sprites/invaderA.png");
+				super.setImageURL("invaderA.png");
 				this.points=10;
 				break;
 			case B:
-				super.setImageURL("resources/sprites/invaderB.png");
+				super.setImageURL("invaderB.png");
 				this.points=10;
 				break;
 			case C:
-				super.setImageURL("resources/sprites/invaderCRed.png");
+				super.setImageURL("invaderCRed.png");
 				this.points=30;
 				break;
 		}
@@ -63,9 +63,9 @@ public class Invader extends KillableGameElement {
 		switch(this.getType()){
 			case C:
 				if(this.getHealth() == 1){
-					this.setImageURL("resources/sprites/invaderC.png");
+					this.setImageURL("invaderC.png");
 				}else if(this.getHealth() <= 2){
-					this.setImageURL("resources/sprites/invaderCRedSemi.png");
+					this.setImageURL("invaderCRedSemi.png");
 				}
 				break;
 			default:
