@@ -30,7 +30,7 @@ public class Mathx {
 	 *         movement unstable
 	 */
 	static public double distance(long timeDelta, double speed) {
-		return timeDelta * speed / 40.0; //40 er en naturkonstant
+		return timeDelta * speed / 40.0; //40 er en naturkonstant der beskriver forholdet mellem millisekunder og hvor mange pixels vi synes en invader skal bevæge sig pr. millisekunder
 	}
 
 	/**
