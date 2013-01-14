@@ -69,8 +69,8 @@ public class GameController extends AbstractController {
 
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
-		System.out.println(timeDelta);
-
+		if(timeDelta > 30){	timeDelta = 30;	}
+		
 		// Consider gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
 			if (Input.getInstance().isAnyKeyDown()) {
@@ -133,16 +133,16 @@ public class GameController extends AbstractController {
 				bonuses.remove();
 			}
 		}
-		
+
 		boolean hasInvaderDied = false;
-		double bonusThreshold = 0.1; //TODO: make the difficulties decide this, perhaps?
+		double bonusThreshold = 0.10; //TODO: make the difficulties decide this, perhaps?
 
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
 			if (invader.isDestroyed()) {
 				hasInvaderDied = true;
 //Spawns bonus and grants the player points
-				if(Math.random() < bonusThreshold){	gameState.getBonuses().add(new Bonus(10,1,invader.getPosition().clone()));	}
+				if(Math.random() < bonusThreshold){	gameState.getBonuses().add(new Bonus(invader.getPosition().clone()));	}
 				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+invader.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
 				invaders.remove();
 			}
@@ -254,6 +254,17 @@ public class GameController extends AbstractController {
 		for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
 			Bonus collisionBonus = bonus.next();
 			if(Mathx.intersects(player, collisionBonus)){
+				switch(collisionBonus.getBonusType()){
+				case Health:
+					player.setLives(player.getLives()+1);
+					break;
+				case Score:
+					player.setPoints(player.getPoints()+50*(gameModel.getActiveDifficulty().getId()+1));
+					break;
+				default:
+					System.out.println("Tough luck - We haven't made the slow-thing yet.");
+					break;
+				}
 				collisionBonus.destroy();
 				break;
 			}
