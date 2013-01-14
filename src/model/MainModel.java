@@ -15,6 +15,7 @@ public class MainModel extends Observable {
 
 	public static final int SCREEN_WIDTH = 1180;
 	public static final int SCREEN_HEIGHT = 700;
+	public static final int FRAMERATE = 20;
 	
 	private int highScore;
 	private HashMap<PlayerIndex, String> playerNames;

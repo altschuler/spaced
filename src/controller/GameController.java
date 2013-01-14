@@ -482,7 +482,7 @@ public class GameController extends AbstractController {
 	 */
 	private Timer getTimer() {
 		if (this.timer == null) {
-			this.timer = new Timer(20, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
+			this.timer = new Timer(MainModel.FRAMERATE, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
 		}
 		return timer;
 	}

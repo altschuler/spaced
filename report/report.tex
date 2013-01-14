@@ -8,8 +8,7 @@
 \usepackage{amsmath}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
-\usepackage{qtree}
-\usepackage{textcomp}
+\usepackage{graphicx}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -21,9 +20,59 @@
 \chead{Space Invaders}
 \lhead{}
 
+% use when representing code and file names
+\newcommand{\code}[1]{\texttt{#1}}
+
 \begin{document}
 
-\section{Indledning}
-Oh. Tro, lo lol. 
+\section*{Opbygning}
+\subsection{Overordnet struktur}
+Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur. Programmet er opbygget med
+den klassiske MVC arkitektur. MVC er blevet brugt og beskrevet så meget at det næsten kan siges at
+være blevet en kliché. Det er umuligt at definere helt præcist hvordan en egentlig korrekt
+implementering ser ud, men de overordnede princippet gælder mere eller mindre for alle varianter.
+
+I vores tilfælde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
+bruger vi Command pattern til at facilitere eksekvering af ``cachet'' logik, og Observer pattern til
+at opdatere views når modellen ændres. Vi gennemgår kort nogle vigtige klasser og principper:
+
+\begin{description}
+\item[\code{MainController}] \hfill \\
+  Den overordnede controller, som holder instanser af sub-controllers og ikke laver noget egentligt
+  arbejde selv. Pointen er, at har man en reference til \code{MainController}, kan man tilgå alle
+  andre controllers som getters på denne. Dette gør det nemt og bekvemt at kalde forskellige sub
+  controller metoder fra forskellige steder uden at skulle sende hver enkel controller rundt for
+  sig.
+
+\item[\code{MainView}]  \hfill \\
+  Det øverste view, hvori alle andre views bliver renderet. \code{MainView} indeholder på ethvert
+  givent tidspunkt én instans af \code{AbstractViewState}, som bliver renderet i vinduet. Denne
+  sættes gennem en Command som kalder en metode på \code{StateController}.
+
+\item[\code{MainModel}]  \hfill \\
+  Den overordnede model. Heri ligger al data som beskriver programmets nuværende tilstand. Dette
+  inkluderer alt fra hvor stort hovedvinduet er, til hvornår man sidst har affyret et skud. Al data
+  som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornår
+  blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} object. Dette gemmes
+  i \code{MainModel} som det aktive spille-sessions state. Dette object er dét som bliver givet til
+  en \code{GameController}, der så opdaterer det og sender det til rendering.
+
+\item[Commands] \hfill \\
+  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan være} afhængig af state. Denne
+  logik kan så efterfølgende eksekveres af hvem som helst, når som helst, uden at denne har nogen
+  viden om hvad en given \code{Command} \emph{egentlig} gør. Fælles for dem alle er at implementerer
+  \code{ICommand} interfacet, hvilket består af en enkelt metode: \code{execute}.  Det er specielt
+  bekvemt til f.eks. at eksekvere logik ved tryk på knapper (hvor knappen ikke skal vide hvad den
+  laver), men også til generelt at lagre og udføre logik fra andre steder.  Vi har det klassiske
+  command pattern en smule ved at implementere en \code{chain} metode, som effektivt sætter
+  \code{Command}s sammen i rækkefølge og returnerer en ny command.
+
+\item[Observers] \hfill \\
+  \code{MainModel} implementerer Java's \code{Observable}. Det er en måde for et object at eksponere
+  et interface som gør et andet object, en \code{Observer}, opmærksom på hvornår den er
+  opdateret. Vha. observer pattern gøres dette fuldstændig decoupled, og \code{MainModel} har altså
+  ingen ide om hvem der lytter efter dens ændringer. Ændringerne annonceres gennem
+  \code{Oberservable}s \code{notifyObservers} metode.
+\end{description}
 
 \end{document}

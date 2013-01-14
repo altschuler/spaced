@@ -1,5 +1,6 @@
 package utils;
 
+import model.MainModel;
 import model.core.Coordinate;
 import model.elements.GameElement;
 
@@ -41,12 +42,8 @@ public class Mathx {
 	 * @return A distance dependant on time, thereby avoiding glitches that make
 	 *         movement unstable
 	 */
-	static public long distance(long timeDelta, int speed) {
-		return timeDelta / 20 * speed / 2;
-	}
-	
-	static public long distance(long timeDelta, double speed) {
-		return (long) ((double) timeDelta / 20.0 * speed / 2.0);
+	static public double distance(long timeDelta, double speed) {
+		return timeDelta / MainModel.FRAMERATE * speed / 2.0;
 	}
 
 	/**
