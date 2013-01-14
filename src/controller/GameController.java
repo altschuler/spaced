@@ -1,13 +1,10 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import javax.swing.Timer;
-
 import model.GameState;
 import model.GameStateState;
 import model.MainModel;
@@ -16,19 +13,19 @@ import model.core.Coordinate;
 import model.core.Direction;
 import model.core.PlayerIndex;
 import model.elements.Animation;
+import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
-import sounds.SoundHandler;
+import service.resources.SoundHandler;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
 import view.render.GameStateRenderer;
 import view.state.GameViewState;
 import view.state.ViewState;
-
 import command.CommandFactory;
 import command.CommandListener;
 
@@ -100,6 +97,7 @@ public class GameController extends AbstractController {
 		// Update elements
 		this.updatePlayer(gameState, timeDelta);
 		this.updateInvaders(gameState, timeDelta);
+		this.updateBonuses(gameState, timeDelta);
 		this.invadersShoot(gameState, currentTime);
 		this.updateBullets(gameState, timeDelta);
 
@@ -127,19 +125,29 @@ public class GameController extends AbstractController {
 				bullets.remove();
 			}
 		}
-		boolean hasInvaderDied = false;
 		
+		for (Iterator<Bonus> bonuses = gameState.getBonuses().iterator(); bonuses.hasNext();) {
+			Bonus bonus = bonuses.next();
+			if (bonus.isDestroyed()) {
+				bonuses.remove();
+			}
+		}
+		
+		boolean hasInvaderDied = false;
+		double bonusThreshold = 0.1; //TODO: make the difficulties decide this, perhaps?
+
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
 			if (invader.isDestroyed()) {
 				hasInvaderDied = true;
-//TODO : should spawn bonuses here!
+//Spawns bonus and grants the player points
+				if(Math.random() < bonusThreshold){	gameState.getBonuses().add(new Bonus(10,1,invader.getPosition().clone()));	}
+				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+invader.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
 				invaders.remove();
-				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+10);
 			}
 		}
 		if(hasInvaderDied){	//making this check to avoid the annoying effect of the same sound being played milliseconds apart!
-			SoundHandler.getInstance().playSound("audio/boom01.wav", 0, 0,-1.0f);
+			SoundHandler.getInstance().playSound("boom01.wav", 0, 0,-1.0f);
 		}
 		
 
@@ -151,6 +159,12 @@ public class GameController extends AbstractController {
 		}
 	}
 
+	private void updateBonuses(GameState gameState, long timeDelta){
+		for(Bonus bonus : gameState.getBonuses()){
+			bonus.move(0, Mathx.distance(timeDelta, bonus.getSpeed()));
+		}
+	}
+	
 	/**
 	 * Check if game is over
 	 * 
@@ -158,8 +172,7 @@ public class GameController extends AbstractController {
 	 */
 	private boolean checkGameOver(GameState gameState) {
 		// Player has no more lives = loose
-		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
-			gameState.setState(GameStateState.Lost);
+		if (gameState.getState() == GameStateState.Lost) {
 			CommandFactory.createSetStateCommand(ViewState.GameOver).execute();
 			return true;
 		}
@@ -176,6 +189,10 @@ public class GameController extends AbstractController {
 
 	public void updatePlayer(GameState gameState, long timeDelta) {
 		Player player = gameState.getPlayer(PlayerIndex.One);
+		
+		if (gameState.getPlayer(PlayerIndex.One).getLives() <= 0) {
+			gameState.setState(GameStateState.Lost);
+		}
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_LEFT)) {
 			player.getPosition().x -= Mathx.distance(timeDelta, player.getSpeed() * gameModel.getActiveDifficulty().getPlayerSpeed());
@@ -212,9 +229,9 @@ public class GameController extends AbstractController {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - player.getTimeOfLastShot()> gameModel.getActiveDifficulty().getPlayerShootFreq()) {
 				player.setTimeOfLastShot(currentTime);
-				SoundHandler.getInstance().playSound("audio/zap01.wav", 0, 0,-1.0f);
+				SoundHandler.getInstance().playSound("zap01.wav", 0, 0,-1.0f);
 
-				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "view/sprites/bullet.png");
+				Bullet currentShot = new Bullet(Direction.Up, player.getWeapon(), "bullet.png");
 				currentShot.setPosition(player.getPosition().clone());
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
@@ -222,7 +239,7 @@ public class GameController extends AbstractController {
 					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 				case Explosive:
-					currentShot.setImageURL("view/sprites/missile.png");
+					currentShot.setImageURL("missile.png");
 					break;
 				case Normal:
 					break;
@@ -233,6 +250,15 @@ public class GameController extends AbstractController {
 			}
 		}
 
+		for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
+			Bonus collisionBonus = bonus.next();
+			if(Mathx.intersects(player, collisionBonus)){
+				collisionBonus.destroy();
+				break;
+			}
+		}
+		
+//Avoid player moving outsite the screen
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(MainModel.SCREEN_WIDTH - player.getWidth(), player.getPosition().x);
 	}
@@ -313,7 +339,7 @@ public class GameController extends AbstractController {
 			// player collision
 			if (bullet.getDirection() == Direction.Down && Mathx.intersects(bullet, gameState.getPlayer(PlayerIndex.One))) {
 				gameState.getPlayer(PlayerIndex.One).livesDown();
-				SoundHandler.getInstance().playSound("audio/sheep01.wav", 0, 0,6.0f);
+				SoundHandler.getInstance().playSound("sheep01.wav", 0, 0,6.0f);
 				// TODO fire some command to pause and respawn the player
 				bullet.destroy();
 			}
@@ -325,10 +351,10 @@ public class GameController extends AbstractController {
 					if(collisionBunker.getHealth() < 2){
 						switch(bullet.getDirection()){
 						case Down:
-							collisionBunker.setImageURL("view/sprites/bunkerPartBroken.png");
+							collisionBunker.setImageURL("bunkerPartBroken.png");
 							break;
 						default:
-							collisionBunker.setImageURL("view/sprites/bunkerPartBrokenUpwardsBullet.png");							
+							collisionBunker.setImageURL("bunkerPartBrokenUpwardsBullet.png");							
 							break;
 						}
 						
@@ -340,6 +366,16 @@ public class GameController extends AbstractController {
 					break;
 				}
 			}
+			
+			for(Iterator<Bonus> bonus = gameState.getBonuses().iterator(); bonus.hasNext();){
+				Bonus collisionBonus = bonus.next();
+				if(Mathx.intersects(bullet, collisionBonus)){
+					collisionBonus.destroy();
+					bullet.destroy();
+					break;
+				}
+			}
+			
 		}
 	}
 
@@ -347,19 +383,26 @@ public class GameController extends AbstractController {
 		boolean wallHit = false;
 //Checking if move will cause wallHit
 		for (Invader invader : gameState.getInvaders()) {
+			if(invader.getPosition().y + invader.getHeight() >= gameState.getPlayer(PlayerIndex.One).getPosition().y){
+				gameState.setState(GameStateState.Lost);
+				break;
+			}
+			
 			if (gameState.getMoveInvadersRight()) {
 				if(invader.getPosition().x+invader.getWidth() +Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) > MainModel.SCREEN_WIDTH){
 					wallHit = true;
+					gameState.setMoveInvadersRight(false);
 					break;
 				}
 			}else if(invader.getPosition().x -Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) < 0){
 					wallHit = true;
+					gameState.setMoveInvadersRight(true);
 					break;
 			}
 		}
 //if movement will cause wallHit: change direction
 		if (wallHit) {
-			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
+//			gameState.setMoveInvadersRight(!gameState.getMoveInvadersRight());
 			for (Invader invader : gameState.getInvaders()) {
 				invader.move(0, 15); // TODO y coord to diff
 			}
@@ -417,14 +460,14 @@ public class GameController extends AbstractController {
 			Invader shootingInvader = trimmed.get((int) (Math.random() * trimmed.size()));
 			
 			gameState.setLastInvaderShot(currentTime);
-			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"view/sprites/bulletInvader.png");
-			SoundHandler.getInstance().playSound("audio/zap05.wav", 0, 0,2.0f);
+			Bullet currentShot = new Bullet(Direction.Down, shootingInvader.getBulletType(),"bulletInvader.png");
+			SoundHandler.getInstance().playSound("zap05.wav", 0, 0,2.0f);
 			currentShot.setPosition(shootingInvader.getPosition().clone());
 			currentShot.move(24, 50);
 			
 			switch(currentShot.getType()){
 			case Homing:
-				currentShot.setImageURL("view/sprites/bulletInvaderHoming.png");
+				currentShot.setImageURL("bulletInvaderHoming.png");
 				break;
 			default:
 				break;
@@ -445,6 +488,6 @@ public class GameController extends AbstractController {
 	}
 	
 	private void addExplosion(GameState gameState, GameElement gameElement){
-		gameState.getAnimations().add(new Animation("view/sprites/explosion.png", gameElement.getPosition().clone(), 5));
+		gameState.getAnimations().add(new Animation("explosion.png", gameElement.getPosition().clone(), 5));
 	}
 }

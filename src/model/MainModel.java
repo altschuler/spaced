@@ -13,7 +13,7 @@ import model.core.PlayerIndex;
  */
 public class MainModel extends Observable {
 
-	public static final int SCREEN_WIDTH = 1080;
+	public static final int SCREEN_WIDTH = 1180;
 	public static final int SCREEN_HEIGHT = 700;
 	
 	private int highScore;

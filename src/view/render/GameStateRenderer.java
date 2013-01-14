@@ -1,22 +1,22 @@
 package view.render;
 
+import service.resources.Sprite;
+import service.resources.SpriteHandler;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
-
 import java.util.Iterator;
-
 import model.MainModel;
 import model.GameState;
 import model.GameStateState;
 import model.core.Coordinate;
 import model.core.PlayerIndex;
 import model.elements.Animation;
+import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.GameElement;
@@ -26,6 +26,7 @@ import utils.Mathx;
 
 public class GameStateRenderer {
 	private int topBarHeight = 30;
+	private int bottomBarHeight = 0; //TODO: Use this to display info about special-bullets remaining
 
 	public GameStateRenderer() {
 	}
@@ -38,12 +39,12 @@ public class GameStateRenderer {
 		// Clear the screen
 		gfx.setColor(Color.BLACK);
 //		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		this.draw(gfx, "view/sprites/hubble.jpg", new Coordinate(0, 0));
+		this.draw(gfx, "hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
-			this.draw(gfx, "view/sprites/player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20));
+			this.draw(gfx, "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
 
 		// Draws everything else
@@ -51,6 +52,7 @@ public class GameStateRenderer {
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Invader invader : gameState.getInvaders()) {	this.drAwesome(gfx, invader);		}
 		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
+		for (Bonus bonus : gameState.getBonuses()){	this.drAwesome(gfx, bonus);			}
 		for (Iterator<Animation> animations = gameState.getAnimations().iterator(); animations.hasNext();) {
 			Animation animation = animations.next();
 			if(animation.getIndexOfLastFrame()-1 >= animation.getFrames()){
@@ -67,6 +69,7 @@ public class GameStateRenderer {
 		gfx.setFont(font);
 		gfx.setColor(new Color(150,150,150,200));
 		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
+		gfx.fillRect(0, MainModel.SCREEN_HEIGHT-bottomBarHeight, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
 		String playerString = String.format("Level: %s, Diff: %s, Inv: %s, Player: %s, Score: %s", 
@@ -107,7 +110,10 @@ public class GameStateRenderer {
 		int aniPosX = (int) ani.getPosition().x;
 		int aniPosY = (int) ani.getPosition().y;
 		int lastIndex = ani.getIndexOfLastFrame();
-		g.drawImage(spriteSheet.getImage(), aniPosX, aniPosY, aniPosX+spriteSheet.getWidth(), aniPosY+ani.getFrameHeight(), 0, (lastIndex-1)*ani.getFrameHeight(), spriteSheet.getWidth(), (lastIndex)*ani.getFrameHeight(), null);
+		g.drawImage(spriteSheet.getImage(), aniPosX, aniPosY, 
+                        aniPosX+spriteSheet.getWidth(), aniPosY+ani.getFrameHeight(), 0, 
+                        (lastIndex-1)*ani.getFrameHeight(), spriteSheet.getWidth(), 
+                        (lastIndex)*ani.getFrameHeight(), null);
 
 		if (System.currentTimeMillis() - ani.getTimeOfLastFrame()> ani.getTimePerFrame()) {
 			ani.setTimeOfLastFrame(System.currentTimeMillis());
@@ -119,5 +125,9 @@ public class GameStateRenderer {
 
 	public int getTopBarHeight() {
 		return topBarHeight;
+	}
+
+	public int getBottomBarHeight() {
+		return bottomBarHeight;
 	}
 }

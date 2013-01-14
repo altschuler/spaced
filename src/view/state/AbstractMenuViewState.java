@@ -8,16 +8,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.MainModel;
-import view.render.SpriteHandler;
+import service.resources.SpriteHandler;
 
 abstract public class AbstractMenuViewState extends AbstractViewState {
     
     
     private JPanel panel;
     private JLabel logo;
-    private static final String LOGO_URL = "view/sprites/logo.png";
+    private static final String LOGO = "logo.png";
     private Image bg;
-    private static final String BG_URL = "view/sprites/hubble.jpg";
+    private static final String BG = "hubble.jpg";
     private SpriteHandler spriteHandler;
 
     public AbstractMenuViewState() {
@@ -28,10 +28,10 @@ abstract public class AbstractMenuViewState extends AbstractViewState {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         // Background
-        this.bg = this.spriteHandler.get(BG_URL).getImage();
+        this.bg = this.spriteHandler.get(BG).getImage();
         
         // Logo
-        this.logo = new JLabel(new ImageIcon(this.spriteHandler.get(LOGO_URL).getImage()));
+        this.logo = new JLabel(new ImageIcon(this.spriteHandler.get(LOGO).getImage()));
         this.logo.setAlignmentX(CENTER_ALIGNMENT);
         // Blank panel
         this.panel = new JPanel();

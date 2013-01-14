@@ -2,7 +2,7 @@ package model.elements;
 
 import model.core.BulletType;
 import model.core.InvaderType;
-import view.render.SpriteHandler;
+import service.resources.SpriteHandler;
 
 /**
  * An invader. Comes in different types.
@@ -10,18 +10,23 @@ import view.render.SpriteHandler;
 public class Invader extends KillableGameElement {
 
 	private InvaderType type;
+	private int points;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
-		super(health, "view/sprites/invaderA.png");
+		super(health, "invaderA.png");
 		switch (type) {
 			case A:
-				super.setImageURL("view/sprites/invaderA.png");
+				super.setImageURL("invaderA.png");
+				this.points=10;
 				break;
 			case B:
-				super.setImageURL("view/sprites/invaderB.png");
+				super.setImageURL("invaderB.png");
+				this.points=10;
 				break;
-			default:
-				super.setImageURL("view/sprites/invaderCRed.png");
+			case C:
+				super.setImageURL("invaderCRed.png");
+				this.points=30;
+				break;
 		}
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		super.setWidth(spriteHandler.get(super.getImageURL()).getWidth());
@@ -58,14 +63,18 @@ public class Invader extends KillableGameElement {
 		switch(this.getType()){
 			case C:
 				if(this.getHealth() == 1){
-					this.setImageURL("view/sprites/invaderC.png");
+					this.setImageURL("invaderC.png");
 				}else if(this.getHealth() <= 2){
-					this.setImageURL("view/sprites/invaderCRedSemi.png");
+					this.setImageURL("invaderCRedSemi.png");
 				}
 				break;
 			default:
 				break;
 		}
+	}
+
+	public int getPoints() {
+		return points;
 	}
 	
 }

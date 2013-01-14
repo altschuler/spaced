@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import model.GameState;
 import model.core.Coordinate;
-import model.core.Difficulty;
 import model.core.InvaderType;
 import model.core.PlayerIndex;
-import model.elements.Bonus;
 import model.elements.Bunker;
 import model.elements.Invader;
 import model.elements.Player;
@@ -33,7 +31,7 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                 this.levels.add(this.currentLevel);
                 break;
             case "player":
-            	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "view/sprites/player.png"));
+            	this.currentLevel.setPlayer(PlayerIndex.One, new Player(Integer.valueOf(atts.getValue("health")), "player.png"));
             	this.currentLevel.getPlayer(PlayerIndex.One).setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
                 break;
             case "bunker":
@@ -47,11 +45,6 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                         Integer.valueOf(atts.getValue("health")));
                 invader.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
                 this.currentLevel.getInvaders().add(invader);
-                break;
-            case "bonus":
-            	this.currentLevel.getBonus().add(new Bonus(
-                        Integer.valueOf(atts.getValue("points")), 
-                        Integer.valueOf(atts.getValue("health"))));
                 break;
         }
     }
