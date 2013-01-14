@@ -38,6 +38,7 @@ public class HighscoreController extends AbstractController {
     }
     
     public Boolean add(HighscoreEntry entry) {
+        this.entries.add(entry);
         return this.service.addEntry(entry, URL_ADD, TOKEN);
     }
     
