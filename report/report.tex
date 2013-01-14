@@ -9,6 +9,8 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -25,12 +27,50 @@
 
 \begin{document}
 
-\section*{Opbygning}
+\section{Afgrænsning}
+\emph{Her beskrives hvordan afgrænsnings processen foregik og hvad resultatet var.}\\*
+Vi vidste fra starten at det er umuligt at vide præcist hvor langt man kan nå i et givent
+tidsrum. Derfor var mentaliteten hele tiden at udvikle programmet på så generisk vis som muligt,
+således at det ville være nemt at udbygge med nye features, og det uden at koden bliver såkaldt
+``slamkode'' (dvs. uorganiseret, dårlig performance, uoverskueligt, etc). Dette er også en af
+softwareudviklingens tommelfingerregler: ``It's gonna change''.
+
+Derfor har vi forsøgt at holde koden DRY \footnote{Don't Repeat Yourself
+  \url{http://en.wikipedia.org/wiki/Don't_repeat_yourself}}, velstruktureret, i henhold til bevist
+velfungerende design principper, osv.
+
+Et par features som vi dog vidste at vi ville/skulle nå at implementere:
+\begin{description}
+  \item[Klassisk Space Invaders gameplay] \hfill \\
+    Hermed menes ``forsinkede'' skud, bevægende invaders som skyder tilbage, bunkers og den slags.
+
+  \item[Menu system] \hfill \\
+    Et system til at vise og styre forskellige skærme (såsom menu, selve spillet, game over,
+    highscore), samt et system til at oprette disse på en simpel måde.
+
+  \item[Highscores] \hfill \\
+    Et highscore system (som blev implementeret gennem en web service vi også udviklede, således at
+    highscoren er global).
+
+\end{description}
+
+Derfor brugte vi de første dage på at udvikle arkitekturen og gennemtænke hvordan tingene skulle
+sættes passende sammen. Derefter begyndte vi at udvikle specifikke dele af programmet, og her blev
+det også meget nemmere at dele opgaver ud, da delene som regel var fuldstændig uafhængige og dermed
+nemt kunne udvikles seperat.
+
+Dette leder til programmets struktur.
+
+\section{Opbygning}
 \subsection{Overordnet struktur}
-Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur. Programmet er opbygget med
-den klassiske MVC arkitektur. MVC er blevet brugt og beskrevet så meget at det næsten kan siges at
-være blevet en kliché. Det er umuligt at definere helt præcist hvordan en egentlig korrekt
-implementering ser ud, men de overordnede princippet gælder mere eller mindre for alle varianter.
+\emph{Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur.}\\*
+Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
+beskrevet så meget at det næsten kan siges at være blevet en kliché. Det er umuligt at definere helt
+præcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men de
+overordnede princippet gælder mere eller mindre for alle varianter. Disse principper inkluderer
+f.eks. at controller ``snakker med'' model og view og dermed agerer mellemmand mellem de to, og at
+view og model ikke kommunikerer direkte. Sidstenævnte bryder vi en smule, idet vi bruger Observer
+pattern.
 
 I vores tilfælde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
 bruger vi Command pattern til at facilitere eksekvering af ``cachet'' logik, og Observer pattern til
@@ -75,4 +115,40 @@ at opdatere views når modellen ændres. Vi gennemgår kort nogle vigtige klasser o
   \code{Oberservable}s \code{notifyObservers} metode.
 \end{description}
 
+\section{Evaluering}
+\subsection{Samlet resulta}
+
+
+\section{Værktøjer}
+\subsection{Versionsstyring}
+Til projektet har vi brugt git\footnote{git scm: \url{http://git-scm.com}}. Det har visse fordele over
+f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bruge git:
+
+\begin{description}
+  \item[Distribueret] \hfill \\
+    git er en af de eneste fuldstændig distribuerede VCS'er. Man arbejder altid i sit eget lokale
+    repository, og kan gøre hvad man vil, uafhængigt af alle andre. Man har så et hostet
+    \emph{main} repository, som regel kaldet origin, som vi hoster på GitHub \footnote{GitHub:
+      \url{http://github.com}}. 
+
+    En fremragende følge af dette er at alle kan arbejde uden netforbindelse, og da et commit bliver
+    committet lokalt går det \emph{meget} hurtigere, da der ikke skal forbindes til server.
+
+  \item[Branching] \hfill \\
+    Branching er meget mere ligetil i git i forhold til SVN og Mercurial, og skift af branch samt
+    merge af disse er intuitivt og nemt.
+
+  \item[Performance og størrelse] \hfill \\
+    git er utroligt hurtigt, og utrolig god til at kompresse data (til sammenligning fylder Mozillas
+    samlede repo med commit historie 12gb i SVN og noget ala 400mb i git!).
+\end{description}
+
+\subsection{IDE}
+Som IDE har vi brugt både Eclipse\footnote{Eclipse:\url{http://www.eclipse.org}} og
+NetBeans\footnote{NetBeans: \url{http://www.netbeans.org}}. De to minder meget om hinanden, er begge
+open source og valget er en smagssag. Begge har de også integration af versionsstyring, hvor vi dog
+har holdt os til command-line git, da den slags GUI værktøjer som regel er lidt ustabile.
+
+\subsection{Diverse}
+Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og Audacity til lydredigering\footnote{\url{http://audacity.sourceforge.net}}.
 \end{document}
