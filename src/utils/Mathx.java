@@ -21,18 +21,6 @@ public class Mathx {
 		
 		return String.format("%s:%s", minuteString, secondString);
 	}
-	/**
-	 * @param n
-	 *            The number to check
-	 * @param min
-	 *            Minimum value for validation
-	 * @param max
-	 *            Maximum value for validation
-	 * @return True if n is inbetween (inclusive) min and max
-	 */
-	static public boolean between(double n, double min, double max) {
-		return n > min && n < max;
-	}
 
 	/**
 	 * @param timeDelta
@@ -43,7 +31,7 @@ public class Mathx {
 	 *         movement unstable
 	 */
 	static public double distance(long timeDelta, double speed) {
-		return timeDelta / MainModel.FRAMERATE * speed / 2.0;
+		return timeDelta * speed / 40.0; //40 er en naturkonstant
 	}
 
 	/**
@@ -63,6 +51,12 @@ public class Mathx {
 		return ax1 < bx2 && ax2 > bx1 && ay1 < by2 && ay2 > by1;
 	}
 	
+	/**
+	 * @param rect The rectangular GameElement
+	 * @param circ The position of the circular GameElement
+	 * @param radius The radius of the circular GameElement
+	 * @return True if rect and circ intersects
+	 */
 	static public boolean circleRectangleIntersects(GameElement rect, Coordinate circ, double radius){
 		double rectCenterX = rect.getPosition().x + ((double) rect.getWidth()/2);
 		double rectCenterY = rect.getPosition().y + ((double) rect.getHeight()/2);
@@ -82,9 +76,7 @@ public class Mathx {
 		return (cornerDistance_squared <= Math.pow(radius,2));
 	}
 
-	public static Coordinate angle(Coordinate a, Coordinate b) {
+	public static Coordinate getDirectionVector(Coordinate a, Coordinate b) {
 		return new Coordinate(a.x - b.x, a.y - b.y);
-	}
-	
-	//TODO perhaps make an intersects-method for circles like the one for rectangles
+	}	
 }

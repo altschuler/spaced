@@ -69,6 +69,7 @@ public class GameController extends AbstractController {
 
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
+		System.out.println(timeDelta);
 
 		// Consider gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
@@ -280,7 +281,7 @@ public class GameController extends AbstractController {
 					case Homing:
 						Coordinate target = gameState.getPlayer(PlayerIndex.One).getPosition().clone();
 						target.x += gameState.getPlayer(PlayerIndex.One).getWidth() / 2;
-						Coordinate vector = Mathx.angle(target, bullet.getPosition());
+						Coordinate vector = Mathx.getDirectionVector(target, bullet.getPosition());
 						vector.normalize();
 						bullet.move(vector.x * Mathx.distance(timeDelta, bullet.getSpeed()) * 0.75, Mathx.distance(timeDelta, bullet.getSpeed()));
 						break;
@@ -482,7 +483,7 @@ public class GameController extends AbstractController {
 	 */
 	private Timer getTimer() {
 		if (this.timer == null) {
-			this.timer = new Timer(MainModel.FRAMERATE, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
+			this.timer = new Timer(MainModel.TIMER_DELAY, new CommandListener(CommandFactory.createUpdateGameStateCommand()));
 		}
 		return timer;
 	}
