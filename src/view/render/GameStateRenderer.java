@@ -1,5 +1,7 @@
 package view.render;
 
+import service.resources.Sprite;
+import service.resources.SpriteHandler;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;

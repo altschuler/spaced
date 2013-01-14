@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.MainModel;
-import view.render.SpriteHandler;
+import service.resources.SpriteHandler;
 
 abstract public class AbstractMenuViewState extends AbstractViewState {
     

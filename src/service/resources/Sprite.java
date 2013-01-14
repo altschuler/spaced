@@ -1,4 +1,4 @@
-package view.render;
+package service.resources;
 
 import java.awt.Image;
 

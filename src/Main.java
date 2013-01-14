@@ -2,7 +2,7 @@ import java.io.File;
 
 import model.MainModel;
 import model.GameStateFactory;
-import sounds.SoundHandler;
+import service.resources.SoundHandler;
 import view.MainView;
 import view.state.ViewState;
 

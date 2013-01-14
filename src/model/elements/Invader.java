@@ -2,7 +2,7 @@ package model.elements;
 
 import model.core.BulletType;
 import model.core.InvaderType;
-import view.render.SpriteHandler;
+import service.resources.SpriteHandler;
 
 /**
  * An invader. Comes in different types.

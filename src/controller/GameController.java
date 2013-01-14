@@ -1,13 +1,10 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import javax.swing.Timer;
-
 import model.GameState;
 import model.GameStateState;
 import model.MainModel;
@@ -22,14 +19,13 @@ import model.elements.Bunker;
 import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.Player;
-import sounds.SoundHandler;
+import service.resources.SoundHandler;
 import utils.Input;
 import utils.Mathx;
 import view.MainView;
 import view.render.GameStateRenderer;
 import view.state.GameViewState;
 import view.state.ViewState;
-
 import command.CommandFactory;
 import command.CommandListener;
 
@@ -223,7 +219,7 @@ public class GameController extends AbstractController {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
 				anotherInvader.destroy();
-				System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
+				//System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
 			}
 		}
 		

@@ -1,15 +1,14 @@
-package sounds;
+package service.resources;
 
 import java.io.File;
 import java.util.HashMap;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
 public class SoundHandler {
-	private HashMap<String, File> sounds = new HashMap<String, File>();
+	private HashMap<String, File> sounds = new HashMap<>();
     
     private static SoundHandler instance = null;
     
@@ -64,18 +63,18 @@ public class SoundHandler {
     public synchronized void playSound(final String ref, final int repeats, final int stopTime, final float gain) {
 
 	    new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
-	      public void run() {
+    public void run() {
         try {
-          Clip clip = AudioSystem.getClip();
-          AudioInputStream inputStream = AudioSystem.getAudioInputStream(sounds.get(ref));
-          clip.open(inputStream);
-          FloatControl gainControl =   (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-          gainControl.setValue(gain);
-          clip.loop(repeats);
-          clip.start(); 
-          if(stopTime > 0){
-          try { Thread.currentThread().sleep(stopTime); }
-	        catch (InterruptedException e) { System.out.println("Error sleeping");}
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(sounds.get(ref));
+            clip.open(inputStream);
+            FloatControl gainControl =   (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(gain);
+            clip.loop(repeats);
+            clip.start(); 
+            if(stopTime > 0){
+            try { Thread.currentThread().sleep(stopTime); }
+            catch (InterruptedException e) { System.out.println("Error sleeping");}
           clip.stop();
           }
           
