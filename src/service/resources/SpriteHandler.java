@@ -91,6 +91,7 @@ public class SpriteHandler {
         this.add("present2.png");
         this.add("heart.png");
         this.add("snowFlake.png");
+        this.add("alien.png");
     }
     
     private void fail(String message) {

@@ -160,7 +160,6 @@ gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getW
         graphics.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
     }
 	
-	
 	public void drawAnimation(Graphics g, Animation ani){
 		Sprite spriteSheet = SpriteHandler.getInstance().get(ani.getImageURL());
 		int aniPosX = (int) ani.getPosition().x;
@@ -175,8 +174,6 @@ gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getW
 			ani.setTimeOfLastFrame(System.currentTimeMillis());
 			ani.setIndexOfLastFrame(ani.getIndexOfLastFrame()+1);
 		}
-		
-		//TODO: make this... Use a SpriteSheet
 	}
 
 	public int getTopBarHeight() {
