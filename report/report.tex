@@ -1,7 +1,7 @@
-\documentclass[danish]{article}
+\documentclass[titlepage,danish]{article}
 
 \usepackage{fullpage}
-\usepackage[latin1]{inputenc}
+\usepackage[utf8x]{inputenc}
 \usepackage[danish]{babel}
 \usepackage{color}
 \usepackage{amssymb}
@@ -16,153 +16,266 @@
 \fancyhf{}
 \setlength{\headheight}{15pt}
 \setlength{\headsep}{25pt}
-\lfoot{\thepage{} af \pageref{LastPage}}
-\rfoot{DATO}
-\rhead{MEMBERS}
+\lhead{Kursus 02121}
 \chead{Space Invaders}
-\lhead{}
+\rhead{s113491, s123692, s123563}
+\lfoot{\thepage{} af \pageref{LastPage}}
+\rfoot{20/01-2013}
 
 % use when representing code and file names
 \newcommand{\code}[1]{\texttt{#1}}
 
 \begin{document}
 
-\section{AfgrÊnsning}
-\emph{Her beskrives hvordan afgrÊnsnings processen foregik og hvad resultatet var.}\\*
-Vi vidste fra starten at det er umuligt at vide prÊcist hvor langt man kan nÂ i et givent
-tidsrum. Derfor var mentaliteten hele tiden at udvikle programmet pÂ sÂ generisk vis som muligt,
-sÂledes at det ville vÊre nemt at udbygge med nye features, og det uden at koden bliver sÂkaldt
-``slamkode'' (dvs. uorganiseret, dÂrlig performance, uoverskueligt, etc). Dette er ogsÂ en af
+\title{Space Invaders (kursus 02121)}
+\date{20/01-2013}
+\author{
+  Gadd, Patrick\\
+  \texttt{s113491}
+  \and
+  Veie F√¶rgevaa, Markus\\
+  \texttt{s123692}
+  \and
+  Altschuler, Simon\\
+  \texttt{s123563}
+}
+\maketitle
+
+\section{Afgr√¶nsning}
+\emph{Her beskrives hvordan afgr√¶nsnings processen foregik og hvad resultatet var.}\\*
+Vi vidste fra starten at det er umuligt at vide pr√¶cist hvor langt man kan n√• i et givent
+tidsrum. Derfor var mentaliteten hele tiden at udvikle programmet p√• s√• generisk vis som muligt,
+s√•ledes at det ville v√¶re nemt at udbygge med nye features, og det uden at koden bliver s√•kaldt
+``slamkode'' (dvs. uorganiseret, d√•rlig performance, uoverskueligt, etc). Dette er ogs√• en af
 softwareudviklingens tommelfingerregler: ``It's gonna change''.
 
-Derfor har vi fors¯gt at holde koden DRY \footnote{Don't Repeat Yourself
+Derfor har vi fors√∏gt at holde koden DRY \footnote{Don't Repeat Yourself
   \url{http://en.wikipedia.org/wiki/Don't_repeat_yourself}}, velstruktureret, i henhold til bevist
 velfungerende design principper, osv.
 
-Et par features som vi dog vidste at vi ville/skulle nÂ at implementere:
+Et par features som vi dog vidste at vi ville/skulle n√• at implementere:
 \begin{description}
   \item[Klassisk Space Invaders gameplay] \hfill \\
-    Hermed menes ``forsinkede'' skud, bevÊgende invaders som skyder tilbage, bunkers og den slags.
+    Hermed menes ``forsinkede'' skud, bev√¶gende invaders som skyder tilbage, bunkers og den slags.
 
   \item[Menu system] \hfill \\
-    Et system til at vise og styre forskellige skÊrme (sÂsom menu, selve spillet, game over,
-    highscore), samt et system til at oprette disse pÂ en simpel mÂde.
+    Et system til at vise og styre forskellige sk√¶rme (s√•som menu, selve spillet, game over,
+    highscore), samt et system til at oprette disse p√• en simpel m√•de.
 
   \item[Highscores] \hfill \\
-    Et highscore system (som blev implementeret gennem en web service vi ogsÂ udviklede, sÂledes at
+    Et highscore system (som blev implementeret gennem en web service vi ogs√• udviklede, s√•ledes at
     highscoren er global).
 
 \end{description}
 
-Derfor brugte vi de f¯rste dage pÂ at udvikle arkitekturen og gennemtÊnke hvordan tingene skulle
-sÊttes passende sammen. Derefter begyndte vi at udvikle specifikke dele af programmet, og her blev
-det ogsÂ meget nemmere at dele opgaver ud, da delene som regel var fuldstÊndig uafhÊngige og dermed
+Derfor brugte vi de f√∏rste dage p√• at udvikle arkitekturen og gennemt√¶nke hvordan tingene skulle
+s√¶ttes passende sammen. Derefter begyndte vi at udvikle specifikke dele af programmet, og her blev
+det ogs√• meget nemmere at dele opgaver ud, da delene som regel var fuldst√¶ndig uafh√¶ngige og dermed
 nemt kunne udvikles seperat.
 
-Dette leder til programmets struktur.
+Dette leder til programmets egentlig implementation.
 
-\section{Opbygning}
+\section{Implementation}
+\emph{Her beskrives spillets strukturelle opbygning, samt vigtige konkrete implementeringsstrategier}
 \subsection{Overordnet struktur}
-\emph{Vi vil her beskrive programmets overordnede opbygnings filosofi/struktur.}\\*
 Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
-beskrevet sÂ meget at det nÊsten kan siges at vÊre blevet en klichÈ. Det er umuligt at definere helt
-prÊcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men de
-overordnede princippet gÊlder mere eller mindre for alle varianter. Disse principper inkluderer
+beskrevet s√• meget at det n√¶sten kan siges at v√¶re blevet en klich√©. Det er umuligt at definere helt
+pr√¶cist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men de
+overordnede princippet g√¶lder mere eller mindre for alle varianter. Disse principper inkluderer
 f.eks. at controller ``snakker med'' model og view og dermed agerer mellemmand mellem de to, og at
-view og model ikke kommunikerer direkte. SidstenÊvnte bryder vi en smule, idet vi bruger Observer
+view og model ikke kommunikerer direkte. Sidsten√¶vnte bryder vi en smule, idet vi bruger Observer
 pattern.
 
-I vores tilfÊlde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
+I vores tilf√¶lde har vi en \code{MainController}, \code{MainView} og \code{MainModel}. Udover det
 bruger vi Command pattern til at facilitere eksekvering af ``cachet'' logik, og Observer pattern til
-at opdatere views nÂr modellen Êndres. Vi gennemgÂr kort nogle vigtige klasser og principper:
+at opdatere views n√•r modellen √¶ndres. Vi gennemg√•r kort nogle vigtige klasser og principper:
 
 \begin{description}
 \item[\code{MainController}] \hfill \\
   Den overordnede controller, som holder instanser af sub-controllers og ikke laver noget egentligt
-  arbejde selv. Pointen er, at har man en reference til \code{MainController}, kan man tilgÂ alle
-  andre controllers som getters pÂ denne. Dette g¯r det nemt og bekvemt at kalde forskellige sub
+  arbejde selv. Pointen er, at har man en reference til \code{MainController}, kan man tilg√• alle
+  andre controllers som getters p√• denne. Dette g√∏r det nemt og bekvemt at kalde forskellige sub
   controller metoder fra forskellige steder uden at skulle sende hver enkel controller rundt for
   sig.
 
 \item[\code{MainView}]  \hfill \\
-  Det ¯verste view, hvori alle andre views bliver renderet. \code{MainView} indeholder pÂ ethvert
-  givent tidspunkt Èn instans af \code{AbstractViewState}, som bliver renderet i vinduet. Denne
-  sÊttes gennem en Command som kalder en metode pÂ \code{StateController}.
+  Det √∏verste view, hvori alle andre views bliver renderet. \code{MainView} indeholder p√• ethvert
+  givent tidspunkt √©n instans af \code{AbstractViewState}, som bliver renderet i vinduet. Denne
+  s√¶ttes gennem en Command som kalder en metode p√• \code{StateController}.
 
 \item[\code{MainModel}]  \hfill \\
-  Den overordnede model. Heri ligger al data som beskriver programmets nuvÔøΩrende tilstand. Dette
-  inkluderer alt fra hvor stort hovedvinduet er, til hvornÂr man sidst har affyret et skud. Al data
-  som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornÔøΩr
+  Den overordnede model. Heri ligger al data som beskriver programmets nuv√Ø¬ø¬Ωrende tilstand. Dette
+  inkluderer alt fra hvor stort hovedvinduet er, til hvorn√•r man sidst har affyret et skud. Al data
+  som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvorn√Ø¬ø¬Ωr
   blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} object. Dette gemmes
-  i \code{MainModel} som det aktive spille-sessions state. Dette object er dÔøΩt som bliver givet til
-  en \code{GameController}, der sÔøΩ opdaterer det og sender det til rendering.
+  i \code{MainModel} som det aktive spille-sessions state. Dette object er d√Ø¬ø¬Ωt som bliver givet til
+  en \code{GameController}, der s√Ø¬ø¬Ω opdaterer det og sender det til rendering.
 
-\item[Commands] \hfill \\
-  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan vÔøΩre} afhÊngig af state. Denne
-  logik kan sÂ efterf¯lgende eksekveres af hvem som helst, nÂr som helst, uden at denne har nogen
-  viden om hvad en given \code{Command} \emph{egentlig} g¯r. FÊlles for dem alle er at implementerer
-  \code{ICommand} interfacet, hvilket bestÂr af en enkelt metode: \code{execute}.  Det er specielt
-  bekvemt til f.eks. at eksekvere logik ved tryk pÂ knapper (hvor knappen ikke skal vide hvad den
-  laver), men ogsÂ til generelt at lagre og udf¯re logik fra andre steder.  Vi har det klassiske
-  command pattern en smule ved at implementere en \code{chain} metode, som effektivt sÊtter
-  \code{Command}s sammen i rÊkkef¯lge og returnerer en ny command.
+\item[\code{Command}s] \hfill \\
+  \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan v√Ø¬ø¬Ωre} afh√¶ngig af state. Denne
+  logik kan s√• efterf√∏lgende eksekveres af hvem som helst, n√•r som helst, uden at denne har nogen
+  viden om hvad en given \code{Command} \emph{egentlig} g√∏r. F√¶lles for dem alle er at implementerer
+  \code{ICommand} interfacet, hvilket best√•r af en enkelt metode: \code{execute}.  Det er specielt
+  bekvemt til f.eks. at eksekvere logik ved tryk p√• knapper (hvor knappen ikke skal vide hvad den
+  laver), men ogs√• til generelt at lagre og udf√∏re logik fra andre steder.  Vi har det klassiske
+  command pattern en smule ved at implementere en \code{chain} metode, som effektivt s√¶tter
+  \code{Command}s sammen i r√¶kkef√∏lge og returnerer en ny command.
 
 \item[Observers] \hfill \\
-  \code{MainModel} implementerer Java's \code{Observable}. Det er en mÂde for et object at eksponere
-  et interface som g¯r et andet object, en \code{Observer}, opmÊrksom pÂ hvornÂr den er
-  opdateret. Vha. observer pattern g¯res dette fuldstÊndig decoupled, og \code{MainModel} har altsÂ
-  ingen ide om hvem der lytter efter dens Êndringer. ∆ndringerne annonceres gennem
+  \code{MainModel} implementerer Java's \code{Observable}. Det er en m√•de for et object at eksponere
+  et interface som g√∏r et andet object, en \code{Observer}, opm√¶rksom p√• hvorn√•r den er
+  opdateret. Vha. observer pattern g√∏res dette fuldst√¶ndig decoupled, og \code{MainModel} har alts√•
+  ingen ide om hvem der lytter efter dens √¶ndringer. √Ündringerne annonceres gennem
   \code{Oberservable}s \code{notifyObservers} metode.
 \end{description}
 
+Vi har valgt ikke at udvikle tests til projektet. Vi kunne have lavet en masse Unit Tests som kunne
+have fanget fejl for os, eller endda udviklet i TDD stil. Vi vurderede dog at til et projekt af
+denne st√∏rrelse og art at det ikke ville v√¶re det v√¶rd. I stedet har vi v√¶ret grundige for at
+udvikle i en stil der forebygger fejl.
+
+\subsection{GameController}
+St√•r prim√¶rt for at opdatere \code{GameState} samt at f√• \code{GameStateRenderer} (kaldet renderer
+under \code{GameController}) til at rendere \code{GameState}. Derudover anvendes en
+\code{javax.swing.Timer} som game loop opdaterings trigger. Timeren eksekverer en
+\code{UpdateGameStateCommand} ved hver trigger.
+
+Metoden \code{updateGameState()} g√∏r f√∏lgende (i kronologisk r√¶kkef√∏lge):
+\begin{enumerate}
+
+\item \code{currentTime} bruges til at udregne \code{timeDelta}, gemmes i det aktuelle
+  \code{GameSate} s√• man kan se hvorn√•r det sidst blev opdateret, samt til at afg√∏re om
+  \code{Player} og \code{Invaders} m√• skyde i denne update.
+
+\code{timeDelta} bruges til at bev√¶ge samtlige \code{GameElement}‚Äôer afh√¶ngigt af den tid der er g√•et, s√•dan at de for spilleren bev√¶ger sig med konstant hastighed uafh√¶ngigt af om tiden mellem updates varierer.
+
+\item Kontrollerer om \code{GameStateState} er \code{Running}/\code{Waiting}/\code{Paused}. Hvis denne enum er \code{Waiting}/\code{Paused} returnerer metoden og k√∏rer dermed ikke videre. Hvis den er running forts√¶tter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
+
+\item Herefter bliver alle \code{GameElement}‚Äôerne opdateret. Dette indeb√¶rer at der bliver tjekket med utils.Input om en listener er aktiveret af spilleren, rykke relevante elementer, kontrollere for kollisioner og endeligt fjerne de elementer der er blevet m√¶rket "d√∏de".
+
+\item Tjekker om man har vundet/tabt og returnerer hvis dette er tilf√¶ldet. Kalder \code{GameStateRenderer.render()} og renderer hermed det aktuelle \code{GameState}.
+
+\item Kalder \code{GameStateRenderer} og f√•r denne til at rendere det aktuelle \code{GameState}. \emph{Simon: Vi burde teoretisk set nok have haft en overordnet klasse (Nogle bud???) som kaldte \code{updateGameState()} og \code{GameStateRenderer.render()} uafh√¶ngigt af hinanden, s√•dan at \code{GameState} kunne opdateres uden at n√∏dvendigvis blive renderet}
+
+\item Slutteligt opdateres tiden gemt i \code{GameState}.
+\end{enumerate}
+
+
+\subsection{utils.Mathx}
+Indeholder belejlige matematiske metoder, hvoraf den eneste rigtigt interessante er
+\code{circleRectangleIntersects()}, som er noget mere advanceret end detektion mellem
+rektangel-rektangel eller cirkel-cirkel. Den ser s√•ledes ud:
+
+\begin{verbatim}
+boolean circleRectangleIntersects(GameElement rect, Coordinate circ, double radius){
+
+  double rectCenterX = rect.getPosition().x + ((double) rect.getWidth()/2);
+  double rectCenterY = rect.getPosition().y + ((double) rect.getHeight()/2);
+
+  double circleDistanceX = Math.abs(rectCenterX-circ.x);
+  double circleDistanceY = Math.abs(rectCenterY-circ.y);
+
+  if (circleDistanceX > (rect.getWidth()/2 + radius)) { return false; }
+  if (circleDistanceY > (rect.getHeight()/2 + radius)) { return false; }
+}
+\end{verbatim}
+
+De to ovenst√•ende \code{if} conditionals har udelukket alle tilf√¶lde hvor cirklen ligger udenfor en
+forst√∏rret udgave af rektanglen (rektanglen + radius). Dette svarer til det lyser√∏de omr√•de p√•
+figur \ref{fig:col_rect}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.60]{rekt_cirk_02.png}
+  \caption{Farverne repr√¶senterer de forskellige tjek som bliver udf√∏rt i funktionen \code{circleRectangleIntersects}}
+  \label{fig:col_rect}
+\end{figure}
+
+Derfor vil cirklen ligge indenfor rektanglen+(cirklens radius) for de to nedenst√•ende \code{if}
+conditionals. Disse to tjekker om cirklens centrum ligger i de p√• illustrationen lysegr√∏nne omr√•der,
+eller ligefrem indenfor rektanglen (m√∏rkegr√•).
+\begin{verbatim}
+    if (circleDistanceX <= (rect.getWidth()/2)) { return true; } 
+    if (circleDistanceY <= (rect.getHeight()/2)) { return true; }
+\end{verbatim}	    
+Tilbage er der kun at kontrollere hj√∏rnerne af den forst√∏rrede rektangel (kvadrater med cirklens
+radius som sidel√¶ngde). Dette svarer til de hvide omr√•der p√• figur \ref{fig:col_rect}.
+\code{cornerDistanceSquared} er cirklens centrums afstand til den oprindelige rektangels hj√∏rner
+kvadreret.
+\begin{verbatim}
+    double cornerDistanceSquared = Math.pow((circleDistanceX - rect.getWidth()/2),2) + 
+        Math.pow((circleDistanceY - rect.getHeight()/2), 2);
+    return (cornerDistanceSquared <= Math.pow(radius,2));
+}
+\end{verbatim}
+Er cirklens centrum l√¶ngere v√¶k end dens radius er der ikke kollision.
+
 \section{Evaluering}
-\subsection{Samlet resulta}
+\emph{Vi evaluerer process og resultat af arbejdet.}
+\subsection{Process}
+Vores udviklingsprocess viste sig at fungere godt. Versionsstyring er guld v√¶rd, og den eneste
+ulempe vi fandt ved git er at det kan betale sig at holde styr p√• hvem der arbejder hvor, for at
+undg√• for meget merging arbejde.
 
+Lige i starten var alle med til sammen at udt√¶nke den overordnede opbygning, men som fundamentet
+efterh√•nden blev lagt, kunne vi dele arbejdet op i isolerede opgaver som man individuelt fik ansvar
+for at implementere. Denne fremgangsm√•de virkede godt, og var meget effektiv, b√•de fordi det var
+nemt at projektstyre, og fordi vi hver is√¶r fik lyst til at levere et godt stykke arbejde.
 
-\section{VÊrkt¯jer}
+Samarbejdet har v√¶ret godt, alle har arbejdet lige har sat deres pr√¶g p√• resultatet. Alle har v√¶ret
+gode til at s√¶tte sig ind i, og respektere andres arbejde.
+
+\subsection{Samlet result}
+Vi er meget tilfredse med hvordan resultatet blev. Det gik hurtigere og hurtigere at f√•
+implementeret nyt features, i takt med at vi v√¶nnede os til strukturen, og den viste sig at holde
+til de udvidelser vi havde i sinde.
+
+Det betalte sig p√• alle m√•der at lave spillet generisk nok til at det ikke var designet med et helt
+konkret feature s√¶t i sinde. Det har v√¶ret nemt og bekvemt at udvikle forskellige dele af spillet
+samtidig, ogs√• selvom vi har pushet og pullet ofte. 
+
+\subsection{Videre udvikling}
+En ting vi burde l√¶rer at blive bedre til er at rebase og h√•ndterer commits, for vi endte ofte med
+at pushe 5 commits ad gangen, hvoraf de 4 var merge commits af branches og conflict
+resolutions. Vores hoved repository endte op med alt for mange commits, s√• det ville v√¶re sv√¶rt, i
+nogle tilf√¶lde, at sn√¶vre en feature ned til et bestemt commit i timelinen.
+
+Hvis vi skulle arbejde videre med projektet ville n√¶ste skridt v√¶re at str√∏mline al kode, og
+derefter lave tests, for at sikre stabilitet.
+
+\section{V√¶rkt√∏jer}
+\emph{Kort gennemgang af de v√¶rkt√∏jer vi har brugt}
 \subsection{Versionsstyring}
-Til projektet har vi brugt git\footnote{git scm: \url{http://git-scm.com}}. Det har visse fordele over
+Til projektet har vi brugt git\footnote{git: \url{http://git-scm.com}}. Det har visse fordele over
 f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bruge git:
 
 \begin{description}
   \item[Distribueret] \hfill \\
-    git er en af de eneste fuldstÊndig distribuerede VCS'er. Man arbejder altid i sit eget lokale
-    repository, og kan g¯re hvad man vil, uafhÊngigt af alle andre. Man har sÂ et hostet
-    \emph{main} repository, som regel kaldet origin, som vi hoster pÂ GitHub \footnote{GitHub:
+    git er en af de eneste fuldst√¶ndig distribuerede VCS'er. Man arbejder altid i sit eget lokale
+    repository, og kan g√∏re hvad man vil, uafh√¶ngigt af alle andre. Man har s√• et hostet
+    \emph{main} repository, som regel kaldet origin, som vi hoster p√• GitHub \footnote{GitHub:
       \url{http://github.com}}. 
 
-    En fremragende f¯lge af dette er at alle kan arbejde uden netforbindelse, og da et commit bliver
-    committet lokalt gÂr det \emph{meget} hurtigere, da der ikke skal forbindes til server.
+    En fremragende f√∏lge af dette er at alle kan arbejde uden netforbindelse, og da et commit bliver
+    committet lokalt g√•r det \emph{meget} hurtigere, da der ikke skal forbindes til server.
 
   \item[Branching] \hfill \\
     Branching er meget mere ligetil i git i forhold til SVN og Mercurial, og skift af branch samt
     merge af disse er intuitivt og nemt.
 
-  \item[Performance og st¯rrelse] \hfill \\
+  \item[Performance og st√∏rrelse] \hfill \\
     git er utroligt hurtigt, og utrolig god til at kompresse data (til sammenligning fylder Mozillas
     samlede repo med commit historie 12gb i SVN og noget ala 400mb i git!).
 \end{description}
 
 \subsection{IDE}
-Som IDE har vi brugt bÂde Eclipse\footnote{Eclipse:\url{http://www.eclipse.org}} og
+Som IDE har vi brugt b√•de Eclipse\footnote{Eclipse:\url{http://www.eclipse.org}} og
 NetBeans\footnote{NetBeans: \url{http://www.netbeans.org}}. De to minder meget om hinanden, er begge
-open source og valget er en smagssag. Begge har de ogsÂ integration af versionsstyring, hvor vi dog
-har holdt os til command-line git, da den slags GUI vÊrkt¯jer som regel er lidt ustabile.
+open source og valget er en smagssag. Begge har de ogs√• integration af versionsstyring, hvor vi dog
+har holdt os til command-line git, da den slags GUI v√¶rkt√∏jer som regel er lidt ustabile.
 
 \subsection{Diverse}
-Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og Audacity til lydredigering\footnote{\url{http://audacity.sourceforge.net}}.
-
-\section{GameController}
-StÂr primÊrt for at opdatere \code{GameState} samt at fÂ GameStateRenderer (kaldet renderer under GameController) til at rendere GameState.
-\\Derudover anvender den javax.swing.Timer, som med faste intervaller kalder en metode... SIMON - hilfe mich!
-\\Metoden updateGameState g¯r f¯lgende (i kronologisk rÊkkef¯lge):
-\begin{enumerate}
-\item currentTime og timeDelta... (vend tilbage til dette) timeDelta bruges til at bevÊge samtlige GameElement‚Äôer afhÊngigt af den tid der er gÂet, sÂdan at de for spilleren bevÊger sig med konstant hastighed uafhÊngigt af om tiden mellem updates varierer (probs til Simon).
-\item Kontrollerer om GameStateState er Running/Waiting/Paused. Hvis denne enum er waiting/paused returnerer metoden og k¯rer dermed ikke videre. Hvis den er running fortsÊtter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
-\item Herefter bliver alle GameElement‚Äôerne opdateret og eventuelt fjernet hvis de er ‚Äúd¯de‚Äù (metoderne for dette er uddybet nedenfor).
-\item Tjekker om man har vundet/tabt og returnerer hvis dette er tilfÊldet.Kalder GameStateRenderer og fÂr denne til at rendere det aktuelle GameState.
-\item Kalder GameStateRenderer og fÂr denne til at rendere det aktuelle GameState.
-\item Slutteligt opdateres tiden gemt i GameState.
-\end{enumerate}
+Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og
+Audacity til lydredigering\footnote{Audacity: \url{http://audacity.sourceforge.net}}.
 
 \end{document}
