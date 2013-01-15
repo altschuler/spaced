@@ -237,6 +237,7 @@ public class GameController extends AbstractController {
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
 				case Fast:
+					currentShot.setImageURL("fastBullet.png");
 					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 				case Explosive:
