@@ -33,7 +33,7 @@
   Gadd, Patrick\\
   \texttt{s113491}
   \and
-  Veie Færgevaa, Markus\\
+  Veie Færevaag, Markus\\
   \texttt{s123692}
   \and
   Altschuler, Simon\\
@@ -209,6 +209,28 @@ kvadreret.
 }
 \end{verbatim}
 Er cirklens centrum længere væk end dens radius er der ikke kollision.
+
+
+\subsection{service.HighscoreService}
+
+Inneholder metoder for å gjemme og hente highscores i en XML-fil vha. våres webtjeneste, på domenet \\ \url{http://trololo.dk}.
+
+Vi legger til å besøke en lenke med et sett alminnelige GET-argumenter med informasjon som bruker, score osv. Blandt disse argumtene er det også en \emph{token} som fungerer som en sikkerhet i form av en hemmelig string. Denne token blir hentet via \code{Configurations.xml}.
+
+Som kontroll på at ting gikk godt, får man i retur enten en streng som sier at alt gikk vel, eller en feilmelding.
+
+Henting fungerer på samme måte, men kun med et \emph{limit} argument som setter antallet highscores som skal bli returnert.
+
+Lokalt blir de behandlet av \code{HighscoreController}, som objekter av klassen \code{HighscoreEntry} (\code{model}). \code{HighscoreEntry} inneholder naturligvis nødvendig informasjon, samt at den implementerer  \code{Comparator} og \code{Comparable} slik at kontrolleren nemt kan sortere efter score.
+
+
+\subsection{Ressursbehandling (\code{service.resources})}
+Inneholder \code{Sprite-} og \code{SoundHandler} som behandler våres lyder og bilder av klassen \code{Sprite} og \code{Sound}. Poenget med disse klassene er å ha en sentralisert tjeneste som henter lyder og bilder, og cacher de i et HashMap for å spare ressurser. For å forsikre at de ikke blir cashet flere ganger, er klassen lavet som en singleton (den kan kun ha en instans).
+
+
+\subsection{XML-parsing (\code{service.parsing})}
+Som XML-parser bruker vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Våres instans av SAX-parseren får en XML-fil og en handler, som ligger i angitt mappe. Handleren extender \code{DefaultHandler}, og igjen overrider funksjoner som feks. \code{startElement}. Her kan vi definiere hva som skal skje når det får et instans av hvert element i en XML-fil, som feks. et \code{<highscore name="Ola Normann" score="1337">}. Denne skal så lages til et nytt \code{HighscoreEntry} i et array som så kan hentes av en Controller.
+
 
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}
