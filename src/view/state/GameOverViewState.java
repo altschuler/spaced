@@ -53,6 +53,7 @@ public class GameOverViewState extends AbstractMenuViewState {
 				String.format("Submit score as \"%s\"", gm.getPlayerName(PlayerIndex.One)),
 				cmd);
 
+                this.submitScore.setAlignmentX(CENTER_ALIGNMENT);
 		this.add(this.submitScore);
 
 		String gameOverText = "";
