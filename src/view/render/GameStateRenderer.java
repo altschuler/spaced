@@ -29,7 +29,7 @@ import utils.Mathx;
 
 public class GameStateRenderer {
 	private int topBarHeight = 30;
-	private int bottomBarHeight = 0; //TODO: Use this to display info about special-bullets remaining
+	private int bottomBarHeight = 30; //TODO: Use this to display info about special-bullets remaining
 
 	public GameStateRenderer() {
 	}
@@ -57,9 +57,13 @@ public class GameStateRenderer {
 		transparentGraphics[0].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
 		transparentGraphics[1] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
         transparentGraphics[1].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
+        
+        
+        int invadersFrozenTime = 0; //used in infoBar in the bottom of the screen
 		for (Invader invader : gameState.getInvaders()) {	
+			invadersFrozenTime = invader.getFrozenTime();
 			this.drAwesome(gfx, invader);	
-			if(invader.getFrozenTime() > 0){
+			if(invadersFrozenTime > 0){
 				this.drawBlueInvader(transparentGraphics[0],invader);
 			}
 			if(invader.getHealth() > 2){
@@ -102,12 +106,22 @@ public class GameStateRenderer {
 		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
 		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
+		//Bottom status bar
+		gfx.drawString(String.format("Press ESC to pause, numbers [1,2,3] to change weapons and SPACE to shoot."), 12, MainModel.SCREEN_HEIGHT - 10);
+		String infoString = String.format("Current weapon: %s", player.getWeapon());
+		if(invadersFrozenTime > 0){
+			infoString += String.format("  Invaders frozen: %s", Mathx.prettyTime(invadersFrozenTime));
+		}
+		
+Rectangle2D infoStringBounds = gfx.getFontMetrics(font).getStringBounds(infoString, gfx);
+gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
+		
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
 			Font fontBig = new Font("Verdana", Font.PLAIN, 25);
 			gfx.setFont(fontBig);
 			gfx.setColor(Color.RED);
-			String anyKeyText = String.format("LEVEL %d - PRESS ANY KEY TO START", gameState.getId());
+			String anyKeyText = String.format("LEVEL %d - PRESS ENTER TO START", gameState.getId());
 			Rectangle2D anyKeyTextBounds = gfx.getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx);
 			gfx.drawString(anyKeyText, (int) (MainModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
 					(int) (MainModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));
