@@ -69,6 +69,11 @@ public class Player extends KillableGameElement {
 	public int getPoints() {
 		return points;
 	}
+	
+	public int getFinalPoints(){
+		int finalPoints = this.getPoints() + this.getLives() * 500;
+		return finalPoints;
+	}
 
 	public void setPoints(int point) {
 		this.points = point;

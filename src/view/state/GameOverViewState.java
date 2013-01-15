@@ -45,7 +45,7 @@ public class GameOverViewState extends AbstractMenuViewState {
 			this.remove(this.submitScore);
 
 		Command cmd = CommandFactory.createSubmitHighscoreCommand(gm.getPlayerName(PlayerIndex.One), 
-				gm.getActiveGameState().getPlayer(PlayerIndex.One).getPoints(),
+				gm.getActiveGameState().getPlayer(PlayerIndex.One).getFinalPoints(),
 				gm.getActiveDifficulty().getId())
 				.chain(CommandFactory.createSetStateCommand(ViewState.Highscore));
 		
@@ -68,6 +68,6 @@ public class GameOverViewState extends AbstractMenuViewState {
 			gameOverText = "You're in a weird state";
 			break;
 		}
-		this.label.setText(String.format(gameOverText, gm.getActiveDifficulty().getName(), gm.getActiveGameState().getPlayer(PlayerIndex.One).getPoints()));
+		this.label.setText(String.format(gameOverText, gm.getActiveDifficulty().getName(), gm.getActiveGameState().getPlayer(PlayerIndex.One).getFinalPoints()));
 	}
 }

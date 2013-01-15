@@ -73,9 +73,9 @@ public class GameController extends AbstractController {
 		
 		// Consider gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
-			if (Input.getInstance().isAnyKeyDown()) {
+			if (Input.getInstance().isKeyDown(KeyEvent.VK_ENTER)) {
 				gameState.setState(GameStateState.Running);
-			} else {
+			}else {
 				this.renderer.render(gameView.getDisplay(), gameState, this.gameModel);
 				gameState.setLastUpdateTime(currentTime);
 				return;
@@ -135,7 +135,7 @@ public class GameController extends AbstractController {
 		}
 
 		boolean hasInvaderDied = false;
-		double bonusThreshold = 0.13; //TODO: make the difficulties decide this, perhaps?
+		double bonusThreshold = 0.15; //TODO: make the difficulties decide this, perhaps?
 
 		for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 			Invader invader = invaders.next();
@@ -216,7 +216,7 @@ public class GameController extends AbstractController {
 			player.setMaxShootFrequency(1000);
 		}
 //TODO: Just to get an idea of WTF is going on when the level bugs		
-		if (Input.getInstance().isKeyDown(KeyEvent.VK_4)) {
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
 				anotherInvader.destroy();
@@ -237,6 +237,7 @@ public class GameController extends AbstractController {
 				currentShot.getPosition().x += player.getWidth() / 2;
 				switch(currentShot.getType()){
 				case Fast:
+					currentShot.setImageURL("fastBullet.png");
 					currentShot.setSpeed(currentShot.getSpeed()*2);
 					break;
 				case Explosive:
