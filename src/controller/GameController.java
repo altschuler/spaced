@@ -240,8 +240,9 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
 		}
-//Cheats		 - clears the current level
-		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)) {
+// clears the current level of invaders (debug)
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)
+				&& Input.getInstance().isKeyDown(KeyEvent.VK_UP)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
 				anotherInvader.destroy();

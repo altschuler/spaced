@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import service.resources.SoundHandler;
+
 import model.core.PlayerIndex;
 import model.elements.Animation;
 import model.elements.Bonus;
@@ -124,6 +126,9 @@ public class GameState {
 	}
 
 	public void setState(GameStateState state) {
+		if(state == GameStateState.Lost){
+			SoundHandler.getInstance().playSound("game_over02.wav", 0, 0,6.0f);
+		}
 		this.state = state;
 	}
 
