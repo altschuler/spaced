@@ -91,6 +91,18 @@ public class SpriteHandler {
         this.add("present2.png");
         this.add("heart.png");
         this.add("snowFlake.png");
+        this.add("alien.png");
+        this.add("cage.png");
+        this.add("nicholas01.png");
+        this.add("nicholas02.png");
+        this.add("nicholas03.png");
+        this.add("nicholas04.png");
+        this.add("nicholas05.png");
+        this.add("nicholas06.png");
+        this.add("nicholas07.png");
+        this.add("nicholas08.png");
+        this.add("nicholas09.png");
+        this.add("nicholas10.png");
     }
     
     private void fail(String message) {

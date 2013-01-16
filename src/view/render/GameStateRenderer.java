@@ -22,8 +22,11 @@ import model.elements.Animation;
 import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
+import model.elements.Cage;
 import model.elements.GameElement;
 import model.elements.Invader;
+import model.elements.KillableGameElement;
+import model.elements.NicholasCage;
 import model.elements.Player;
 import utils.Mathx;
 
@@ -49,15 +52,21 @@ public class GameStateRenderer {
 		for (int i = 0; i < player.getLives(); i++) {
 			this.draw(gfx, "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
+		boolean playerReloading = gameModel.getActiveDifficulty().getPlayerShootFreq() > System.currentTimeMillis() - player.getTimeOfLastShot();
+		
+		if(playerReloading){
+			double reloadFraction = (double) (System.currentTimeMillis() - player.getTimeOfLastShot()) / (double) gameModel.getActiveDifficulty().getPlayerShootFreq();
+			gfx.setColor(new Color(150,150,150,200));
+			gfx.fillRect((int) player.getPosition().x, (int) player.getPosition().y + player.getHeight(),
+					(int) (reloadFraction*player.getWidth()) , 6);
+		}
 
 		// Draws everything else (Invaders, player, bullets, bunkers, bonuses & animations)
-//		Graphics2D transGraph = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
 		Graphics2D transparentGraphics[] = new Graphics2D[2];// = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
 		transparentGraphics[0] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
 		transparentGraphics[0].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
 		transparentGraphics[1] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
         transparentGraphics[1].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
-        
         
         int invadersFrozenTime = 0; //used in infoBar in the bottom of the screen
 		for (Invader invader : gameState.getInvaders()) {	
@@ -74,10 +83,19 @@ public class GameStateRenderer {
 		}
 		transparentGraphics[0].dispose();
 		transparentGraphics[1].dispose();
+		
 		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
 		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
 		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
 		for (Bonus bonus : gameState.getBonuses()){	this.drAwesome(gfx, bonus);			}
+		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()){	//bosses
+			if(randomEnemy instanceof NicholasCage){
+				this.drAwesome(gfx, randomEnemy);
+				for(Cage cage : ((NicholasCage) randomEnemy).getCages()){
+					this.drAwesome(gfx, cage);
+				}
+			}
+		}
 		for (Iterator<Animation> animations = gameState.getAnimations().iterator(); animations.hasNext();) {
 			Animation animation = animations.next();
 			if(animation.getIndexOfLastFrame()-1 >= animation.getFrames()){
@@ -86,7 +104,6 @@ public class GameStateRenderer {
 				this.drawAnimation(gfx, animation);	
 			}
 		}
-		
 		
 		
 		// Top status bar, draw last to go on top
@@ -107,14 +124,13 @@ public class GameStateRenderer {
 		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
 		//Bottom status bar
-		gfx.drawString(String.format("Press ESC to pause, numbers [1,2,3] to change weapons and SPACE to shoot."), 12, MainModel.SCREEN_HEIGHT - 10);
+		gfx.drawString(String.format("Press ESC to pause, numbers 1-3 to change weapons, SPACE to shoot and use the arrows to move."), 12, MainModel.SCREEN_HEIGHT - 10);
 		String infoString = String.format("Current weapon: %s", player.getWeapon());
 		if(invadersFrozenTime > 0){
 			infoString += String.format("  Invaders frozen: %s", Mathx.prettyTime(invadersFrozenTime));
 		}
-		
-Rectangle2D infoStringBounds = gfx.getFontMetrics(font).getStringBounds(infoString, gfx);
-gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
+		Rectangle2D infoStringBounds = gfx.getFontMetrics(font).getStringBounds(infoString, gfx);
+		gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
 		
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
@@ -160,7 +176,6 @@ gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getW
         graphics.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
     }
 	
-	
 	public void drawAnimation(Graphics g, Animation ani){
 		Sprite spriteSheet = SpriteHandler.getInstance().get(ani.getImageURL());
 		int aniPosX = (int) ani.getPosition().x;
@@ -175,8 +190,6 @@ gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getW
 			ani.setTimeOfLastFrame(System.currentTimeMillis());
 			ani.setIndexOfLastFrame(ani.getIndexOfLastFrame()+1);
 		}
-		
-		//TODO: make this... Use a SpriteSheet
 	}
 
 	public int getTopBarHeight() {

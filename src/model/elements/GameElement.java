@@ -18,9 +18,8 @@ public abstract class GameElement {
 	private boolean destroyed;
 	
 	private String imageURL; 
-	//TODO some visual identify?
 	
-	public GameElement(String imageURL) { //TODO implement this in all model.elements
+	public GameElement(String imageURL) {
 		this.position = new Coordinate();
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		this.width = spriteHandler.get(imageURL).getWidth();
@@ -43,6 +42,10 @@ public abstract class GameElement {
 	public void setPosition(Coordinate position) {
 		this.position = position;
 	}
+	
+	public void setPosition(double x, double y) {
+		this.position = new Coordinate(x, y);
+	}
 
 	public int getWidth() {
 		return width;
@@ -64,6 +67,12 @@ public abstract class GameElement {
 		this.position.x += x;
 		this.position.y += y;
 	}
+	
+	public void move(Coordinate co){
+		this.position.x += co.x;
+		this.position.y += co.y;
+	}
+	
 	public boolean isDestroyed() {
 		return destroyed;
 	}

@@ -1,6 +1,5 @@
 package model.elements;
 
-import model.core.InvaderType;
 import command.ICommand;
 
 /**
@@ -8,7 +7,7 @@ import command.ICommand;
  * A command can be executed upon death.
  */
 public class KillableGameElement extends GameElement {
-	
+	private int points;
 	private int health;
 	private ICommand cmd;
 
@@ -65,5 +64,13 @@ public class KillableGameElement extends GameElement {
 	}
 	public void setCommand(ICommand cmd) {
 		this.cmd = cmd;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 }

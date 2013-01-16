@@ -8,7 +8,7 @@ XML-file containing level data
         <players>
             <player x="226" y="600" health="3" />
         </players>
-        <bunkers>
+    	<bunkers>
             <bunker x="100" y="550" health="2" />
 			<bunker x="111" y="550" health="2" />
 			<bunker x="122" y="550" health="2" />
@@ -531,5 +531,21 @@ XML-file containing level data
 
         </invaders>
     </level>
-	
+	<level id="7">
+        <players>
+            <player x="226" y="600" health="3" />
+        </players>
+    	<nicholases>
+            <nicholas x="500" y="140" health="3" cages= "5" directionMultiplier="1" />
+        </nicholases>
+    </level>
+    <level id="8">
+        <players>
+            <player x="226" y="600" health="3" />
+        </players>
+    	<nicholases>
+            <nicholas x="200" y="140" health="3" cages= "7" directionMultiplier="-0.25"/>
+            <nicholas x="800" y="140" health="3" cages= "7" directionMultiplier="0.25"/>
+        </nicholases>
+    </level>
 </levels>

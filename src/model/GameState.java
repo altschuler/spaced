@@ -9,6 +9,7 @@ import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.Invader;
+import model.elements.KillableGameElement;
 import model.elements.Player;
 
 /**
@@ -21,7 +22,7 @@ public class GameState {
 	private HashMap<PlayerIndex, Player> players;
 	private ArrayList<Bunker> bunkers;
 	private ArrayList<Invader> invaders;
-	private ArrayList<Invader> individualInvaders; //TODO for special movement... Bosses for instance or slow-shot
+	private ArrayList<KillableGameElement> individualEnemies; //TODO for special movement... Bosses for instance or slow-shot
 	private ArrayList<Bonus> bonuses;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Animation> animations;
@@ -42,6 +43,7 @@ public class GameState {
 		this.invaders = new ArrayList<Invader>();
 		this.bonuses = new ArrayList<Bonus>();
 		this.bullets = new ArrayList<Bullet>();
+		this.individualEnemies = new ArrayList<KillableGameElement>();
 		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
@@ -131,5 +133,13 @@ public class GameState {
 
 	public void setAnimations(ArrayList<Animation> animations) {
 		this.animations = animations;
+	}
+
+	public ArrayList<KillableGameElement> getIndividualEnemies() {
+		return individualEnemies;
+	}
+
+	public void setIndividualEnemies(ArrayList<KillableGameElement> individualEnemies) {
+		this.individualEnemies = individualEnemies;
 	}
 }

@@ -16,8 +16,11 @@ import model.elements.Animation;
 import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
+import model.elements.Cage;
 import model.elements.GameElement;
 import model.elements.Invader;
+import model.elements.KillableGameElement;
+import model.elements.NicholasCage;
 import model.elements.Player;
 import service.resources.SoundHandler;
 import utils.Input;
@@ -98,7 +101,9 @@ public class GameController extends AbstractController {
 		// Update elements
 		this.updatePlayer(gameState, timeDelta);
 		this.updateInvaders(gameState, timeDelta);
+		this.updateIndividualEnemies(gameState, timeDelta);
 		this.updateBonuses(gameState, timeDelta);
+		this.individualEnemiesShoot(gameState, timeDelta);
 		this.invadersShoot(gameState, currentTime);
 		this.updateBullets(gameState, timeDelta);
 
@@ -143,10 +148,33 @@ public class GameController extends AbstractController {
 				hasInvaderDied = true;
 //Spawns bonus and grants the player points
 				if(Math.random() < bonusThreshold){	gameState.getBonuses().add(new Bonus(invader.getPosition().clone()));	}
+//				System.out.println(invader.getPoints());
 				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+invader.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
 				invaders.remove();
 			}
 		}
+		//Patty quick find
+		for(Iterator<KillableGameElement> randomEnemies = gameState.getIndividualEnemies().iterator(); randomEnemies.hasNext();){
+			KillableGameElement randomEnemy = randomEnemies.next();
+
+			if(randomEnemy instanceof NicholasCage){  //checking Nicholas' cages
+				for(Iterator<Cage> cages = ((NicholasCage) randomEnemy).getCages().iterator(); cages.hasNext();){
+					Cage cage = cages.next();
+					if(cage.isDestroyed()){
+						hasInvaderDied = true;
+						gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+cage.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
+						cages.remove();
+					}
+				}
+			}
+			
+			if(randomEnemy.isDestroyed()){
+				hasInvaderDied = true;
+				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+randomEnemy.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
+				randomEnemies.remove();
+			}
+		}
+		
 		if(hasInvaderDied){	//making this check to avoid the annoying effect of the same sound being played milliseconds apart!
 			SoundHandler.getInstance().playSound("boom01.wav", 0, 0,-1.0f);
 		}
@@ -179,7 +207,7 @@ public class GameController extends AbstractController {
 		}
 
 		// All invaders gone = win
-		if (gameState.getInvaders().size() == 0) {
+		if (gameState.getInvaders().size() == 0 && gameState.getIndividualEnemies().size() == 0) {
 			gameState.setState(GameStateState.Won);
 			CommandFactory.createLoadNextLevelCommand().execute();
 			return true;
@@ -205,22 +233,18 @@ public class GameController extends AbstractController {
 		
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_1)) {
 			player.setWeapon(BulletType.Normal);
-			player.setMaxShootFrequency(450);
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_2)) {
 			player.setWeapon(BulletType.Fast);
-			player.setMaxShootFrequency(300);
 		}
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
-			player.setMaxShootFrequency(1000);
 		}
-//TODO: Just to get an idea of WTF is going on when the level bugs		
+//Cheats		 - clears the current level
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
 				anotherInvader.destroy();
-				System.out.println("Invader, x: "+anotherInvader.getPosition().x+" y: "+anotherInvader.getPosition().y+"     level ID: "+this.gameModel.getActiveGameState().getId());
 			}
 		}
 		
@@ -273,6 +297,7 @@ public class GameController extends AbstractController {
 			}
 		}
 		
+		
 //Avoid player moving outsite the screen
 		player.getPosition().x = Math.max(0, player.getPosition().x);
 		player.getPosition().x = Math.min(MainModel.SCREEN_WIDTH - player.getWidth(), player.getPosition().x);
@@ -309,6 +334,7 @@ public class GameController extends AbstractController {
 			}
 			// collision detection
 			if (bullet.getDirection() == Direction.Up) {
+				//Check for collision with invaders
 				for (Iterator<Invader> invaders = gameState.getInvaders().iterator(); invaders.hasNext();) {
 					Invader invader = invaders.next();
 					if (Mathx.intersects(bullet, invader)) {
@@ -337,6 +363,41 @@ public class GameController extends AbstractController {
 							invader.destroy();
 						}
 						break;
+					}
+				}
+				
+				//Random enemies
+				for (Iterator<KillableGameElement> individualEnemies = gameState.getIndividualEnemies().iterator(); individualEnemies.hasNext();) {
+					KillableGameElement randomEnemy = individualEnemies.next();
+					//Patty quick find
+					if(randomEnemy instanceof NicholasCage){
+						NicholasCage nCage = (NicholasCage) randomEnemy;
+						if(Mathx.circleRectangleIntersects(bullet, nCage.getNicholasCenter(), nCage.getCageRadius()-60)){
+							bullet.destroy();
+							if(nCage.getCages().size() == 0){
+								nCage.healthDown();
+								if (nCage.isDead()) {
+									this.addExplosion(gameState, nCage);
+									nCage.destroy();
+								}	
+							}
+						}else{
+							for(Cage cage : nCage.getCages()){
+								if (Mathx.intersects(bullet, cage)){
+									bullet.destroy();
+									cage.healthDown();
+									if (cage.isDead()) {
+										this.addExplosion(gameState, cage);
+										cage.destroy();
+									}
+								}
+							}
+						}
+					}
+
+					if (Mathx.intersects(bullet, randomEnemy) && !(randomEnemy instanceof NicholasCage)) {
+						bullet.destroy();
+						randomEnemy.healthDown();
 					}
 				}
 			}
@@ -395,6 +456,18 @@ public class GameController extends AbstractController {
 		}
 	}
 
+	private void updateIndividualEnemies(GameState gameState, long timeDelta){
+		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()) {
+			if(randomEnemy instanceof NicholasCage){
+				NicholasCage nCage = (NicholasCage) randomEnemy;
+				nCage.updateNicholas(timeDelta);
+				nCage.move(nCage.getDirectionMultiplier()*Math.cos(nCage.getNicholasTime()/1000.0)*timeDelta/3.0,
+						Math.sin(nCage.getNicholasTime()/500.0));
+				nCage.moveCages(timeDelta);
+			}
+		}
+	}
+
 	private void updateInvaders(GameState gameState, long timeDelta) {
 		boolean wallHit = false;
 //Checking if move will cause wallHit
@@ -432,8 +505,24 @@ public class GameController extends AbstractController {
 				invader.move(-Mathx.distance(timeDelta, (invader.getSpeed() * speedMultiplier * gameModel.getActiveDifficulty().getInvaderSpeed()/10)), 0);
 			}
 		}
-
-		
+	}
+	
+	private void individualEnemiesShoot(GameState gameState, long timeDelta){
+		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()) {
+			if(randomEnemy instanceof NicholasCage){
+				NicholasCage nCage = (NicholasCage) randomEnemy;
+				for (Cage cage : nCage.getCages()) {
+					if(Math.random() < 0.06 * timeDelta / this.gameModel.getActiveDifficulty().getInvaderShootFreq()){
+						Bullet currentShot = new Bullet(Direction.Down, BulletType.Homing,"bulletInvaderHoming.png");
+						SoundHandler.getInstance().playSound("zap05.wav", 0, 0,2.0f);
+						currentShot.setPosition(cage.getPosition().clone());
+						currentShot.move(24, 50);
+						gameState.getBullets().add(currentShot);
+					}
+				}
+			}
+			
+		}
 	}
 
 	/**
@@ -490,6 +579,7 @@ public class GameController extends AbstractController {
 			}
 			
 			gameState.getBullets().add(currentShot);
+			return; //Patty quick find
 		}
 	}
 
