@@ -6,6 +6,7 @@ import model.GameStateFactory;
 import model.GameStateState;
 import model.MainModel;
 import model.core.PlayerIndex;
+import service.resources.SoundHandler;
 import view.MainView;
 import view.state.ViewState;
 
@@ -55,6 +56,7 @@ public class FlowController extends AbstractController {
 			if (GameStateFactory.levelExists(nextLevelId)) {
 				this.loadLevel(nextLevelId, true);
 			} else {
+				SoundHandler.getInstance().playSound("tillykke01.wav", 0, 0, 5.0f);
 				this.gameModel.getActiveGameState().setState(GameStateState.Won);
 				CommandFactory.createGameLoopEnabledCommand(false).chain(CommandFactory.createSetStateCommand(ViewState.GameOver)).execute();
 			}

@@ -8,6 +8,7 @@ import model.core.InvaderType;
 import model.core.PlayerIndex;
 import model.elements.Bunker;
 import model.elements.Invader;
+import model.elements.NicholasCage;
 import model.elements.Player;
 
 import org.xml.sax.Attributes;
@@ -44,8 +45,27 @@ public class GameStateSaxHandler extends AbstractSaxHandler {
                         InvaderType.valueOf(atts.getValue("type")), 
                         Integer.valueOf(atts.getValue("health")));
                 invader.setPosition(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))));
+                switch (invader.getType()) {
+	    			case A:
+	    				invader.setImageURL("invaderA.png");
+	    				invader.setPoints(10);
+	    				break;
+	    			case B:
+	    				invader.setImageURL("invaderB.png");
+	    				invader.setPoints(10);
+	    				break;
+	    			case C:
+	    				invader.setImageURL("invaderC.png");
+	    				invader.setPoints(30);
+	    				break;
+	             }
                 this.currentLevel.getInvaders().add(invader);
                 break;
+            case "nicholas":
+            	NicholasCage nCage = new NicholasCage(new Coordinate(Double.valueOf(atts.getValue("x")), Double.valueOf(atts.getValue("y"))),Integer.valueOf(atts.getValue("cages")),Integer.valueOf(atts.getValue("health")),Double.valueOf(atts.getValue("directionMultiplier")));
+            	nCage.setPoints(50);
+            	this.currentLevel.getIndividualEnemies().add(nCage);
+            	break;
         }
     }
 

@@ -36,7 +36,6 @@ public class HighscoreViewState extends AbstractMenuViewState {
 		Arrays.sort(this.entries);
 		this.labels = new JLabel[this.entries.length];
 		for (HighscoreEntry entry : entries) {
-			System.out.println(entry.getDifficulty());
 			JLabel label = new JLabel(String.format("%s on %s (%s): %d", 
 					entry.getPlayerName(),
 					gm.getGameConfig().getDifficulty(entry.getDifficulty()).getName(),

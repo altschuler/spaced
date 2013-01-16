@@ -42,6 +42,10 @@ public abstract class GameElement {
 	public void setPosition(Coordinate position) {
 		this.position = position;
 	}
+	
+	public void setPosition(double x, double y) {
+		this.position = new Coordinate(x, y);
+	}
 
 	public int getWidth() {
 		return width;
@@ -63,6 +67,12 @@ public abstract class GameElement {
 		this.position.x += x;
 		this.position.y += y;
 	}
+	
+	public void move(Coordinate co){
+		this.position.x += co.x;
+		this.position.y += co.y;
+	}
+	
 	public boolean isDestroyed() {
 		return destroyed;
 	}

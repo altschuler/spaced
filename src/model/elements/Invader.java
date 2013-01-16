@@ -10,25 +10,10 @@ import service.resources.SpriteHandler;
 public class Invader extends KillableGameElement {
 
 	private InvaderType type;
-	private int points;
 	private int frozenTime;
 
 	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
 		super(health, "invaderA.png");
-		switch (type) {
-			case A:
-				super.setImageURL("invaderA.png");
-				this.points=10;
-				break;
-			case B:
-				super.setImageURL("invaderB.png");
-				this.points=10;
-				break;
-			case C:
-				super.setImageURL("invaderC.png");
-				this.points=30;
-				break;
-		}
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		super.setWidth(spriteHandler.get(super.getImageURL()).getWidth());
 		super.setHeight((spriteHandler.get(super.getImageURL()).getHeight()));
@@ -61,10 +46,6 @@ public class Invader extends KillableGameElement {
 	//@override
 	public void healthDown() {
 		this.setHealth(this.getHealth() - 1);
-	}
-
-	public int getPoints() {
-		return points;
 	}
 
 	public int getFrozenTime() {

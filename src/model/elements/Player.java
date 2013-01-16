@@ -12,7 +12,7 @@ public class Player extends KillableGameElement {
 	
 	private int lives = 3;
 	private int points = 0;
-	private int maxShootFrequency = 450;
+//	private int maxShootFrequency = 450;
 	private long timeOfLastShot = 0;
 	private BulletType weapon = BulletType.Normal;
 	
@@ -21,14 +21,14 @@ public class Player extends KillableGameElement {
 		super(health, imageURL);
 		this.setSpeed(10);
 	}
-
-	public int getMaxShootFrequency() {
-		return maxShootFrequency;
-	}
-
-	public void setMaxShootFrequency(int maxShotFrequency) {
-		this.maxShootFrequency = maxShotFrequency;
-	}
+//
+//	public int getMaxShootFrequency() {
+//		return maxShootFrequency;
+//	}
+//
+//	public void setMaxShootFrequency(int maxShotFrequency) {
+//		this.maxShootFrequency = maxShotFrequency;
+//	}
 
 	public long getTimeOfLastShot() {
 		return timeOfLastShot;
@@ -71,8 +71,14 @@ public class Player extends KillableGameElement {
 	}
 	
 	public int getFinalPoints(){
-		int finalPoints = this.getPoints() + this.getLives() * 500;
-		return finalPoints;
+		int pointsFromExtraLives;
+		
+		if(this.getLives() > 0){
+			pointsFromExtraLives = (this.getLives()-1) * 500;
+		}else{
+			pointsFromExtraLives = 0;
+		}
+		return this.getPoints() + pointsFromExtraLives;
 	}
 
 	public void setPoints(int point) {
