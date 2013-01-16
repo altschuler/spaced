@@ -377,20 +377,20 @@ XML-file containing level data
             <invader type="C" x="270" y="50" health="3" />
             <invader type="C" x="325" y="50" health="3" />
             <invader type="C" x="380" y="50" health="3" />
-            <invader type="B" x="50" y="100" health="1" />
-            <invader type="B" x="105" y="100" health="1" />
-            <invader type="B" x="160" y="100" health="1" />
-            <invader type="B" x="215" y="100" health="1" />
-            <invader type="B" x="270" y="100" health="1" />
-            <invader type="B" x="325" y="100" health="1" />
-            <invader type="B" x="380" y="100" health="1" />
-            <invader type="B" x="50" y="150" health="1" />
-            <invader type="B" x="105" y="150" health="1" />
-            <invader type="B" x="160" y="150" health="1" />
-            <invader type="B" x="215" y="150" health="1" />
-            <invader type="B" x="270" y="150" health="1" />
-            <invader type="B" x="325" y="150" health="1" />
-            <invader type="B" x="380" y="150" health="1" />
+            <invader type="B" x="50" y="100" health="2" />
+            <invader type="B" x="105" y="100" health="2" />
+            <invader type="B" x="160" y="100" health="2" />
+            <invader type="B" x="215" y="100" health="2" />
+            <invader type="B" x="270" y="100" health="2" />
+            <invader type="B" x="325" y="100" health="2" />
+            <invader type="B" x="380" y="100" health="2" />
+            <invader type="B" x="50" y="150" health="2" />
+            <invader type="B" x="105" y="150" health="2" />
+            <invader type="B" x="160" y="150" health="2" />
+            <invader type="B" x="215" y="150" health="2" />
+            <invader type="B" x="270" y="150" health="2" />
+            <invader type="B" x="325" y="150" health="2" />
+            <invader type="B" x="380" y="150" health="2" />
             <invader type="A" x="50" y="200" health="1" />
             <invader type="A" x="105" y="200" health="1" />
             <invader type="A" x="160" y="200" health="1" />

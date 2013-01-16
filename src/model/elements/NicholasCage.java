@@ -59,7 +59,7 @@ public class NicholasCage extends KillableGameElement {
 		}
 	}
 	
-	public void moveCages(long timeDelta){
+	public void moveCages(){
 		double whereInMovement; //sorry 'bout the name, it says how much of a round/revolution the cage has moved.
 		int noOfCages = this.getNoOfCages();
 		double multiplierNormalized = this.getDirectionMultiplier()/Math.abs(this.getDirectionMultiplier());

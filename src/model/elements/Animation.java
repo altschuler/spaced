@@ -4,16 +4,23 @@ import model.core.Coordinate;
 
 public class Animation extends GameElement {
 	private long timeOfLastFrame = 0;
-	private int timePerFrame = 200; 
+	private int timePerFrame; 
 	private int frames;
 	private int indexOfLastFrame = 0;
 	private int frameHeight;
 
-	public Animation(String imageURL, Coordinate position, int frames) {
+	public Animation(String imageURL, Coordinate position, int frames, int timePerFrame, boolean centered) {
 		super(imageURL);
-		this.setPosition(position);
 		this.setFrames(frames);
 		this.setFrameHeight((int) (this.getHeight()/frames));
+		
+		if(centered){
+			position = new Coordinate(position.x-this.getWidth()/2, position.y-this.getFrameHeight()/2);
+		}
+		
+		this.setPosition(position);
+		
+		this.setTimePerFrame(timePerFrame);
 	}
 
 	public long getTimeOfLastFrame() {

@@ -78,6 +78,8 @@ public class SpriteHandler {
         this.add("cRed.png");
         this.add("bonus.png");
         this.add("explosion.png");
+        this.add("explosionSprite.png");
+        this.add("explosionAoE.png");
         this.add("bunkerPart.png");
         this.add("bunkerPartBroken.png");
         this.add("bunkerPartBrokenUpwardsBullet.png");

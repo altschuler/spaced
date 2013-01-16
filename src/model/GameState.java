@@ -37,7 +37,6 @@ public class GameState {
 	
 	// Patricks logik siger at denne skal v�re i GameState
 	private long lastInvaderShot; 
-	private ArrayList<Invader> lowestInvaders; // ved ikke heeelt med denne
 
 	public GameState(int id) {
 		this.setId(id);
@@ -46,7 +45,6 @@ public class GameState {
 		this.bonuses = new ArrayList<Bonus>();
 		this.bullets = new ArrayList<Bullet>();
 		this.individualEnemies = new ArrayList<KillableGameElement>();
-		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
 		this.setAnimations(new ArrayList<Animation>());
