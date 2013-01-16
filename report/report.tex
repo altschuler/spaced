@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{epstopdf}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -33,7 +34,7 @@
   Gadd, Patrick\\
   \texttt{s113491}
   \and
-  Veie Færgevaa, Markus\\
+  Veie Færevaag, Markus\\
   \texttt{s123692}
   \and
   Altschuler, Simon\\
@@ -186,7 +187,7 @@ figur \ref{fig:col_rect}.
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[scale=0.60]{rekt_cirk_02.png}
+  \includegraphics[scale=0.60]{rekt_cirk_02.eps}
   \caption{Farverne repræsenterer de forskellige tjek som bliver udført i funktionen \code{circleRectangleIntersects}}
   \label{fig:col_rect}
 \end{figure}
@@ -209,6 +210,92 @@ kvadreret.
 }
 \end{verbatim}
 Er cirklens centrum længere væk end dens radius er der ikke kollision.
+
+
+\subsection{service.HighscoreService}
+
+Inneholder metoder for å gjemme og hente highscores i en XML-fil vha. våres webtjeneste, på domenet
+\url{http://trololo.dk}.
+
+Vi legger til å besøke en lenke med et sett alminnelige GET-argumenter med informasjon som bruker,
+score osv. Blandt disse argumtene er det også en \emph{token} som fungerer som en sikkerhet i form
+av en hemmelig string. Denne token blir hentet via \code{Configurations.xml}.
+
+Som kontroll på at ting gikk godt, får man i retur enten en streng som sier at alt gikk vel, eller
+en feilmelding.
+
+Henting fungerer på samme måte, men kun med et \emph{limit} argument som setter antallet highscores
+som skal bli returnert.
+
+Lokalt blir de behandlet av \code{HighscoreController}, som objekter av klassen
+\code{HighscoreEntry} (\code{model}). \code{HighscoreEntry} inneholder naturligvis nødvendig
+informasjon, samt at den implementerer \code{Comparator} og \code{Comparable} slik at kontrolleren
+nemt kan sortere efter score.
+
+\subsection{Ressursbehandling (\code{service.resources})}
+Inneholder \code{Sprite-} og \code{SoundHandler} som behandler våres lyder og bilder av klassen \code{Sprite} og \code{Sound}. Poenget med disse klassene er å ha en sentralisert tjeneste som henter lyder og bilder, og cacher de i et HashMap for å spare ressurser. For å forsikre at de ikke blir cashet flere ganger, er klassen lavet som en singleton (den kan kun ha en instans).
+
+
+\subsection{XML-parsing (\code{service.parsing})}
+Som XML-parser bruker vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Våres instans av SAX-parseren får en XML-fil og en handler, som ligger i angitt mappe. Handleren extender \code{DefaultHandler}, og igjen overrider funksjoner som feks. \code{startElement}. Her kan vi definiere hva som skal skje når det får et instans av hvert element i en XML-fil, som feks. et \code{<highscore name="Ola Normann" score="1337">}. Denne skal så lages til et nytt \code{HighscoreEntry} i et array som så kan hentes av en Controller.
+
+\section{Features}
+\emph{Her gives et overblik er der her en liste over de features spillet implementerer}
+
+\begin{itemize}
+\item Fem forskellige difficulties, som er gemt i \code{src/model/Configuration.xml}, sådan at man
+  nemt kan tune dem og tilføje/fjerne sværhedsgrader
+\item Highscores gemt på \url{http://www.trololo.dk/spaced-web/get_scores}, sådan at folk fra
+  forskellige computere kan tilføje til listen og se den
+\item Forskellige levels gemt i \code{src/model/GameStates.xml}, sådan at man nemt kan
+  tilføje/redigere levels. Vi har overvejet at lave en level-editor som skriver til denne fil, men
+  har ikke haft tiden til at nå det
+\item TODO SE MARKUS' AFSNIT OM RESOURCES (lyde og sprites)!!!
+\item \code{GameElement} og \code{KillableGameElement} som gør det let at tilføje nye objekter til
+  spillet
+\item \code{Animation}. Vi har kun medtaget en enkelt animation (når en \code{Invader} dør), men man
+  kan nemt tilføje nye ved at lave et spritesheet og kalde \code{drawAnimation(Graphics g, Animation
+    ani)} i \code{GameStateRenderer}. Klassen \code{Animation} indeholder infomation om hvor mange
+  frames dets spritesheet indeholder og hvor hurtigt der skal skiftes frame i animationen
+\item Farvning af \code{Invaders} alt efter hvor meget liv de har, og om de er "frosne"
+\end{itemize}
+
+\subsection{Gameplay features}Features omkring selve gameplayet:
+\begin{itemize}
+\item Score: Spilleren får point for at skyde invaders, opsamle gaver samt at gennemføre spillet med
+  mere end ét tilbageværende liv.
+\item Forskellige typer skud. Man skifter våben på tasterne 1,2 og 3 samt skyder på mellemrum. For
+  spilleren:
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{bullet.eps} Normale: Går vertikalt opad
+  \item \includegraphics[scale=0.60]{fastBullet.eps} Hurtige: Samme som Normale, men bevæger sig
+    dobbelt så hurtigt
+  \item \includegraphics[scale=0.60]{missile.eps} Missiler: Bevæger sig som Normale, men ved
+    kollision med Invader skader de Invaders indenfor et radius på 60 pixels
+  \end{itemize} For invaders:
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{bulletInvader.eps} Normale: Går vertikalt nedad
+  \item \includegraphics[scale=0.60]{bulletInvaderHoming.eps} "Varmesøgende": Følger spilleren i
+    x-aksen, og bevæger sig i y-aksen som Normale. Følger ikke helt naturens love om impuls og
+    ændring af denne
+  \end{itemize}
+\item Forskellige invaders, med forskellige sprites, skudtyper og antal liv (de bliver farvet røde
+  alt efter hvor meget liv de har).
+\item Bonusser. Hver gang en invader dør, er der en chance for at en bonus spawnes. Skyder spilleren
+  disse, går de dog til spilde (vi har valgt ikke at lade invaders kunne skyde dem, da det er meget
+  frustrerende for spilleren).
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{heart.eps} Hjerte (20\% sandsynlighed for at denne spawner):
+    Giver spilleren et ekstra liv.
+  \item \includegraphics[scale=0.60]{snowFlake.eps} Snefnug (40\%): Halverer Invaders hastighed.
+  \item \includegraphics[scale=0.60]{present2.eps} Gave (40\%): Giver 50 point ganget med
+    sværhedsgradens ID (Easy = 1, Trolled =5).
+  \end{itemize}
+\item Bunkere, der beskytter spilleren, og som kan skydes i mindre stykker af invaders og spilleren.
+\item Info-bar i toppen og bunden af skærmen med diverse brugbar information.
+\item Reload-bar under spilleren, så man kan se hvornår man atter kan skyde.
+\end{itemize}
+
 
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}
@@ -233,6 +320,13 @@ til de udvidelser vi havde i sinde.
 Det betalte sig på alle måder at lave spillet generisk nok til at det ikke var designet med et helt
 konkret feature sæt i sinde. Det har været nemt og bekvemt at udvikle forskellige dele af spillet
 samtidig, også selvom vi har pushet og pullet ofte. 
+
+Vi har gennem hele projektet brugt pixels som måleenhed til afstande. I virkeligheden er dette ikke
+en god ide, fordi det ikke er skalerbart. I stedet bør man bruge en defineret afstandsberegning,
+f.eks. ``meter'', som man så via en hjælpemetode regner om til pixels. På den måde bliver alle
+afstande både skalérbare og man kan hurtigt ændre sine afstandsforhold. Ydermere er det nemmere at
+forestille sig, da man kan tænke álá ``Skibet skal være 2 meter'' bredt, i stedet for ``Skibet skal
+være 60 pixels'' bredt.
 
 \subsection{Videre udvikling}
 En ting vi burde lærer at blive bedre til er at rebase og håndterer commits, for vi endte ofte med
