@@ -102,7 +102,7 @@ public class GameStateRenderer {
 				//Gives Nicolas a glory which becomes more transparent as he losses his cages
 				int noOfCages = ((NicholasCage) randomEnemy).getCages().size();
 				if(noOfCages > 0){
-					int opacity = (255/((NicholasCage) randomEnemy).getNoOfCages()) * noOfCages; //integer division rounds down - WIN!
+					int opacity = (185/((NicholasCage) randomEnemy).getNoOfCages()) * noOfCages;
 					gfx[0].setStroke(new BasicStroke(10));
 					gfx[0].setColor(new Color(200,200,00,opacity));
 					gfx[0].draw(new Ellipse2D.Double(randomEnemy.getPosition().x+15, randomEnemy.getPosition().y-20, 150, 50));

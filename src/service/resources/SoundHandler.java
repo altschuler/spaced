@@ -38,7 +38,7 @@ public class SoundHandler {
           FloatControl gainControl =   (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
           gainControl.setValue(gain);
           clip.loop(repeats);
-          clip.start(); 
+          clip.start();
           if(stopTime > 0){
 	          try { Thread.currentThread().sleep(stopTime); }
 		        catch (InterruptedException e) { System.out.println("ERROR: sleeping");}
@@ -65,35 +65,13 @@ public class SoundHandler {
     }
  
     private void initSprites() {
-        this.add("8bit_metal_new.wav");
-        this.add("audio/bang01.wav");
-        this.add("bang02.wav");
-        this.add("boom01.wav");
-        this.add("boom02.wav");
+        this.add("boom01.wav");        
         this.add("boom03.wav");
-        this.add("boom04.wav");
-        this.add("boom05.wav");
-        this.add("boom06.wav");
-        this.add("boom07.wav");
-        this.add("fart.wav");
-        this.add("game_over01.wav");
-        this.add("game_over02.wav");
-        this.add("muha01.wav");
-        this.add("muha02.wav");
-        this.add("sheep01.wav");
-        this.add("tillykke_highscore01.wav");
-        this.add("tillykke_highscore02.wav");
-        this.add("tillykke_highscore03.wav");
         this.add("tillykke01.wav");
-        this.add("zap01.wav");
-        this.add("zap02.wav");
-        this.add("zap03.wav");
-        this.add("zap04.wav");
+        this.add("sheep01.wav");
         this.add("zap05.wav");
-        this.add("zap06.wav");
-        this.add("zap07.wav");
-        this.add("zap08.wav");
-        this.add("zap09.wav");
+        this.add("zap01.wav");
+        this.add("game_over02.wav");
     }
 
 }

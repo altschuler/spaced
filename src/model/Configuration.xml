@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <defaults name="UnknownHero"/>
+    <defaults name="Unknown Hero"/>
     
     <highscore 
         get="http://trololo.dk/spaced-web/get_scores"
