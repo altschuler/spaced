@@ -75,6 +75,62 @@ nemt kunne udvikles seperat.
 
 Dette leder til programmets egentlige implementation.
 
+\section{Features}
+\emph{For at give et overblik er der her en liste over de features spillet implementerer}
+
+\begin{itemize}
+\item Fem forskellige difficulties, som er gemt i \code{src/model/Configuration.xml}, sådan at man
+  nemt kan tune dem og tilføje/fjerne sværhedsgrader
+\item Highscores gemt på \url{www.trololo.dk}, sådan at folk fra
+  forskellige computere kan tilføje til listen og se den
+\item Otte levels gemt i \code{src/model/GameStates.xml}, sådan at man nemt kan
+  tilføje/redigere levels.
+\item Billeder og lyde, som kaldes gennem \code{Sprite-} og \code{SoundHandler}, og ligger gemt i \code{resources/}
+\item \code{GameElement} og \code{KillableGameElement} som gør det let at tilføje nye objekter til
+  spillet
+\item Animationer. Vi har lavet et \code{GameElement} kaldet \code{Animation}, så man nemt kan tilføje animationer ved at lave et spritesheet og kalde \code{drawAnimation(Graphics g, Animation
+    ani)} i \code{GameStateRenderer}. Klassen \code{Animation} indeholder infomation om hvor mange
+  frames dets spritesheet indeholder og hvor hurtigt der skal skiftes frame i animationen
+\item Farvning af \code{Invaders} alt efter hvor meget liv de har, og om de er "frosne", hhv. rød og blå.
+\end{itemize}
+
+\subsection{Gameplay features}Features omkring selve gameplayet:
+\begin{itemize}
+\item Score: Spilleren får point for at skyde invaders, opsamle gaver samt at gennemføre spillet med
+  mere end ét tilbageværende liv.
+\item Forskellige typer skud. Man skifter våben på tasterne 1,2 og 3 samt skyder på mellemrum. For
+  spilleren:
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{bullet.eps} Normale: Bevæger sig opad
+  \item \includegraphics[scale=0.60]{fastBullet.eps} Hurtige: Samme som Normale, men bevæger sig
+    dobbelt så hurtigt
+  \item \includegraphics[scale=0.60]{missile.eps} Missiler: Bevæger sig som Normale, men ved
+    kollision med Invader skader de Invaders indenfor et radius på 60 pixels
+  \end{itemize} For invaders:
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{bulletInvader.eps} Normale: Bevæger sig nedad
+  \item \includegraphics[scale=0.60]{bulletInvaderHoming.eps} "Varmesøgende": Følger spilleren i
+    x-aksen, og bevæger sig i y-aksen som Normale. Følger ikke helt naturens love om impuls og
+    ændring af denne
+  \end{itemize}
+\item Forskellige invaders, med forskellige sprites, skudtyper og antal liv (de bliver farvet røde
+  alt efter hvor meget liv de har). Samtlige invaders kan kun skyde én gang pr. tidsenhed. Denne ændres ved forskellige sværhedsgrader.
+\item En boss, Nicolas Cage, med minions, fuglebure, som svæver rundt om denne. Bossen kan først skades når alle dens minions er ødelagt. Modsat invaders, skyder disse minions ved tilfældige intervaller, som dog bliver mindre ved højere sværhedsgrader.
+\item Bonusser. Hver gang en invader dør, er der en chance for at en bonus spawnes. Skyder spilleren
+  disse, går de dog til spilde (vi har valgt ikke at lade invaders kunne skyde dem, da det er meget
+  frustrerende for spilleren).
+  \begin{itemize}
+  \item \includegraphics[scale=0.60]{heart.eps} Hjerte (20\% sandsynlighed for at denne spawner):
+    Giver spilleren et ekstra liv.
+  \item \includegraphics[scale=0.60]{snowFlake.eps} Snefnug (40\%): Halverer Invaders hastighed.
+  \item \includegraphics[scale=0.60]{present2.eps} Gave (40\%): Giver 50 point ganget med
+    sværhedsgradens ID (Easy = 1, Trolled =5).
+  \end{itemize}
+\item Bunkere, der beskytter spilleren, og som kan skydes i mindre stykker af invaders og spilleren.
+\item Info-bar i toppen og bunden af skærmen med diverse brugbar information.
+\item Reload-bar under spilleren, så man kan se hvornår man atter kan skyde.
+\end{itemize}
+
 \section{Implementation}
 \emph{Her beskrives spillets strukturelle opbygning, samt vigtige konkrete implementeringsstrategier}
 \begin{figure}[h!]
@@ -82,7 +138,7 @@ Dette leder til programmets egentlige implementation.
   \includegraphics[scale=0.60]{MVC.png}
   \caption{UML-diagram}
   \label{fig:MVC_diagram}
-  \end{figure}[h!]
+  \end{figure}
 \subsection{Overordnet struktur}
 Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
 beskrevet så meget at det næsten kan siges at være blevet en kliché. Det er umuligt at definere helt
@@ -240,63 +296,6 @@ Indeholder \code{Sprite-} og \code{SoundHandler} som behandler vores lyde og bil
 
 \subsection{XML-parsing (\code{service.parsing})}
 Som XML-parser bruger vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Vores instans af SAX-parseren får en XML-fil og en handler, som ligger i den angivne mappe. Handleren extender \code{DefaultHandler}, og overrider metoder som f.eks. \code{startElement()}. Her kan vi definere hvad som skal ske når den får et instans af hvert element i en XML-fil, som f.eks. et \code{\textless highscore name ="Ola Normann" score="1337" \textgreater}. Dette specifikke element vil blive gemt i en ny \code{HighscoreEntry} i et array som så kan hentes af en Controller.
-
-\section{Features}
-\emph{For at give et overblik er der her en liste over de features spillet implementerer}
-
-\begin{itemize}
-\item Fem forskellige difficulties, som er gemt i \code{src/model/Configuration.xml}, sådan at man
-  nemt kan tune dem og tilføje/fjerne sværhedsgrader
-\item Highscores gemt på \url{www.trololo.dk}, sådan at folk fra
-  forskellige computere kan tilføje til listen og se den
-\item Otte levels gemt i \code{src/model/GameStates.xml}, sådan at man nemt kan
-  tilføje/redigere levels.
-\item Billeder og lyde, som kaldes gennem \code{Sprite-} og \code{SoundHandler}, og ligger gemt i \code{resources/}
-\item \code{GameElement} og \code{KillableGameElement} som gør det let at tilføje nye objekter til
-  spillet
-\item Animationer. Vi har lavet et \code{GameElement} kaldet \code{Animation}, så man nemt kan tilføje animationer ved at lave et spritesheet og kalde \code{drawAnimation(Graphics g, Animation
-    ani)} i \code{GameStateRenderer}. Klassen \code{Animation} indeholder infomation om hvor mange
-  frames dets spritesheet indeholder og hvor hurtigt der skal skiftes frame i animationen
-\item Farvning af \code{Invaders} alt efter hvor meget liv de har, og om de er "frosne", hhv. rød og blå.
-\end{itemize}
-
-\subsection{Gameplay features}Features omkring selve gameplayet:
-\begin{itemize}
-\item Score: Spilleren får point for at skyde invaders, opsamle gaver samt at gennemføre spillet med
-  mere end ét tilbageværende liv.
-\item Forskellige typer skud. Man skifter våben på tasterne 1,2 og 3 samt skyder på mellemrum. For
-  spilleren:
-  \begin{itemize}
-  \item \includegraphics[scale=0.60]{bullet.eps} Normale: Bevæger sig opad
-  \item \includegraphics[scale=0.60]{fastBullet.eps} Hurtige: Samme som Normale, men bevæger sig
-    dobbelt så hurtigt
-  \item \includegraphics[scale=0.60]{missile.eps} Missiler: Bevæger sig som Normale, men ved
-    kollision med Invader skader de Invaders indenfor et radius på 60 pixels
-  \end{itemize} For invaders:
-  \begin{itemize}
-  \item \includegraphics[scale=0.60]{bulletInvader.eps} Normale: Bevæger sig nedad
-  \item \includegraphics[scale=0.60]{bulletInvaderHoming.eps} "Varmesøgende": Følger spilleren i
-    x-aksen, og bevæger sig i y-aksen som Normale. Følger ikke helt naturens love om impuls og
-    ændring af denne
-  \end{itemize}
-\item Forskellige invaders, med forskellige sprites, skudtyper og antal liv (de bliver farvet røde
-  alt efter hvor meget liv de har). Samtlige invaders kan kun skyde én gang pr. tidsenhed. Denne ændres ved forskellige sværhedsgrader.
-\item En boss, Nicolas Cage, med minions, fuglebure, som svæver rundt om denne. Bossen kan først skades når alle dens minions er ødelagt. Modsat invaders, skyder disse minions ved tilfældige intervaller, som dog bliver mindre ved højere sværhedsgrader.
-\item Bonusser. Hver gang en invader dør, er der en chance for at en bonus spawnes. Skyder spilleren
-  disse, går de dog til spilde (vi har valgt ikke at lade invaders kunne skyde dem, da det er meget
-  frustrerende for spilleren).
-  \begin{itemize}
-  \item \includegraphics[scale=0.60]{heart.eps} Hjerte (20\% sandsynlighed for at denne spawner):
-    Giver spilleren et ekstra liv.
-  \item \includegraphics[scale=0.60]{snowFlake.eps} Snefnug (40\%): Halverer Invaders hastighed.
-  \item \includegraphics[scale=0.60]{present2.eps} Gave (40\%): Giver 50 point ganget med
-    sværhedsgradens ID (Easy = 1, Trolled =5).
-  \end{itemize}
-\item Bunkere, der beskytter spilleren, og som kan skydes i mindre stykker af invaders og spilleren.
-\item Info-bar i toppen og bunden af skærmen med diverse brugbar information.
-\item Reload-bar under spilleren, så man kan se hvornår man atter kan skyde.
-\end{itemize}
-
 
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}
