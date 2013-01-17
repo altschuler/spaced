@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import service.resources.SoundHandler;
+
 import model.core.PlayerIndex;
 import model.elements.Animation;
 import model.elements.Bonus;
@@ -35,7 +37,6 @@ public class GameState {
 	
 	// Patricks logik siger at denne skal v�re i GameState
 	private long lastInvaderShot; 
-	private ArrayList<Invader> lowestInvaders; // ved ikke heeelt med denne
 
 	public GameState(int id) {
 		this.setId(id);
@@ -44,7 +45,6 @@ public class GameState {
 		this.bonuses = new ArrayList<Bonus>();
 		this.bullets = new ArrayList<Bullet>();
 		this.individualEnemies = new ArrayList<KillableGameElement>();
-		this.lowestInvaders = new ArrayList<Invader>();
 		this.lastInvaderShot = 0;
 		this.players = new HashMap<PlayerIndex, Player>();
 		this.setAnimations(new ArrayList<Animation>());
@@ -124,6 +124,9 @@ public class GameState {
 	}
 
 	public void setState(GameStateState state) {
+		if(state == GameStateState.Lost){
+			SoundHandler.getInstance().playSound("game_over02.wav", 0, 0,6.0f);
+		}
 		this.state = state;
 	}
 

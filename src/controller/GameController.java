@@ -148,7 +148,6 @@ public class GameController extends AbstractController {
 				hasInvaderDied = true;
 //Spawns bonus and grants the player points
 				if(Math.random() < bonusThreshold){	gameState.getBonuses().add(new Bonus(invader.getPosition().clone()));	}
-//				System.out.println(invader.getPoints());
 				gameState.getPlayer(PlayerIndex.One).setPoints(gameState.getPlayer(PlayerIndex.One).getPoints()+invader.getPoints()*(1+this.gameModel.getActiveDifficulty().getId()));
 				invaders.remove();
 			}
@@ -176,7 +175,7 @@ public class GameController extends AbstractController {
 		}
 		
 		if(hasInvaderDied){	//making this check to avoid the annoying effect of the same sound being played milliseconds apart!
-			SoundHandler.getInstance().playSound("boom01.wav", 0, 0,-1.0f);
+			SoundHandler.getInstance().playSound("boom03.wav", 0, 0,-1.0f);
 		}
 		
 
@@ -240,8 +239,9 @@ public class GameController extends AbstractController {
 		if (Input.getInstance().isKeyDown(KeyEvent.VK_3)) {
 			player.setWeapon(BulletType.Explosive);
 		}
-//Cheats		 - clears the current level
-		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)) {
+// clears the current level of invaders (debug)
+		if (Input.getInstance().isKeyDown(KeyEvent.VK_4) && Input.getInstance().isKeyDown(KeyEvent.VK_5)
+				&& Input.getInstance().isKeyDown(KeyEvent.VK_UP)) {
 			for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 				Invader anotherInvader = moreInvaders.next();
 				anotherInvader.destroy();
@@ -340,7 +340,10 @@ public class GameController extends AbstractController {
 					if (Mathx.intersects(bullet, invader)) {
 						
 						if(bullet.getType() == BulletType.Explosive){ //in case an invader is hit by a missile
-							double explosionRadius = 60.0;
+							double explosionRadius = 55.0;
+							
+							gameState.getAnimations().add(new Animation("explosionAoE.png", bullet.getPosition().clone(), 6,50, true));
+							SoundHandler.getInstance().playSound("boom01.wav", 0, 0,-1.0f);
 							
 							for(Iterator<Invader> moreInvaders = gameState.getInvaders().iterator(); moreInvaders.hasNext();){
 								Invader anotherInvader = moreInvaders.next();
@@ -462,8 +465,8 @@ public class GameController extends AbstractController {
 				NicholasCage nCage = (NicholasCage) randomEnemy;
 				nCage.updateNicholas(timeDelta);
 				nCage.move(nCage.getDirectionMultiplier()*Math.cos(nCage.getNicholasTime()/1000.0)*timeDelta/3.0,
-						Math.sin(nCage.getNicholasTime()/500.0));
-				nCage.moveCages(timeDelta);
+						Math.sin(nCage.getNicholasTime()/500.0)*timeDelta/10);
+				nCage.moveCages();
 			}
 		}
 	}
@@ -594,6 +597,6 @@ public class GameController extends AbstractController {
 	}
 	
 	private void addExplosion(GameState gameState, GameElement gameElement){
-		gameState.getAnimations().add(new Animation("explosion.png", gameElement.getPosition().clone(), 5));
+		gameState.getAnimations().add(new Animation("explosionSprite.png", gameElement.getPosition().clone(), 6,120, false));
 	}
 }

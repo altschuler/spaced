@@ -51,8 +51,7 @@ således at det ville være nemt at udbygge med nye features, og det uden at kod
 softwareudviklingens tommelfingerregler: ``It's gonna change''.
 
 Derfor har vi forsøgt at holde koden DRY \footnote{Don't Repeat Yourself
-  \url{http://en.wikipedia.org/wiki/Don't_repeat_yourself}}, velstruktureret, i henhold til bevist
-velfungerende design principper, osv.
+  \url{http://en.wikipedia.org/wiki/Don't_repeat_yourself}}, velstruktureret og i henhold til velfungerende design principper.
 
 Et par features som vi dog vidste at vi ville/skulle nå at implementere:
 \begin{description}
@@ -74,16 +73,22 @@ sættes passende sammen. Derefter begyndte vi at udvikle specifikke dele af prog
 det også meget nemmere at dele opgaver ud, da delene som regel var fuldstændig uafhængige og dermed
 nemt kunne udvikles seperat.
 
-Dette leder til programmets egentlig implementation.
+Dette leder til programmets egentlige implementation.
 
 \section{Implementation}
 \emph{Her beskrives spillets strukturelle opbygning, samt vigtige konkrete implementeringsstrategier}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.60]{MVC.png}
+  \caption{UML-diagram}
+  \label{fig:MVC_diagram}
+  \end{figure}[h!]
 \subsection{Overordnet struktur}
 Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
 beskrevet så meget at det næsten kan siges at være blevet en kliché. Det er umuligt at definere helt
-præcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men de
-overordnede princippet gælder mere eller mindre for alle varianter. Disse principper inkluderer
-f.eks. at controller ``snakker med'' model og view og dermed agerer mellemmand mellem de to, og at
+præcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men det
+overordnede princip gælder mere eller mindre for alle varianter. Disse principper inkluderer
+f.eks. at controller ``snakker med'' model og view, og dermed agerer mellemmand mellem de to, samt at
 view og model ikke kommunikerer direkte. Sidstenævnte bryder vi en smule, idet vi bruger Observer
 pattern.
 
@@ -108,13 +113,13 @@ at opdatere views når modellen ændres. Vi gennemgår kort nogle vigtige klasse
   Den overordnede model. Heri ligger al data som beskriver programmets nuværende tilstand. Dette
   inkluderer alt fra hvor stort hovedvinduet er, til hvornår man sidst har affyret et skud. Al data
   som er en del af en specifik spille-session (dvs, hvor mange invaders er der, hvor er de, hvornår
-  blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} object. Dette gemmes
-  i \code{MainModel} som det aktive spille-sessions state. Dette object er dét som bliver givet til
+  blev spillet sidst opdateret og renderet), bliver gemt i et \code{GameState} objekt. Dette gemmes
+  i \code{MainModel} som det aktive spille-sessions state. Dette objekt er dét som bliver givet til
   en \code{GameController}, der så opdaterer det og sender det til rendering.
-n
+
 \item[\code{Command}s] \hfill \\
   \code{Command}s bliver brugt til at enkapsulere logik der \emph{kan være} afhængig af state. Denne
-  logik kan så efterfølgende eksekveres af hvem som helst, når som helst, uden at denne har nogen
+  logik kan så efterfølgende eksekveres af hvad som helst, når som helst, uden at denne har nogen
   viden om hvad en given \code{Command} \emph{egentlig} gør. Fælles for dem alle er at implementerer
   \code{ICommand} interfacet, hvilket består af en enkelt metode: \code{execute}.  Det er specielt
   bekvemt til f.eks. at eksekvere logik ved tryk på knapper (hvor knappen ikke skal vide hvad den
@@ -123,8 +128,8 @@ n
   \code{Command}s sammen i rækkefølge og returnerer en ny command.
 
 \item[Observers] \hfill \\
-  \code{MainModel} implementerer Java's \code{Observable}. Det er en måde for et object at eksponere
-  et interface som gør et andet object, en \code{Observer}, opmærksom på hvornår den er
+  \code{MainModel} implementerer Java's \code{Observable}. Det er en måde for et objekt at eksponere
+  et interface som gør et andet objekt, en \code{Observer}, opmærksom på hvornår den er
   opdateret. Vha. observer pattern gøres dette fuldstændig decoupled, og \code{MainModel} har altså
   ingen ide om hvem der lytter efter dens ændringer. Ændringerne annonceres gennem
   \code{Oberservable}s \code{notifyObservers} metode.
@@ -133,7 +138,15 @@ n
 Vi har valgt ikke at udvikle tests til projektet. Vi kunne have lavet en masse Unit Tests som kunne
 have fanget fejl for os, eller endda udviklet i TDD stil. Vi vurderede dog at til et projekt af
 denne størrelse og art at det ikke ville være det værd. I stedet har vi været grundige for at
-udvikle i en stil der forebygger fejl.
+udvikle i en stil der forebygger fejl og testet manuelt løbende.
+
+\subsection{Ting der skal med endnu}
+Patrick vil sygt gerne skrive det her
+\begin{itemize}
+\item timeDelta (ret nice, jo)
+\item Iterators + sweep()
+\item WallHit - why/why not?
+\end{itemize}
 
 \subsection{GameController}
 Står primært for at opdatere \code{GameState} samt at få \code{GameStateRenderer} (kaldet renderer
@@ -156,7 +169,7 @@ Metoden \code{updateGameState()} gør følgende (i kronologisk rækkefølge):
 
 \item Tjekker om man har vundet/tabt og returnerer hvis dette er tilfældet. Kalder \code{GameStateRenderer.render()} og renderer hermed det aktuelle \code{GameState}.
 
-\item Kalder \code{GameStateRenderer} og får denne til at rendere det aktuelle \code{GameState}. \emph{Simon: Vi burde teoretisk set nok have haft en overordnet klasse (Nogle bud???) som kaldte \code{updateGameState()} og \code{GameStateRenderer.render()} uafhængigt af hinanden, sådan at \code{GameState} kunne opdateres uden at nødvendigvis blive renderet}
+\item Kalder \code{GameStateRenderer} og får denne til at rendere det aktuelle \code{GameState}. Vi burde teoretisk set  have haft en overordnet klasse som kaldte \code{updateGameState()} og \code{GameStateRenderer.render()} uafhængigt af hinanden, sådan at \code{GameState} kunne opdateres uden at nødvendigvis blive renderet, i tilfælde af at det skulle blive nødvendigt.
 
 \item Slutteligt opdateres tiden gemt i \code{GameState}.
 \end{enumerate}
@@ -188,7 +201,7 @@ figur \ref{fig:col_rect}.
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.60]{rekt_cirk_02.eps}
-  \caption{Farverne repræsenterer de forskellige tjek som bliver udført i funktionen \code{circleRectangleIntersects}}
+  \caption{Farverne repræsenterer de forskellige tjek som bliver udført i funktionen \code{circleRectangleIntersects()}}
   \label{fig:col_rect}
 \end{figure}
 
@@ -214,50 +227,37 @@ Er cirklens centrum længere væk end dens radius er der ikke kollision.
 
 \subsection{service.HighscoreService}
 
-Inneholder metoder for å gjemme og hente highscores i en XML-fil vha. våres webtjeneste, på domenet
-\url{http://trololo.dk}.
+Indeholder metoder som kan gemme og hente highscores i en XML-fil vha. vores webtjeneste, på domænet \url{http://trololo.dk}.
 
-Vi legger til å besøke en lenke med et sett alminnelige GET-argumenter med informasjon som bruker,
-score osv. Blandt disse argumtene er det også en \emph{token} som fungerer som en sikkerhet i form
-av en hemmelig string. Denne token blir hentet via \code{Configurations.xml}.
+For at gemme, går metoden ind på et link med almindelige GET-argumenter med informationerne spillernavn, score og sværhedsgrad. Blandt disse argumenter er der også en \emph{token} som fungerer som en primitiv sikkerhed i form af en "hemmelig" \code{String}. Denne token bliver hentet via den frit tilgængelige \code{Configurations.xml}. Umiddelbart burde vi have hardcodet token ind i koden, sådan at den ikke kan aflæses direkte. Da vi har brugt Git til versionskontrol, ligger koden dog frit tilgængelig. Derudover kan man også se hvilke URL'er computeren har kontaktet, og dermed kunne aflæse token. Som kontrol får man en streng retur, som fortæller om alt gik vel eller om noget gik galt.
 
-Som kontroll på at ting gikk godt, får man i retur enten en streng som sier at alt gikk vel, eller
-en feilmelding.
+At hente highscores fungerer efter samme princip, men kun med et \emph{limit} argument, som sætter antallet af scores som skal returneres.
 
-Henting fungerer på samme måte, men kun med et \emph{limit} argument som setter antallet highscores
-som skal bli returnert.
+Lokalt bliver de behandlet af \code{HighscoreController}, som objekter af klassen \code{HighscoreEntry} (\code{model}). \code{HighscoreEntry} indeholder naturligvis nødvendig information, samt implementerer \code{Comparator} og \code{Comparable}, sådan at kontrolleren nemt kan sortere efter score.
 
-Lokalt blir de behandlet av \code{HighscoreController}, som objekter av klassen
-\code{HighscoreEntry} (\code{model}). \code{HighscoreEntry} inneholder naturligvis nødvendig
-informasjon, samt at den implementerer \code{Comparator} og \code{Comparable} slik at kontrolleren
-nemt kan sortere efter score.
-
-\subsection{Ressursbehandling (\code{service.resources})}
-Inneholder \code{Sprite-} og \code{SoundHandler} som behandler våres lyder og bilder av klassen \code{Sprite} og \code{Sound}. Poenget med disse klassene er å ha en sentralisert tjeneste som henter lyder og bilder, og cacher de i et HashMap for å spare ressurser. For å forsikre at de ikke blir cashet flere ganger, er klassen lavet som en singleton (den kan kun ha en instans).
-
+\subsection{Ressourcebehandling (\code{service.resources})}
+Indeholder \code{Sprite-} og \code{SoundHandler} som behandler vores lyde og billeder af klasserne \code{Sound} og \code{Sprite}. Pointen med disse klasser er at have en centraliseret tjeneste som henter lyd og billeder, og cacher disse i et HashMap for at spare ressourcer. For at sikre at de ikke bliver cachet flere gange, er klassen lavet som en singleton (den kan kun have én instans).
 
 \subsection{XML-parsing (\code{service.parsing})}
-Som XML-parser bruker vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Våres instans av SAX-parseren får en XML-fil og en handler, som ligger i angitt mappe. Handleren extender \code{DefaultHandler}, og igjen overrider funksjoner som feks. \code{startElement}. Her kan vi definiere hva som skal skje når det får et instans av hvert element i en XML-fil, som feks. et \code{<highscore name="Ola Normann" score="1337">}. Denne skal så lages til et nytt \code{HighscoreEntry} i et array som så kan hentes av en Controller.
+Som XML-parser bruger vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Vores instans af SAX-parseren får en XML-fil og en handler, som ligger i den angivne mappe. Handleren extender \code{DefaultHandler}, og overrider metoder som f.eks. \code{startElement()}. Her kan vi definere hvad som skal ske når den får et instans af hvert element i en XML-fil, som f.eks. et \code{\textless highscore name ="Ola Normann" score="1337" \textgreater}. Dette specifikke element vil blive gemt i en ny \code{HighscoreEntry} i et array som så kan hentes af en Controller.
 
 \section{Features}
-\emph{Her gives et overblik er der her en liste over de features spillet implementerer}
+\emph{For at give et overblik er der her en liste over de features spillet implementerer}
 
 \begin{itemize}
 \item Fem forskellige difficulties, som er gemt i \code{src/model/Configuration.xml}, sådan at man
   nemt kan tune dem og tilføje/fjerne sværhedsgrader
-\item Highscores gemt på \url{http://www.trololo.dk/spaced-web/get_scores}, sådan at folk fra
+\item Highscores gemt på \url{www.trololo.dk}, sådan at folk fra
   forskellige computere kan tilføje til listen og se den
-\item Forskellige levels gemt i \code{src/model/GameStates.xml}, sådan at man nemt kan
-  tilføje/redigere levels. Vi har overvejet at lave en level-editor som skriver til denne fil, men
-  har ikke haft tiden til at nå det
-\item TODO SE MARKUS' AFSNIT OM RESOURCES (lyde og sprites)!!!
+\item Otte levels gemt i \code{src/model/GameStates.xml}, sådan at man nemt kan
+  tilføje/redigere levels.
+\item Billeder og lyde, som kaldes gennem \code{Sprite-} og \code{SoundHandler}, og ligger gemt i \code{resources/}
 \item \code{GameElement} og \code{KillableGameElement} som gør det let at tilføje nye objekter til
   spillet
-\item \code{Animation}. Vi har kun medtaget en enkelt animation (når en \code{Invader} dør), men man
-  kan nemt tilføje nye ved at lave et spritesheet og kalde \code{drawAnimation(Graphics g, Animation
+\item Animationer. Vi har lavet et \code{GameElement} kaldet \code{Animation}, så man nemt kan tilføje animationer ved at lave et spritesheet og kalde \code{drawAnimation(Graphics g, Animation
     ani)} i \code{GameStateRenderer}. Klassen \code{Animation} indeholder infomation om hvor mange
   frames dets spritesheet indeholder og hvor hurtigt der skal skiftes frame i animationen
-\item Farvning af \code{Invaders} alt efter hvor meget liv de har, og om de er "frosne"
+\item Farvning af \code{Invaders} alt efter hvor meget liv de har, og om de er "frosne", hhv. rød og blå.
 \end{itemize}
 
 \subsection{Gameplay features}Features omkring selve gameplayet:
@@ -267,20 +267,21 @@ Som XML-parser bruker vi \code{SAXParser} som ligger i \code{javax.xml.parsers}.
 \item Forskellige typer skud. Man skifter våben på tasterne 1,2 og 3 samt skyder på mellemrum. For
   spilleren:
   \begin{itemize}
-  \item \includegraphics[scale=0.60]{bullet.eps} Normale: Går vertikalt opad
+  \item \includegraphics[scale=0.60]{bullet.eps} Normale: Bevæger sig opad
   \item \includegraphics[scale=0.60]{fastBullet.eps} Hurtige: Samme som Normale, men bevæger sig
     dobbelt så hurtigt
   \item \includegraphics[scale=0.60]{missile.eps} Missiler: Bevæger sig som Normale, men ved
     kollision med Invader skader de Invaders indenfor et radius på 60 pixels
   \end{itemize} For invaders:
   \begin{itemize}
-  \item \includegraphics[scale=0.60]{bulletInvader.eps} Normale: Går vertikalt nedad
+  \item \includegraphics[scale=0.60]{bulletInvader.eps} Normale: Bevæger sig nedad
   \item \includegraphics[scale=0.60]{bulletInvaderHoming.eps} "Varmesøgende": Følger spilleren i
     x-aksen, og bevæger sig i y-aksen som Normale. Følger ikke helt naturens love om impuls og
     ændring af denne
   \end{itemize}
 \item Forskellige invaders, med forskellige sprites, skudtyper og antal liv (de bliver farvet røde
-  alt efter hvor meget liv de har).
+  alt efter hvor meget liv de har). Samtlige invaders kan kun skyde én gang pr. tidsenhed. Denne ændres ved forskellige sværhedsgrader.
+\item En boss, Nicolas Cage, med minions, fuglebure, som svæver rundt om denne. Bossen kan først skades når alle dens minions er ødelagt. Modsat invaders, skyder disse minions ved tilfældige intervaller, som dog bliver mindre ved højere sværhedsgrader.
 \item Bonusser. Hver gang en invader dør, er der en chance for at en bonus spawnes. Skyder spilleren
   disse, går de dog til spilde (vi har valgt ikke at lade invaders kunne skyde dem, da det er meget
   frustrerende for spilleren).

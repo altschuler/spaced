@@ -7,12 +7,10 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import model.HighscoreEntry;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import service.parsing.HighscoreSaxHandler;
 

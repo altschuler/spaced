@@ -42,6 +42,9 @@ public class FlowController extends AbstractController {
     		this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).setLives(playerLives);
     		this.gameModel.getActiveGameState().getPlayer(PlayerIndex.One).setPoints(playerPoints);
     	}
+    	if(!retainedProgress){
+    		this.gameModel.getActiveGameState().setTotalGameTime(0);
+    	}
     }
     
     /**

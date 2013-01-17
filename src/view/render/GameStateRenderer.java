@@ -38,113 +38,113 @@ public class GameStateRenderer {
 	}
 
 	public void render(Canvas canvas, GameState gameState, MainModel gameModel) {
+		int invadersFrozenTime = 0; //used in infoBar in the bottom of the screen
 		// Setup graphics
-		Graphics2D gfx = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
-		gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D gfx[] = new Graphics2D[3];
+		gfx[0] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+		gfx[0].setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		gfx[2] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+		gfx[2].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
+		gfx[2].setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		gfx[1] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
+        gfx[1].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
+        gfx[1].setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// Clear the screen
-		gfx.setColor(Color.BLACK);
+		gfx[0].setColor(Color.BLACK);
 //		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		this.draw(gfx, "hubble.jpg", new Coordinate(0, 0));
+		this.draw(gfx[0], "hubble.jpg", new Coordinate(0, 0));
 
 		// Draw player
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		for (int i = 0; i < player.getLives(); i++) {
-			this.draw(gfx, "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
+			this.draw(gfx[0], "player_life.png", new Coordinate(4 + i * 30, MainModel.SCREEN_HEIGHT - 20 - this.bottomBarHeight));
 		}
 		boolean playerReloading = gameModel.getActiveDifficulty().getPlayerShootFreq() > System.currentTimeMillis() - player.getTimeOfLastShot();
 		
 		if(playerReloading){
 			double reloadFraction = (double) (System.currentTimeMillis() - player.getTimeOfLastShot()) / (double) gameModel.getActiveDifficulty().getPlayerShootFreq();
-			gfx.setColor(new Color(150,150,150,200));
-			gfx.fillRect((int) player.getPosition().x, (int) player.getPosition().y + player.getHeight(),
+			gfx[0].setColor(new Color(150,150,150,200));
+			gfx[0].fillRect((int) player.getPosition().x, (int) player.getPosition().y + player.getHeight(),
 					(int) (reloadFraction*player.getWidth()) , 6);
 		}
+		this.drAwesome(gfx[0], gameState.getPlayer(PlayerIndex.One));
 
 		// Draws everything else (Invaders, player, bullets, bunkers, bonuses & animations)
-		Graphics2D transparentGraphics[] = new Graphics2D[2];// = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
-		transparentGraphics[0] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
-		transparentGraphics[0].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.15f));
-		transparentGraphics[1] = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
-        transparentGraphics[1].setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
-        
-        int invadersFrozenTime = 0; //used in infoBar in the bottom of the screen
-		for (Invader invader : gameState.getInvaders()) {	
-			invadersFrozenTime = invader.getFrozenTime();
-			this.drAwesome(gfx, invader);	
-			if(invadersFrozenTime > 0){
-				this.drawBlueInvader(transparentGraphics[0],invader);
-			}
-			if(invader.getHealth() > 2){
-				this.drawRedInvader(transparentGraphics[1],invader);
-			}else if(invader.getHealth() > 1){
-				this.drawRedInvader(transparentGraphics[0],invader);
-			}
-		}
-		transparentGraphics[0].dispose();
-		transparentGraphics[1].dispose();
-		
-		this.drAwesome(gfx, gameState.getPlayer(PlayerIndex.One));
-		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx, bullet);		}
-		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx, bunker);			}
-		for (Bonus bonus : gameState.getBonuses()){	this.drAwesome(gfx, bonus);			}
-		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()){	//bosses
-			if(randomEnemy instanceof NicholasCage){
-				this.drAwesome(gfx, randomEnemy);
-				for(Cage cage : ((NicholasCage) randomEnemy).getCages()){
-					this.drAwesome(gfx, cage);
-				}
-			}
-		}
 		for (Iterator<Animation> animations = gameState.getAnimations().iterator(); animations.hasNext();) {
 			Animation animation = animations.next();
 			if(animation.getIndexOfLastFrame()-1 >= animation.getFrames()){
 				animations.remove();
 			}else{
-				this.drawAnimation(gfx, animation);	
+				this.drawAnimation(gfx[0], animation);	
+			}
+		}
+		for (Invader invader : gameState.getInvaders()) {	
+			invadersFrozenTime = invader.getFrozenTime();
+			this.drAwesome(gfx[0], invader);	
+			if(invadersFrozenTime > 0){
+				this.drawBlueInvader(gfx[2],invader);
+			}
+			if(invader.getHealth() > 2){
+				this.drawRedInvader(gfx[1],invader);
+			}else if(invader.getHealth() == 2){
+				this.drawRedInvader(gfx[2],invader);
+			}
+		}
+		for (Bullet bullet : gameState.getBullets()) {		this.drAwesome(gfx[0], bullet);		}
+		for (Bunker bunker : gameState.getBunkers()){	this.drAwesome(gfx[0], bunker);			}
+		for (Bonus bonus : gameState.getBonuses()){	this.drAwesome(gfx[0], bonus);			}
+		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()){	//bosses
+			if(randomEnemy instanceof NicholasCage){
+				this.drAwesome(gfx[0], randomEnemy);
+				for(Cage cage : ((NicholasCage) randomEnemy).getCages()){
+					this.drAwesome(gfx[0], cage);
+				}
 			}
 		}
 		
 		
 		// Top status bar, draw last to go on top
 		Font font = new Font("Verdana", Font.PLAIN, 15);
-		gfx.setFont(font);
-		gfx.setColor(new Color(150,150,150,200));
-		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
-		gfx.fillRect(0, MainModel.SCREEN_HEIGHT-bottomBarHeight, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		gfx.setColor(Color.BLACK);
-		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
+		gfx[0].setFont(font);
+		gfx[0].setColor(new Color(150,150,150,200));
+		gfx[0].fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
+		gfx[0].fillRect(0, MainModel.SCREEN_HEIGHT-bottomBarHeight, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
+		gfx[0].setColor(Color.BLACK);
+		gfx[0].drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
 		String playerString = String.format("Level: %s, Diff: %s, Inv: %s, Player: %s, Score: %s", 
                         gameState.getId(),
 						gameModel.getActiveDifficulty().getName(), 
                         gameState.getInvaders().size(), 
                         gameModel.getPlayerName(PlayerIndex.One),
                         gameState.getPlayer(PlayerIndex.One).getPoints());
-		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
-		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
+		Rectangle2D playerStringBounds = gfx[0].getFontMetrics(font).getStringBounds(playerString, gfx[0]);
+		gfx[0].drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
 
 		//Bottom status bar
-		gfx.drawString(String.format("Press ESC to pause, numbers 1-3 to change weapons, SPACE to shoot and use the arrows to move."), 12, MainModel.SCREEN_HEIGHT - 10);
+		gfx[0].drawString(String.format("Press ESC to pause, numbers 1-3 to change weapons, SPACE to shoot and use the arrows to move."), 12, MainModel.SCREEN_HEIGHT - 10);
 		String infoString = String.format("Current weapon: %s", player.getWeapon());
 		if(invadersFrozenTime > 0){
 			infoString += String.format("  Invaders frozen: %s", Mathx.prettyTime(invadersFrozenTime));
 		}
-		Rectangle2D infoStringBounds = gfx.getFontMetrics(font).getStringBounds(infoString, gfx);
-		gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
+		Rectangle2D infoStringBounds = gfx[0].getFontMetrics(font).getStringBounds(infoString, gfx[0]);
+		gfx[0].drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
 		
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
 			Font fontBig = new Font("Verdana", Font.PLAIN, 25);
-			gfx.setFont(fontBig);
-			gfx.setColor(Color.RED);
+			gfx[0].setFont(fontBig);
+			gfx[0].setColor(Color.RED);
 			String anyKeyText = String.format("LEVEL %d - PRESS ENTER TO START", gameState.getId());
-			Rectangle2D anyKeyTextBounds = gfx.getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx);
-			gfx.drawString(anyKeyText, (int) (MainModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
+			Rectangle2D anyKeyTextBounds = gfx[0].getFontMetrics(fontBig).getStringBounds(anyKeyText, gfx[0]);
+			gfx[0].drawString(anyKeyText, (int) (MainModel.SCREEN_WIDTH / 2 - anyKeyTextBounds.getWidth() / 2),
 					(int) (MainModel.SCREEN_HEIGHT / 2 - anyKeyTextBounds.getHeight() / 2));
 		}
 		
 		// Empty the graphics buffer
-		gfx.dispose();
+		gfx[0].dispose();
+		gfx[1].dispose();
+		gfx[2].dispose();
 		canvas.getBufferStrategy().show();
 	}
 
@@ -156,24 +156,24 @@ public class GameStateRenderer {
 		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
 	}
 	
-	public void drawBlueInvader(Graphics graf, Invader invader) {  
+	public void drawBlueInvader(Graphics g, Invader invader) {  
 		String ref = "aBlue.png";
         switch(invader.getType()){
 	        case B:	    ref = "bBlue.png";	   	break;
 	        case C:     ref = "cBlue.png";	   	break;
 	        default:	break;
         }
-        graf.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
+        g.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
     }
 	
-	public void drawRedInvader(Graphics graphics, Invader invader) {  
+	public void drawRedInvader(Graphics g, Invader invader) {  
 		String ref = "aRed.png";
         switch(invader.getType()){
 	        case B:	    ref = "bRed.png";	   	break;
 	        case C:     ref = "cRed.png";	   	break;
 	        default:	break;
         }
-        graphics.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
+        g.drawImage(SpriteHandler.getInstance().get(ref).getImage(),(int)invader.getPosition().x,(int)invader.getPosition().y,null);
     }
 	
 	public void drawAnimation(Graphics g, Animation ani){
