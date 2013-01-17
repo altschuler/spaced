@@ -200,14 +200,6 @@ have fanget fejl for os, eller endda udviklet i TDD stil. Vi vurderede dog at ti
 denne størrelse og art at det ikke ville være det værd. I stedet har vi været grundige for at
 udvikle i en stil der forebygger fejl og testet manuelt løbende.
 
-\subsection{Ting der skal med endnu}
-Patrick vil sygt gerne skrive det her
-\begin{itemize}
-\item timeDelta (ret nice, jo)
-\item Iterators + sweep()
-\item WallHit - why/why not?
-\end{itemize}
-
 \subsection{GameController}
 Står primært for at opdatere \code{GameState} samt at få \code{GameStateRenderer} (kaldet renderer
 under \code{GameController}) til at rendere \code{GameState}. Derudover anvendes en
@@ -316,6 +308,13 @@ Som XML-parser bruger vi \code{SAXParser} som ligger i \code{javax.xml.parsers}.
 \subsubsection{WallHit - hvordan skal \code{Invaders} skifte retning?}
 Her har vi prøvet nogle forskellige tilgange, og oprindeligt havde vi en boolean
 Oprindeligt lavede vi en boolean der
+
+\subsection{Ting der skal med, men ikke er endnu}
+Patrick vil sygt gerne skrive det her
+\begin{itemize}
+\item rykker lige move() ind i GameElements...
+\item WallHit - why/why not?
+\end{itemize}
 
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}

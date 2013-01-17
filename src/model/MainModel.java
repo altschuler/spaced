@@ -13,7 +13,7 @@ public class MainModel extends Observable {
 
 	public static final int SCREEN_WIDTH = 1180;
 	public static final int SCREEN_HEIGHT = 700;
-	public static final int TIMER_DELAY = 16;
+	public static final int TIMER_DELAY = 10;
 	
 	private int highScore;
 	private HashMap<PlayerIndex, String> playerNames;

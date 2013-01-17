@@ -4,14 +4,15 @@ import service.resources.Sprite;
 import service.resources.SpriteHandler;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import model.MainModel;
 import model.GameState;
@@ -97,38 +98,27 @@ public class GameStateRenderer {
 		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()){	//bosses
 			if(randomEnemy instanceof NicholasCage){
 				this.drAwesome(gfx[0], randomEnemy);
+				
+				//Gives Nicolas a glory which becomes more transparent as he losses his cages
+				int noOfCages = ((NicholasCage) randomEnemy).getCages().size();
+				if(noOfCages > 0){
+					int opacity = (255/((NicholasCage) randomEnemy).getNoOfCages()) * noOfCages; //integer division rounds down - WIN!
+					gfx[0].setStroke(new BasicStroke(10));
+					gfx[0].setColor(new Color(200,200,00,opacity));
+					gfx[0].draw(new Ellipse2D.Double(randomEnemy.getPosition().x+15, randomEnemy.getPosition().y-20, 150, 50));
+				}
+				
 				for(Cage cage : ((NicholasCage) randomEnemy).getCages()){
 					this.drAwesome(gfx[0], cage);
 				}
 			}
 		}
-		
+		Font font = new Font("Verdana", Font.PLAIN, 15);
 		
 		// Top status bar, draw last to go on top
-		Font font = new Font("Verdana", Font.PLAIN, 15);
-		gfx[0].setFont(font);
-		gfx[0].setColor(new Color(150,150,150,200));
-		gfx[0].fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
-		gfx[0].fillRect(0, MainModel.SCREEN_HEIGHT-bottomBarHeight, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
-		gfx[0].setColor(Color.BLACK);
-		gfx[0].drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
-		String playerString = String.format("Level: %s, Diff: %s, Inv: %s, Player: %s, Score: %s", 
-                        gameState.getId(),
-						gameModel.getActiveDifficulty().getName(), 
-                        gameState.getInvaders().size(), 
-                        gameModel.getPlayerName(PlayerIndex.One),
-                        gameState.getPlayer(PlayerIndex.One).getPoints());
-		Rectangle2D playerStringBounds = gfx[0].getFontMetrics(font).getStringBounds(playerString, gfx[0]);
-		gfx[0].drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
-
-		//Bottom status bar
-		gfx[0].drawString(String.format("Press ESC to pause, numbers 1-3 to change weapons, SPACE to shoot and use the arrows to move."), 12, MainModel.SCREEN_HEIGHT - 10);
-		String infoString = String.format("Current weapon: %s", player.getWeapon());
-		if(invadersFrozenTime > 0){
-			infoString += String.format("  Invaders frozen: %s", Mathx.prettyTime(invadersFrozenTime));
-		}
-		Rectangle2D infoStringBounds = gfx[0].getFontMetrics(font).getStringBounds(infoString, gfx[0]);
-		gfx[0].drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
+		this.drawTopBar(gfx[0], gameState, gameModel, font);
+		
+		this.drawBottomBar(gfx[0], gameState, gameModel, font, invadersFrozenTime);
 		
 		// Special cases of gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
@@ -190,6 +180,38 @@ public class GameStateRenderer {
 			ani.setTimeOfLastFrame(System.currentTimeMillis());
 			ani.setIndexOfLastFrame(ani.getIndexOfLastFrame()+1);
 		}
+	}
+	
+	private void drawTopBar(Graphics2D gfx, GameState gameState, MainModel gameModel, Font font){
+		gfx.setFont(font);
+		gfx.setColor(new Color(150,150,150,200));
+		gfx.fillRect(0, 0, MainModel.SCREEN_WIDTH, topBarHeight); //DON'T DELETE topBarHeight, important for deletion of bullets that go too far
+		gfx.fillRect(0, MainModel.SCREEN_HEIGHT-bottomBarHeight, MainModel.SCREEN_WIDTH, MainModel.SCREEN_HEIGHT);
+		gfx.setColor(Color.BLACK);
+		gfx.drawString(String.format("Time: %s", Mathx.prettyTime(gameState.getTotalGameTime())), 12, 20);
+		String playerString = String.format("Level: %s, Diff: %s, ", 
+                        gameState.getId(),
+						gameModel.getActiveDifficulty().getName());
+		if(gameState.getInvaders().size() > 0){
+			playerString += String.format("Inv: %s, ", gameState.getInvaders().size());
+		}else{
+			playerString += String.format("Boss: %s, ", gameState.getIndividualEnemies().size());
+		}
+		playerString += String.format("Player: %s, Score: %s",
+                gameModel.getPlayerName(PlayerIndex.One),
+                gameState.getPlayer(PlayerIndex.One).getPoints());
+		Rectangle2D playerStringBounds = gfx.getFontMetrics(font).getStringBounds(playerString, gfx);
+		gfx.drawString(playerString, (int) (MainModel.SCREEN_WIDTH - playerStringBounds.getWidth() - 20), 20);
+	}
+	
+	private void drawBottomBar(Graphics2D gfx, GameState gameState, MainModel gameModel, Font font, int invadersFrozenTime){
+		gfx.drawString(String.format("Press ESC to pause, numbers 1-3 to change weapons, SPACE to shoot and use the arrows to move."), 12, MainModel.SCREEN_HEIGHT - 10);
+		String infoString = String.format("Current weapon: %s", gameState.getPlayer(PlayerIndex.One).getWeapon());
+		if(invadersFrozenTime > 0){
+			infoString += String.format("  Invaders frozen: %s", Mathx.prettyTime(invadersFrozenTime));
+		}
+		Rectangle2D infoStringBounds = gfx.getFontMetrics(font).getStringBounds(infoString, gfx);
+		gfx.drawString(infoString, (int) (MainModel.SCREEN_WIDTH - infoStringBounds.getWidth() - 20), MainModel.SCREEN_HEIGHT - 10);
 	}
 
 	public int getTopBarHeight() {
