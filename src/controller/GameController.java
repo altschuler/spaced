@@ -368,7 +368,7 @@ public class GameController extends AbstractController {
 						break;
 					}
 				}
-				
+
 				//Random enemies
 				for (Iterator<KillableGameElement> individualEnemies = gameState.getIndividualEnemies().iterator(); individualEnemies.hasNext();) {
 					KillableGameElement randomEnemy = individualEnemies.next();
