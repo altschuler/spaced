@@ -116,7 +116,7 @@ Dette leder til programmets egentlige implementation.
   \end{itemize}
 \item Forskellige invaders, med forskellige sprites, skudtyper og antal liv (de bliver farvet røde
   alt efter hvor meget liv de har). Invaders kan tilsammen kun skyde én gang pr. tidsenhed. Denne
-  ændres ved forskellige sværhedsgrader.
+  ændres ved forskellige sværhedsgrader. Derudover er det kun den forreste invader i en kolonne der kan skyde.
 \item En boss, Nicolas Cage, med minions, fuglebure, som svæver rundt om denne. Bossen kan først
   skades når alle dens minions er ødelagt. Modsat invaders, skyder disse minions ved tilfældige
   intervaller, som dog bliver mindre ved højere sværhedsgrader.
@@ -221,9 +221,13 @@ updates varierer.
 denne enum er \code{Waiting}/\code{Paused} returnerer metoden og kører dermed ikke videre. Hvis den
 er running fortsætter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
 
-\item Herefter bliver alle \code{GameElement}’erne opdateret. Dette indebærer at der bliver tjekket
-med \code{utils.Input} om en listener er aktiveret af spilleren, rykke relevante elementer, kontrollere for
-kollisioner og endeligt fjerne de elementer der er blevet mærket som ``destroyed''.
+\item Herefter bliver alle \code{GameElement}’erne opdateret. Dette indebærer at:
+\begin{itemize}
+\item der bliver tjekket med \code{utils.Input} om en listener er aktiveret af spilleren
+\item der vha. \code{controller.gamestatehandler} bliver rykket relevante elementer, oprettet skud og kontrolleret for kollisioner
+\item der endeligt fjerne de elementer der er blevet mærket som ``destroyed'' med metoden \code{sweep()}
+\end{itemize}
+
 
 \item Tjekker om man har vundet/tabt og kalder en \code{Command} hvis dette er tilfældet. Kalder
 \code{GameStateRenderer.render()} og renderer hermed det aktuelle \code{GameState}.
@@ -304,17 +308,24 @@ Indeholder \code{SpriteHandler} og \code{SoundHandler} som behandler vores lyde 
 \subsection{XML-parsing (\code{service.parsing})}
 Som XML-parser bruger vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Vores instans af SAX-parseren får en XML-fil og en handler, som ligger i den angivne mappe. Handleren extender \code{DefaultHandler}, og overrider metoder som f.eks. \code{startElement()}. Her kan vi definere hvad som skal ske når den får et instans af hvert element i en XML-fil, som f.eks. et \code{\textless highscore name ="Ola Normann" score="1337" \textgreater}. Dette specifikke element vil blive gemt i en ny \code{HighscoreEntry} i et array som så kan hentes af en Controller.
 
-\subsection{Andre nice ting}
-\subsubsection{WallHit - hvordan skal \code{Invaders} skifte retning?}
-Her har vi prøvet nogle forskellige tilgange, og oprindeligt havde vi en boolean
-Oprindeligt lavede vi en boolean der
+\subsection{Collision detection}
+Dette er en essentiel del af spillet, og derfor er det vigtigt at det fungerer optimalt. Vi har brugt en diskret tilgang \footnote{\url{http://en.wikipedia.org/wiki/Collision_detection\#A_posteriori_.28discrete.29_versus_a_priori_.28continuous.29}} til at opfange kollisioner mellem objekter i spillet, da dette er yderst simpelt at implementere. Vi tjekker hvert objekt med samtlige potentielt relevante\footnote{Relevante i den forstand at det giver mening at tjekke for kollision. Eksempelvis tjekkes der ikke for kollision mellem bunkers og player} objekter, hvilket formodentligt er noget ineffektivt.
 
-\subsection{Ting der skal med, men ikke er endnu}
-Patrick vil sygt gerne skrive det her
-\begin{itemize}
-\item rykker lige move() ind i GameElements...
-\item WallHit - why/why not?
-\end{itemize}
+Derudover er der mulighed for at en kollision ikke bliver opfanget. Dog har vi sat frameraten så højt (ca. 160 FPS), at spillets hurtigst bevægende objekt, "fast bullet", ikke kan nå helt igennemt spillets mindste, "bunker part", på en enkelt frame. Dette ses da  "fast bullet" bevæger sig 3/4 pixels * timeDelta, og højden af en "bunker part" er 12 pixels, hvilket vil kræve at timeDelta er mindst 16 millisekunder. Vi kapper kunstigt timeDelta til maks. 15 millisekunder. Vi mener nemlig at det er rimeligt, og for at eftervise det lavede vi tre tests på et minut hver:
+
+\begin{center}
+    \begin{tabular}{ | l | l |}
+    \hline
+    Frames & timeDelta \textgreater= 16  \\ \hline
+    9872 & 29 \\ \hline
+    9758 & 24  \\ \hline
+    9975 & 37  \\
+    \hline
+    \end{tabular}
+\end{center}
+
+Da timeDelta i gennemsnit bliver cappet én gang for hver gang der er vist 330 frames, mener vi bestemt det er en acceptabel løsning.
+Havde det været et problem, ville en mulig løsning på problemet være, at der for hvert objekt laves en liste med de objekter det kolliderer med, sammenligne med dets retning, og kun lade de  kollisioner man ønsker gælde. Dette ville naturligvis dog kræve yderlig regnekraft.
 
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}
@@ -331,14 +342,14 @@ nemt at projektstyre, og fordi vi hver især fik lyst til at levere et godt styk
 Samarbejdet har været godt, alle har arbejdet lige, og har sat deres præg på resultatet. Alle har været
 gode til at sætte sig ind i, og respektere andres arbejde.
 
-\subsection{Samlet result}
+\subsection{Samlet resultat}
 Vi er meget tilfredse med hvordan resultatet blev. Det gik hurtigere og hurtigere at få
 implementeret nye features, i takt med at vi vænnede os til strukturen, og den viste sig at holde
 til de udvidelser vi havde i sinde.
 
 Det betalte sig på alle måder at lave spillet generisk nok til at det ikke var designet med et helt
 konkret feature sæt i sinde. Det har været nemt og bekvemt at udvikle forskellige dele af spillet
-samtidig, også selvom vi har pushet og pullet ofte. 
+samtidig, også selvom vi har pushet og pullet ofte - 238 commits i skrivende stund! 
 
 Vi har gennem hele projektet brugt pixels som måleenhed til afstande. I virkeligheden er dette ikke
 en god ide, fordi det ikke er skalerbart. I stedet bør man bruge en defineret afstandsberegning,

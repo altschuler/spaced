@@ -80,13 +80,17 @@ public class ShootingHandler{
 				}
 
 				for (Invader innerInvader : gameState.getInvaders()) {
-					if (!invader.equals(innerInvader) && column == innerInvader.getPosition().x && invader.getPosition().y < innerInvader.getPosition().y) {
-						lowest.remove(invader);
-						lowest.put(column, innerInvader);
+					if(!invader.equals(innerInvader) && column == innerInvader.getPosition().x){
+						if (invader.getPosition().y < innerInvader.getPosition().y) {
+							lowest.remove(invader);
+							lowest.put(column, innerInvader);
+						}else if(invader.getPosition().y > innerInvader.getPosition().y){
+							lowest.remove(innerInvader);
+							lowest.put(column, invader);
+						}
 					}
 				}
 			}
-
 			ArrayList<Invader> trimmed = new ArrayList<Invader>();
 			for (Invader invader : lowest.values()) {
 				trimmed.add(invader);
@@ -113,7 +117,7 @@ public class ShootingHandler{
 			}
 			
 			gameState.getBullets().add(currentShot);
-			return; //Patty quick find
+			return;
 		}
 	}
 

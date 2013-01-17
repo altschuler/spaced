@@ -35,7 +35,6 @@ public class GameState {
 	
 	private GameStateState state;
 	
-	// Patricks logik siger at denne skal v�re i GameState
 	private long lastInvaderShot; 
 
 	public GameState(int id) {

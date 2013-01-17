@@ -1,30 +1,23 @@
 package controller;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.Timer;
 import model.GameState;
 import model.GameStateState;
 import model.MainModel;
 import model.core.BulletType;
-import model.core.Coordinate;
-import model.core.Direction;
 import model.core.PlayerIndex;
-import model.elements.Animation;
 import model.elements.Bonus;
 import model.elements.Bullet;
 import model.elements.Bunker;
 import model.elements.Cage;
-import model.elements.GameElement;
 import model.elements.Invader;
 import model.elements.KillableGameElement;
 import model.elements.NicholasCage;
 import model.elements.Player;
 import service.resources.SoundHandler;
 import utils.Input;
-import utils.Mathx;
 import view.MainView;
 import view.render.GameStateRenderer;
 import view.state.GameViewState;
@@ -81,7 +74,7 @@ public class GameController extends AbstractController {
 
 		long currentTime = System.currentTimeMillis();
 		long timeDelta = currentTime - gameState.getLastUpdateTime();
-		if(timeDelta > 30){	timeDelta = 30;	}
+		if(timeDelta >= 16){	timeDelta = 16;	}
 		
 		// Consider gameState's state
 		if (gameState.getState() == GameStateState.Waiting) {
@@ -106,15 +99,13 @@ public class GameController extends AbstractController {
 			gameState.setLastUpdateTime(currentTime);
 			return;
 		}
-		
+		//Player input besides movement
+		this.updatePlayer(gameState, timeDelta);
 		
 		// Update elements
 		this.mover.moveAll(gameState, timeDelta, this.gameModel.getActiveDifficulty());
 		this.shooter.createShots(gameState, timeDelta, this.gameModel.getActiveDifficulty(), currentTime);
 		this.collider.collisionCheck(gameState, timeDelta, this.gameModel.getActiveDifficulty());
-		this.updatePlayer(gameState, timeDelta);
-
-		// Sweep destroyed elements
 		this.sweep(gameState);
 
 		// Check if player has won or lost. Exit early if so.

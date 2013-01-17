@@ -49,13 +49,13 @@ public class MoveHandler{
 	}
 
 	private void moveInvaders(GameState gameState, long timeDelta, Difficulty activeDifficulty){
-
 		boolean wallHit = false;
 //Checking whether the game is lost
 		for (Invader invader : gameState.getInvaders()) {
 			if(invader.getPosition().y + invader.getHeight() >= gameState.getPlayer(PlayerIndex.One).getPosition().y){
 				gameState.setState(GameStateState.Lost);
-				break;
+				gameState.getPlayer(PlayerIndex.One).setLives(0);
+				return;
 			}
 			
 //Checking if move will cause the wall to be hit (wallHit)
