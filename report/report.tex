@@ -297,6 +297,11 @@ Indeholder \code{Sprite-} og \code{SoundHandler} som behandler vores lyde og bil
 \subsection{XML-parsing (\code{service.parsing})}
 Som XML-parser bruger vi \code{SAXParser} som ligger i \code{javax.xml.parsers}. Vores instans af SAX-parseren får en XML-fil og en handler, som ligger i den angivne mappe. Handleren extender \code{DefaultHandler}, og overrider metoder som f.eks. \code{startElement()}. Her kan vi definere hvad som skal ske når den får et instans af hvert element i en XML-fil, som f.eks. et \code{\textless highscore name ="Ola Normann" score="1337" \textgreater}. Dette specifikke element vil blive gemt i en ny \code{HighscoreEntry} i et array som så kan hentes af en Controller.
 
+\subsection{Andre nice ting}
+\subsubsection{WallHit - hvordan skal \code{Invaders} skifte retning?}
+Her har vi prøvet nogle forskellige tilgange, og oprindeligt havde vi en boolean
+Oprindeligt lavede vi en boolean der
+
 \section{Evaluering}
 \emph{Vi evaluerer process og resultat af arbejdet.}
 \subsection{Process}

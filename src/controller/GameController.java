@@ -473,13 +473,14 @@ public class GameController extends AbstractController {
 
 	private void updateInvaders(GameState gameState, long timeDelta) {
 		boolean wallHit = false;
-//Checking if move will cause wallHit
+//Checking whether the game is lost
 		for (Invader invader : gameState.getInvaders()) {
 			if(invader.getPosition().y + invader.getHeight() >= gameState.getPlayer(PlayerIndex.One).getPosition().y){
 				gameState.setState(GameStateState.Lost);
 				break;
 			}
 			
+//Checking if move will cause the wall to be hit (wallHit)
 			if (gameState.getMoveInvadersRight()) {
 				if(invader.getPosition().x+invader.getWidth() +Mathx.distance(timeDelta, (invader.getSpeed() * gameModel.getActiveDifficulty().getInvaderSpeed()/10)) > MainModel.SCREEN_WIDTH){
 					wallHit = true;
