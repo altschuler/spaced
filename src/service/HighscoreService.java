@@ -21,7 +21,7 @@ public class HighscoreService {
 	private ArrayList<HighscoreEntry> entries;
 
 	public HighscoreService() {
-		this.entries = new ArrayList();
+		this.entries = new ArrayList<HighscoreEntry>();
 	}
 
 	public void loadEntries(URL urlGet, int limit) {
