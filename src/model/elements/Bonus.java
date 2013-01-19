@@ -3,6 +3,9 @@ package model.elements;
 import model.core.BonusType;
 import model.core.Coordinate;
 
+/**
+ * Bonuses for the player to collect.
+ */
 public class Bonus extends KillableGameElement {
     
     private int points;

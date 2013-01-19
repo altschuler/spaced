@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
+/**
+ * Loads {@link Sprite}s from spaced/resources/sprites and caches them in a hashmap. Returns Sprites the method get() is called (which is the game in {@link view.render.GameStateRenderer})
+ */
 public class SpriteHandler {
     
     private static SpriteHandler instance = null;

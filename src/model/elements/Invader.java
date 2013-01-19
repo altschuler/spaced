@@ -12,7 +12,7 @@ public class Invader extends KillableGameElement {
 	private InvaderType type;
 	private int frozenTime;
 
-	public Invader(InvaderType type, int health) { //TODO: messed up constructor, as there are several types of invaders
+	public Invader(InvaderType type, int health) { //messed up constructor, as there are several types of invaders
 		super(health, "invaderA.png");
 		SpriteHandler spriteHandler = SpriteHandler.getInstance();
 		super.setWidth(spriteHandler.get(super.getImageURL()).getWidth());
@@ -21,11 +21,6 @@ public class Invader extends KillableGameElement {
 		this.setType(type);
 	}
 
-/*	public Invader(InvaderType type, int health, ICommand cmd) {
-		super(health, 48, 48, cmd);
-		this.setType(type);
-	}
-*/
 	public BulletType getBulletType() {
 		switch (this.getType()) {
 			case C:

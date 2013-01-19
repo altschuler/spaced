@@ -4,12 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.HighscoreEntry;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+/**
+ * Translates the XML-file from {@link service.HighscoreService} to an ArrayList with highscore entries ({@link model.HighscoreEntry}). 
+ */
 public class HighscoreSaxHandler extends AbstractSaxHandler {
     
     private ArrayList<HighscoreEntry> entries = new ArrayList<>();

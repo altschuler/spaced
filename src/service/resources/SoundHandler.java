@@ -7,6 +7,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
+/**
+ * Loads {@link Sound}s from spaced/resources/audio and caches them in a hashmap and plays them when the method playSound() is called
+ */
 public class SoundHandler {
     
     private static final String PATH_PREFIX = "resources/audio/";
@@ -26,7 +29,7 @@ public class SoundHandler {
         return instance;
     }
     
-    public synchronized void playSound(String name, final int repeats, final int stopTime, final float gain) {
+    public void playSound(String name, final int repeats, final int stopTime, final float gain) {
         final String ref = PATH_PREFIX + name;
         
 	    new Thread(new Runnable() {

@@ -3,6 +3,9 @@ package model;
 import java.util.Comparator;
 import java.util.Date;
 
+/**
+ * Contains the player's name, score, time of creation and difficulty of a single highscore entry.
+ */
 public class HighscoreEntry implements Comparator<HighscoreEntry>, Comparable<HighscoreEntry> {
 	
     private String playerName;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import model.core.Coordinate;
 
+/**
+ * An individual moving boss unit, which is orbited by {@link Cage}s.
+ * This unit can only lose lives when all of it's cages are gone.
+ */
 public class NicholasCage extends KillableGameElement {
 	final private int cageRadius = 180;
 	private String[] nicholases;

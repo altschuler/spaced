@@ -26,12 +26,24 @@ public class CollisionHandler {
 		
 	}
 	
+	/**
+	 * Calls all the collisionCheck-methods
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	public void collisionCheck(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		this.playerCollisions(gameState, timeDelta, activeDifficulty);
 		this.playerBulletCollisions(gameState, timeDelta, activeDifficulty);
 		this.otherBulletCollisions(gameState, timeDelta, activeDifficulty);
 	}
 	
+	/**
+	 * Checks what the player collides with, except from bullets
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void playerCollisions(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		
@@ -57,6 +69,12 @@ public class CollisionHandler {
 		}
 	}
 
+	/**
+	 * Checks collisions for bullets heading upwards
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void playerBulletCollisions(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 
 		for (Bullet bullet : gameState.getBullets()) {
@@ -165,6 +183,12 @@ public class CollisionHandler {
 	}
 
 
+	/**
+	 * Checks collisions for bullets heading downwards
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void otherBulletCollisions(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		for (Bullet bullet : gameState.getBullets()) {
 			if(bullet.getDirection() == Direction.Down){
@@ -208,6 +232,11 @@ public class CollisionHandler {
 
 	
 	
+	/**
+	 * Creates a new Animation if a Missle has hit an Invader
+	 * @param gameState
+	 * @param gameElement
+	 */
 	private void addExplosion(GameState gameState, GameElement gameElement){
 		gameState.getAnimations().add(new Animation("explosionSprite.png", gameElement.getPosition().clone(), 6,120, false));
 	}

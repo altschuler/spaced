@@ -2,6 +2,9 @@ package model.elements;
 
 import model.core.Coordinate;
 
+/**
+ * Animations are used to easily add one-time animations to the game.
+ */
 public class Animation extends GameElement {
 	private long timeOfLastFrame = 0;
 	private int timePerFrame; 

@@ -31,9 +31,12 @@ import model.elements.NicholasCage;
 import model.elements.Player;
 import utils.Mathx;
 
+/**
+ * Renders the current {@link GameState} when GameStateRenderer.render() is called.
+ */
 public class GameStateRenderer {
 	private int topBarHeight = 30;
-	private int bottomBarHeight = 30; //TODO: Use this to display info about special-bullets remaining
+	private int bottomBarHeight = 30;
 
 	public GameStateRenderer() {
 	}
@@ -138,10 +141,20 @@ public class GameStateRenderer {
 		canvas.getBufferStrategy().show();
 	}
 
+	/**
+	 * @param g
+	 * @param ref
+	 * @param pos
+	 */
 	public void draw(Graphics g, String ref, Coordinate pos) {
 		g.drawImage(SpriteHandler.getInstance().get(ref).getImage(), (int) pos.x, (int) pos.y, null);
 	}
 	
+	/**
+	 * An easy way of drawing a {@link model.elements.GameElement}
+	 * @param g
+	 * @param gameElement {@link model.elements.GameElement}
+	 */
 	public void drAwesome(Graphics g, GameElement gameElement){
 		g.drawImage(SpriteHandler.getInstance().get(gameElement.getImageURL()).getImage(), (int) gameElement.getPosition().x, (int) gameElement.getPosition().y, null);
 	}

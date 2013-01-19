@@ -12,6 +12,9 @@ import model.core.Difficulty;
 import org.xml.sax.SAXException;
 import service.parsing.ConfigurationSaxHandler;
 
+/**
+ * Contains information about the possible difficulties and the URL for getting and setting highscores ({@link HighscoreEntry}). This information is loaded with {@link service.parsing.ConfigurationSaxHandler}
+ */
 public class GameConfiguration {
     
     private static final String XML_FILE = "./Configuration.xml";
