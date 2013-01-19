@@ -52,7 +52,6 @@ public class SplashViewState extends AbstractMenuViewState {
 	public void update(Observable o, Object arg) {
 		MainModel gameModel = (MainModel) o;
 		this.textf.setText(gameModel.getGameConfig().getDefaultName());
-//		this.loadEntries(); // For testing
 	}
 
 	public void printHighscores() {
@@ -60,20 +59,4 @@ public class SplashViewState extends AbstractMenuViewState {
 			System.out.println(entry.getPlayerName() + " " + entry.getScore());
 		}
 	}
-
-	private void loadEntries() {
-		// TEST
-		entries = this.mainController.getHighscoreController().getEntries();
-		for (HighscoreEntry entry : entries) {
-			System.out.println("Entry: name=" + entry.getPlayerName() + " score=" + entry.getScore());
-		}
-                this.mainController.getHighscoreController().add(new HighscoreEntry("markuzz_the_giant_TARD",666,69,new Date()));
-                this.mainController.getHighscoreController().reloadEntries();
-                this.entries = this.mainController.getHighscoreController().getEntries();
-		for (HighscoreEntry entry : entries) {
-			System.out.println("Entry: name=" + entry.getPlayerName() + " score=" + entry.getScore());
-		}
-                
-	}
-
 }

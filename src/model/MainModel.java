@@ -20,6 +20,7 @@ public class MainModel extends Observable {
 	private GameState activeGameState;
 	private GameConfiguration gameConfig;
 	private Difficulty activeDifficulty;
+	private boolean offlineMode;
 
 	public MainModel() {
 		this.setGameConfig(new GameConfiguration());
@@ -61,6 +62,8 @@ public class MainModel extends Observable {
 
 	public void setGameConfig(GameConfiguration gameConfig) {
 		this.gameConfig = gameConfig;
+
+		this.notifyObservers();
 	}
 
 	public Difficulty getActiveDifficulty() {
@@ -69,6 +72,19 @@ public class MainModel extends Observable {
 
 	public void setActiveDifficulty(Difficulty activeDifficulty) {
 		this.activeDifficulty = activeDifficulty;
+
+		this.notifyObservers();
+	}
+	
+	public boolean isOfflineMode() {
+		return this.offlineMode;
+	}
+
+	public void setOfflineMode(boolean b) {
+		this.offlineMode = b;
+
+		this.notifyObservers();
+		
 	}
 
 }
