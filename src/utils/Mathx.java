@@ -3,6 +3,9 @@ package utils;
 import model.core.Coordinate;
 import model.elements.GameElement;
 
+/**
+ * Contains convenient mathematical methods for easier development.
+ */
 public class Mathx {
 
 	/**

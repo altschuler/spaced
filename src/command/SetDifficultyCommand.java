@@ -4,7 +4,7 @@ import model.MainModel;
 import model.core.Difficulty;
 
 /**
- * This is a dummy test class and has no real use, but sets a property on the model.
+ * Sets the {@link model.core.Difficulty} on the {@link model.MainModel}.
  */
 public class SetDifficultyCommand extends Command {
 	

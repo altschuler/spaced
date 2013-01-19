@@ -28,6 +28,11 @@ import controller.gamestatehandler.CollisionHandler;
 import controller.gamestatehandler.MoveHandler;
 import controller.gamestatehandler.ShootingHandler;
 
+/**
+ * The Controller in charge of the actual game.
+ * 
+ * Contains methods for updating the current {@link model.GameState} and starting/stopping the {@link Timer} for the game-loop.
+ */
 public class GameController extends AbstractController {
 
 	private Timer timer;

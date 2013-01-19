@@ -6,7 +6,7 @@ import model.MainModel;
 import model.core.PlayerIndex;
 
 /**
- * This is a dummy test class and has no real use, but sets a property on the model.
+ * Sets the player's name on the {@link model.MainModel}.
  */
 public class SetPlayerNameCommand extends Command {
 	

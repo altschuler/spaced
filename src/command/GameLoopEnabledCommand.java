@@ -3,6 +3,11 @@ package command;
 import model.MainModel;
 import controller.GameController;
 
+/**
+ * Starts and stops the game-loop.
+ * 
+ *  It does so by calling {@link controller.GameController}'s method .setGameLoopEnabled(boolean enabled) and thus starting/stopping the Timer in the GameController
+ */
 public class GameLoopEnabledCommand extends Command {
 
 	private boolean enabled;

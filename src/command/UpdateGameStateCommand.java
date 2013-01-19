@@ -4,6 +4,9 @@ import model.MainModel;
 import controller.GameController;
 
 
+/**
+ * Tells the {@link controller.GameController} to update it's current {@link model.GameState}.
+ */
 public class UpdateGameStateCommand extends Command {
 	
 	private MainModel gameModel;

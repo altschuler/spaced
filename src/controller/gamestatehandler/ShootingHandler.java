@@ -18,6 +18,9 @@ import model.elements.KillableGameElement;
 import model.elements.NicholasCage;
 import model.elements.Player;
 
+/**
+ * Is called by {@link controller.GameController} to initialize {@link model.elements.Bullet}s in the current {@link model.GameState}
+ */
 public class ShootingHandler{
 	
 	public ShootingHandler() {

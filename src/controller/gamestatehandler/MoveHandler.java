@@ -18,6 +18,9 @@ import model.elements.KillableGameElement;
 import model.elements.NicholasCage;
 import model.elements.Player;
 
+/**
+ * Is called by {@link controller.GameController} to move all {@link model.elements.GameElement}s in the current {@link model.GameState}
+ */
 public class MoveHandler{
 	
 	public MoveHandler() {

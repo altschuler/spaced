@@ -2,6 +2,9 @@ package command;
 
 import controller.MainController;
 
+/**
+ * Tells the {@link controller.FlowController} to load the next level.
+ */
 public class LoadNextLevelCommand extends Command{
 
 	private MainController mainController;

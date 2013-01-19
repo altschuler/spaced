@@ -21,6 +21,9 @@ import model.elements.KillableGameElement;
 import model.elements.NicholasCage;
 import model.elements.Player;
 
+/**
+ * Is called by {@link controller.GameController} to check for collisions in the current {@link model.GameState}
+ */
 public class CollisionHandler {
 	public CollisionHandler(){
 		

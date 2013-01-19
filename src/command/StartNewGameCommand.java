@@ -2,6 +2,9 @@ package command;
 
 import controller.MainController;
 
+/**
+ * Starts a new game-session (for the same player) by calling the {@link controller.FlowController}
+ */
 public class StartNewGameCommand extends Command{
 
 	private MainController mainController;
