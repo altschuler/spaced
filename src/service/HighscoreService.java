@@ -20,6 +20,7 @@ import service.parsing.HighscoreSaxHandler;
 public class HighscoreService {
 
 	private ArrayList<HighscoreEntry> entries;
+	private boolean offlineMode;
 
 	public HighscoreService() {
 		this.entries = new ArrayList<HighscoreEntry>();
@@ -46,15 +47,11 @@ public class HighscoreService {
 					} catch (IOException ignore) {
 					}
 			}
-		} catch (UnsupportedEncodingException e) {
-			System.out.println("ERROR: UnsupportedEncodingException thrown.");
-			System.exit(1);
-		} catch (IOException e) {
-			System.out.println("ERROR: UnsupportedEncodingException thrown.");
-			System.exit(1);
-		}
 
-		this.entries = this.parseXML(s);
+			this.entries = this.parseXML(s);
+		} catch (Exception e) {
+			this.setOfflineMode(true);
+		}
 	}
 
 	public boolean addEntry(HighscoreEntry entry, URL urlAdd, String token) {
@@ -82,10 +79,13 @@ public class HighscoreService {
 					} catch (IOException ignore) {
 					}
 			}
+			return s.equals("<status>ok</status>");
+			
 		} catch (Exception e) {
-			System.out.println(e);
+			this.setOfflineMode(true);
 		}
-		return s.equals("<status>ok</status>");
+		
+		return false;
 	}
 
 	public ArrayList<HighscoreEntry> parseXML(String s) {
@@ -108,5 +108,13 @@ public class HighscoreService {
 
 	public ArrayList<HighscoreEntry> getEntries() {
 		return entries;
+	}
+
+	public boolean isOfflineMode() {
+		return offlineMode;
+	}
+
+	public void setOfflineMode(boolean offlineMode) {
+		this.offlineMode = offlineMode;
 	}
 }

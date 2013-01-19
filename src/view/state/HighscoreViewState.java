@@ -31,8 +31,18 @@ public class HighscoreViewState extends AbstractMenuViewState {
 	@Override
 	public void update(Observable o, Object arg) {
 		MainModel gm = (MainModel) o;
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
 		this.entries = mainController.getHighscoreController().getEntries();
+		
+		if (gm.isOfflineMode()) {
+			JLabel label = new JLabel("NO INTERNET CONNECTION");
+			label.setAlignmentX(CENTER_ALIGNMENT);
+			label.setForeground(Color.RED);
+			this.add(label);
+			return;
+		}
+		
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		Arrays.sort(this.entries);
 		this.labels = new JLabel[this.entries.length];
 		for (HighscoreEntry entry : entries) {
