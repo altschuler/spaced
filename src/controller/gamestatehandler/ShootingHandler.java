@@ -23,12 +23,25 @@ public class ShootingHandler{
 	public ShootingHandler() {
 	}
 	
+	/**
+	 * Calls all methods regarding bullet initializing 
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 * @param currentTime
+	 */
 	public void createShots(GameState gameState, long timeDelta, Difficulty activeDifficulty, long currentTime){
 		this.playerShoots(gameState, timeDelta, activeDifficulty);
 		this.invadersShoot(gameState, currentTime, activeDifficulty);
 		this.individualEnemiesShoot(gameState, timeDelta, activeDifficulty);
 	}
 	
+	/**
+	 * Initializes the player's bullets
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void playerShoots(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		Player player = gameState.getPlayer(PlayerIndex.One);
 				if (Input.getInstance().isKeyDown(KeyEvent.VK_SPACE)) {
@@ -60,10 +73,11 @@ public class ShootingHandler{
 	}
 
 	/**
+	 * Initializes the Invaders' bullets.
+	 * Only the Invader in front of each column may shoot.
 	 * @param gameState
-	 * 
-	 *            Find de invaders der er placeret nederst, og lad en random en
-	 *            af dem skyde.
+	 * @param currentTime
+	 * @param activeDifficulty
 	 */
 	private void invadersShoot(GameState gameState, long currentTime, Difficulty activeDifficulty) {
 		//check if invaders should shoot, THEN do all the other stuff
@@ -122,6 +136,12 @@ public class ShootingHandler{
 	}
 
 
+	/**
+	 * Initializes the bullets for the individual moving enemies
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void individualEnemiesShoot(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()) {
 			if(randomEnemy instanceof NicholasCage){

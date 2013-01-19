@@ -73,7 +73,7 @@ sættes passende sammen. Derefter begyndte vi at udvikle specifikke dele af prog
 det også meget nemmere at dele opgaver ud, da delene som regel var fuldstændig uafhængige og dermed
 nemt kunne udvikles seperat.
 
-Dette leder til programmets egentlige implementation.
+Mere om dette under evaluering (side \pageref{Evaluering})
 
 \section{Features}
 \emph{For at give et overblik er der her en liste over de features spillet implementerer}
@@ -140,12 +140,11 @@ Dette leder til programmets egentlige implementation.
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.60]{MVC.png}
-  \caption{UML-diagram}
+  \caption{UML-diagram over spillets overordnede opbygning}
   \label{fig:MVC_diagram}
   \end{figure}
 \subsection{Overordnet struktur}
-Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. MVC er blevet brugt og
-beskrevet så meget at det næsten kan siges at være blevet en kliché. Det er umuligt at definere helt
+Programmet er opbygget med den klassiske MVC arkitektur som hovedprincip. Det er dog umuligt at definere helt
 præcist hvordan en egentlig korrekt implementering ser ud (fordi den ikke findes), men det
 overordnede princip gælder mere eller mindre for alle varianter. Disse principper inkluderer
 f.eks. at controller ``snakker med'' model og view, og dermed agerer mellemmand mellem de to, samt
@@ -201,7 +200,7 @@ denne størrelse og art at det ikke ville være det værd. I stedet har vi være
 udvikle i en stil der forebygger fejl og testet manuelt løbende.
 
 \subsection{GameController}
-Står primært for at opdatere \code{GameState} samt at få \code{GameStateRenderer} (kaldet renderer
+Står primært for at opdatere \code{GameState} samt at få \code{GameStateRenderer} (kaldet \code{renderer}
 under \code{GameController}) til at rendere \code{GameState}. Derudover anvendes en
 \code{javax.swing.Timer} som spillets opdaterings mekanisme. Timeren eksekverer en
 \code{UpdateGameStateCommand} ved hver trigger.
@@ -219,7 +218,7 @@ updates varierer.
 
 \item Kontrollerer om \code{GameStateState} er \code{Running}/\code{Waiting}/\code{Paused}. Hvis
 denne enum er \code{Waiting}/\code{Paused} returnerer metoden og kører dermed ikke videre. Hvis den
-er running fortsætter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
+er \code{Running} fortsætter den og tjekker om spilleren eventuelt trykker ESC for at pause (og returnere).
 
 \item Herefter bliver alle \code{GameElement}’erne opdateret. Dette indebærer at:
 \begin{itemize}
@@ -260,7 +259,7 @@ boolean circleRectangleIntersects(GameElement rect, Coordinate circ, double radi
 \end{verbatim}
 
 De to ovenstående \code{if} conditionals har udelukket alle tilfælde hvor cirklen ligger udenfor en
-forstørret udgave af rektanglen (rektanglen + radius). Dette svarer til det lyserøde område på
+forstørret udgave af rektanglen (rektanglen + radius). Dette svarer til det lyserøde område, som strækker sig uendeligt i retningerne væk fra rektanglen, på
 figur \ref{fig:col_rect}.
 
 \begin{figure}[h!]
@@ -325,13 +324,13 @@ Derudover er der mulighed for at en kollision ikke bliver opfanget. Dog har vi s
 \end{center}
 
 Da timeDelta i gennemsnit bliver cappet én gang for hver gang der er vist 330 frames, mener vi bestemt det er en acceptabel løsning.
-Havde det været et problem, ville en mulig løsning på problemet være, at der for hvert objekt laves en liste med de objekter det kolliderer med, sammenligne med dets retning, og kun lade de  kollisioner man ønsker gælde. Dette ville naturligvis dog kræve yderlig regnekraft.
+Havde det været et problem, ville en mulig løsning på problemet være, at køre \code{updateGameState()} flere gange pr. frame, sådan at den blev kørt n gange med \code{timeDelta} delt med n (og fornuftig afrunding, da det er et heltal). Dette ville naturligvis dog kræve yderlig regnekraft.
 
-\section{Evaluering}
-\emph{Vi evaluerer process og resultat af arbejdet.}
-\subsection{Process}
-Vores udviklingsprocess viste sig at fungere godt. Versionsstyring er guld værd, og den eneste
-ulempe vi fandt ved git er at det kan betale sig at holde styr på hvem der arbejder hvor, for at
+\section{Evaluering} \label{Evaluering}
+\emph{Vi evaluerer proces og resultat af arbejdet.}
+\subsection{Proces}
+Vores udviklingsproces viste sig at fungere godt. Versionsstyring er guld værd, og den eneste
+ulempe vi fandt ved Git er, at det kan betale sig at holde styr på hvem der arbejder hvor, for at
 undgå for meget merging arbejde.
 
 Lige i starten var alle med til sammen at udtænke den overordnede opbygning, men som fundamentet
@@ -370,12 +369,12 @@ derefter lave tests, for at sikre stabilitet.
 \section{Værktøjer}
 \emph{Kort gennemgang af de værktøjer vi har brugt}
 \subsection{Versionsstyring}
-Til projektet har vi brugt git\footnote{git: \url{http://git-scm.com}}. Det har visse fordele over
-f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bruge git:
+Til projektet har vi brugt Git\footnote{Git: \url{http://git-scm.com}}. Det har visse fordele over
+f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bruge Git:
 
 \begin{description}
   \item[Distribueret] \hfill \\
-    git er en af de eneste fuldstændig distribuerede VCS'er. Man arbejder altid i sit eget lokale
+    Git er en af de eneste fuldstændig distribuerede VCS'er. Man arbejder altid i sit eget lokale
     repository, og kan gøre hvad man vil, uafhængigt af alle andre. Man har så et hostet
     \emph{main} repository, som regel kaldet origin, som vi hoster på GitHub \footnote{GitHub:
       \url{http://github.com}}. 
@@ -384,19 +383,19 @@ f.eks. SVN og Mercurial (og specielt TFS). Kort opsummering af grunde til at bru
     committet lokalt går det \emph{meget} hurtigere, da der ikke skal forbindes til server.
 
   \item[Branching] \hfill \\
-    Branching er meget mere ligetil i git i forhold til SVN og Mercurial, og skift af branch samt
+    Branching er meget mere ligetil i Git i forhold til SVN og Mercurial, og skift af branch samt
     merge af disse er intuitivt og nemt.
 
   \item[Performance og størrelse] \hfill \\
-    git er utroligt hurtigt, og utrolig god til at kompresse data (til sammenligning fylder Mozillas
-    samlede repo med commit historie 12gb i SVN og noget ala 400mb i git!).
+    Git er utroligt hurtigt, og utrolig god til at kompresse data (til sammenligning fylder Mozillas
+    samlede repo med commit historie 12gb i SVN og noget ala 400mb i Git!).
 \end{description}
 
 \subsection{IDE}
 Som IDE har vi brugt både Eclipse\footnote{Eclipse:\url{http://www.eclipse.org}} og
 NetBeans\footnote{NetBeans: \url{http://www.netbeans.org}}. De to minder meget om hinanden, er begge
 open source og valget er en smagssag. Begge har de også integration af versionsstyring, hvor vi dog
-har holdt os til command-line git, da den slags GUI værktøjer som regel er lidt ustabile.
+har holdt os til command-line Git, da den slags GUI værktøjer som regel er lidt ustabile.
 
 \subsection{Diverse}
 Vi har brugt Paint.NET\footnote{Paint.NET: \url{http://www.getpaint.net}} til at redigere grafik, og

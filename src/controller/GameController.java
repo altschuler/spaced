@@ -121,6 +121,10 @@ public class GameController extends AbstractController {
 		gameState.addTotalGameTime(timeDelta);
 	}
 
+	/**
+	 * Removes all {@link model.elements.GameElement}s marked as "Destroyed" from the {@link GameState}.
+	 * @param gameState
+	 */
 	private void sweep(GameState gameState) {
 
 		for (Iterator<Bullet> bullets = gameState.getBullets().iterator(); bullets.hasNext();) {

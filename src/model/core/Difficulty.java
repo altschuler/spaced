@@ -1,5 +1,8 @@
 package model.core;
 
+/**
+ * Contains information about speed and shooting frequencies for some of the {@link model.elements.GameElement}s. Each instance is set by {@link service.parsing.ConfigurationSaxHandler}
+ */
 public class Difficulty {
 	
 	private int id;

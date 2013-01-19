@@ -7,6 +7,9 @@ import model.HighscoreEntry;
 import service.HighscoreService;
 import view.MainView;
 
+/**
+ * Contains the highscores
+ */
 public class HighscoreController extends AbstractController {
 
     private final URL URL_GET = this.gameModel.getGameConfig().getHsGet();

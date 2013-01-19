@@ -2,6 +2,9 @@ package service.resources;
 
 import java.awt.Image;
 
+/**
+ *Simply an {@link Image} to be stored and accessed by {@link SpriteHandler}
+ */
 public class Sprite {
     
     private Image image;

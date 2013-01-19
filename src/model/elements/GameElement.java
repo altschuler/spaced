@@ -1,7 +1,6 @@
 package model.elements;
 
 import model.core.Coordinate;
-import model.core.InvaderType;
 import service.resources.SpriteHandler;
 
 /**

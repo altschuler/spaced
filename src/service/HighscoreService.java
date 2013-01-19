@@ -14,6 +14,9 @@ import org.xml.sax.InputSource;
 
 import service.parsing.HighscoreSaxHandler;
 
+/**
+ * Gets and sets the highscore XML-file by opening a connection to www.trololo.dk
+ */
 public class HighscoreService {
 
 	private ArrayList<HighscoreEntry> entries;
@@ -56,10 +59,13 @@ public class HighscoreService {
 
 	public boolean addEntry(HighscoreEntry entry, URL urlAdd, String token) {
 		String s = "";
+		String playerName = entry.getPlayerName().replaceAll(" ", "%20");
+//		playerName = playerName.replaceAll(" ", "%20");
+		System.out.println(playerName);
 		URL url;
 
 		try {
-			url = new URL(urlAdd.toString() + "?token=" + token + "&player_name=" + entry.getPlayerName() + "&score=" + entry.getScore() + "&difficulty="
+			url = new URL(urlAdd.toString() + "?token=" + token + "&player_name=" + playerName + "&score=" + entry.getScore() + "&difficulty="
 					+ entry.getDifficulty());
 			BufferedReader reader = null;
 

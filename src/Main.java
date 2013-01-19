@@ -7,6 +7,7 @@ import controller.MainController;
 
 /**
  * Java entry class
+ * Check out www.github.com/altschuler/spaced
  */
 public class Main {
 	public static void main(String[] args) {

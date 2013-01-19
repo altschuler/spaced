@@ -16,6 +16,10 @@ public class ConfigurationSaxHandler extends AbstractSaxHandler {
     
     private GameConfiguration config;
 
+    /**
+     * Parses information from a specified XML-file to the config.
+     * @param config {@link model.GameConfiguration}
+     */
     public ConfigurationSaxHandler(GameConfiguration config) {
     	this.config = config;
     }

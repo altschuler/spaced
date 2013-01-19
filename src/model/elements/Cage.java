@@ -2,6 +2,9 @@ package model.elements;
 
 import model.core.Coordinate;
 
+/**
+ * Shooting minions of {@link NicholasCage}.
+ */
 public class Cage extends KillableGameElement {
 	private int cageOrbitTime; //The time it takes the cage to orbit Nicholas
 	private int cageID;

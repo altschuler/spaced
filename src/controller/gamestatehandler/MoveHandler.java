@@ -24,6 +24,12 @@ public class MoveHandler{
 	}
 	
 	
+	/**
+	 * Calls all move-methods
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	public void moveAll(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		this.movePlayer(gameState, timeDelta, activeDifficulty);
 		this.moveInvaders(gameState, timeDelta, activeDifficulty);
@@ -32,6 +38,12 @@ public class MoveHandler{
 		this.moveBonuses(gameState, timeDelta);
 	}
 	
+	/**
+	 * Moves the player
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void movePlayer(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		Player player = gameState.getPlayer(PlayerIndex.One);
 		
@@ -48,6 +60,12 @@ public class MoveHandler{
 		player.getPosition().x = Math.min(MainModel.SCREEN_WIDTH - player.getWidth(), player.getPosition().x);
 	}
 
+	/**
+	 * Moves the Invaders, which all moves together as a unit
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void moveInvaders(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		boolean wallHit = false;
 //Checking whether the game is lost
@@ -74,7 +92,7 @@ public class MoveHandler{
 //if the wall is hit: move down
 		if (wallHit) {
 			for (Invader invader : gameState.getInvaders()) {
-				invader.move(0, 15); // TODO y coord to diff
+				invader.move(0, 15);
 			}
 		}
 //Check if invaders are slowed
@@ -90,6 +108,12 @@ public class MoveHandler{
 	
 	}
 
+	/**
+	 * Moves enemies with individual movement patterns
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void moveIndividualEnemies(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		for (KillableGameElement randomEnemy : gameState.getIndividualEnemies()) {
 			if(randomEnemy instanceof NicholasCage){
@@ -102,6 +126,12 @@ public class MoveHandler{
 		}
 	}
 
+	/**
+	 * Moves all bullets
+	 * @param gameState
+	 * @param timeDelta
+	 * @param activeDifficulty
+	 */
 	private void moveBullets(GameState gameState, long timeDelta, Difficulty activeDifficulty){
 		for (Bullet bullet : gameState.getBullets()) {
 			// moving the bullet
@@ -132,6 +162,11 @@ public class MoveHandler{
 		}
 	}
 
+	/**
+	 * Moves bonuses
+	 * @param gameState
+	 * @param timeDelta
+	 */
 	private void moveBonuses(GameState gameState, long timeDelta){
 		for(Bonus bonus : gameState.getBonuses()){
 			bonus.move(0, Mathx.distance(timeDelta, bonus.getSpeed()));

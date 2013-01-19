@@ -12,6 +12,9 @@ import view.state.PauseMenuViewState;
 import view.state.SplashViewState;
 import view.state.ViewState;
 
+/**
+ * Is called by {@link command.SetViewStateCommand} to switch between view states
+ */
 public class StateController extends AbstractController {
 
         private MainController mainController;
@@ -73,7 +76,7 @@ public class StateController extends AbstractController {
 		
 		this.gameModel.addObserver(newState);
         newState.setMainController(this.mainController);
-		newState.update(this.gameModel, null); // TODO W T F
+		newState.update(this.gameModel, null);
 		this.mainView.setContentPane(newState);
 		
 		newState.initialize();
