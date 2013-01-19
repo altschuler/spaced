@@ -31,7 +31,7 @@ public class HighscoreService {
 		URL url;
 
 		try {
-			url = new URL(urlGet.toString() + "/awd?limit=" + limit);
+			url = new URL(urlGet.toString() + "?limit=" + limit);
 			BufferedReader reader = null;
 
 			try {
